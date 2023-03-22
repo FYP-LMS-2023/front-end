@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MASH LMS',
-      theme: ThemeData(primarySwatch: Colors.red)
+      theme: ThemeData(primarySwatch: Colors.red),
       home: const MyHomePage(title: 'MASH LMS'),
       debugShowCheckedModeBanner: false,
     );
