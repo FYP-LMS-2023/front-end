@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/utils/widgets/buttons.dart';
+import 'package:front_end/utils/widgets/cards.dart';
+import 'package:front_end/utils/widgets/headers.dart';
+import 'package:front_end/utils/widgets/testWidget.dart';
+import 'package:front_end/utils/widgets/textfields.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MASH LMS',
-      theme: ThemeData(primarySwatch: Colors.red),
+      theme: ThemeData(primarySwatch: Colors.blueGrey),
       home: const MyHomePage(title: 'MASH LMS'),
       debugShowCheckedModeBanner: false,
     );
@@ -33,40 +37,62 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.title,
-          style: Styles.appbarTitle,
-        ),
-        centerTitle: true,
+      appBar: const TestHeader(
+        id: "18635",
+        name: "Shaheer Ahmed",
       ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                "These font styles will be changed",
-                style: Styles.inputLabel,
-              ),
+              MainTextField(label: "Test"),
               const SizedBox(
                 height: 64,
               ),
-              Text("Page Header", style: Styles.pageHeader),
-              const Text(
-                "Banner",
-                style: Styles.banners,
+              const CourseCard(
+                courseName: "Final Year Project",
+                percentageCompleted: 20.7,
               ),
-              Text(
-                "Input Label",
-                style: Styles.inputLabel,
+              const ToDoCard(
+                title: "System Design Document",
+                courseName: "Final Year Project",
+                dueDay: "Thursday",
+                dueDate: "10-03-23",
               ),
-              Text(
-                "Sublabel",
-                style: Styles.subLabel,
+              const FeedbackCard(
+                title: "Add Music",
+                courseName: "Final Year Project",
+                dayPosted: "Wednesday",
+                datePosted: "09-02-23",
               ),
-              const SizedBox(
-                height: 64,
+              CustomCard(
+                title: "This is a test",
+                subtitle: "Final Year Project",
+                leading: Checkbox(
+                  value: false,
+                  onChanged: (value) => {},
+                ),
+                trailing: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Text(
+                  'Due:',
+                  textAlign: TextAlign.right,
+                  style: Styles.body_small.copyWith(color: Colors.grey),
+                ),
+                Text(
+                  "Thursday",
+                  textAlign: TextAlign.right,
+                  style: Styles.body_small.copyWith(color: Colors.grey),
+                ),
+                Text(
+                  "10-03-23",
+                  textAlign: TextAlign.right,
+                  style: Styles.body_small.copyWith(color: Colors.grey),
+                ),
+              ],
+            ),
               ),
               MainButton(
                 text: "Submit",

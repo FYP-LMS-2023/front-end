@@ -23,7 +23,7 @@ class MainButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: enabled ? onPressed : null,
       style: ElevatedButton.styleFrom(
-        fixedSize: Size(width * 0.90, height * 0.058),
+        minimumSize: Size.fromHeight(height * 0.06),
         backgroundColor: color,
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
@@ -31,7 +31,7 @@ class MainButton extends StatelessWidget {
         ),
         shadowColor: Colors.grey.shade900,
       ),
-      child: Text(text, style: Styles.buttonText),
+      child: Text(text, style: Styles.label_large),
     );
   }
 }
