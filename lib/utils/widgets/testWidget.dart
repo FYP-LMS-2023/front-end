@@ -47,13 +47,13 @@ class _CustomCardState extends State<CustomCard> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(widget.title, style: Styles.title_medium),
+                    Text(widget.title, style: Styles.titleMedium),
                     if (widget.subtitle != "")
                       const SizedBox(
                         height: 5,
                       ),
                     if (widget.subtitle != "")
-                      Text(widget.subtitle, style: Styles.body_medium),
+                      Text(widget.subtitle, style: Styles.bodyMedium),
                   ],
                 ),
               ],

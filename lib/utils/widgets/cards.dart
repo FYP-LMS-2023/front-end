@@ -21,7 +21,7 @@ class CourseCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(courseName, style: Styles.title_medium),
+            Text(courseName, style: Styles.titleMedium),
             const SizedBox(
               width: 10.0,
             ),
@@ -105,9 +105,9 @@ class _ToDoCardState extends State<ToDoCard> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(widget.title, style: Styles.title_medium),
+                    Text(widget.title, style: Styles.titleMedium),
                     const SizedBox(height: 5),
-                    Text(widget.courseName, style: Styles.body_medium),
+                    Text(widget.courseName, style: Styles.bodyMedium),
                   ],
                 ),
               ],
@@ -118,17 +118,17 @@ class _ToDoCardState extends State<ToDoCard> {
                 Text(
                   'Due:',
                   textAlign: TextAlign.right,
-                  style: Styles.body_small.copyWith(color: Colors.grey),
+                  style: Styles.bodySmall.copyWith(color: Colors.grey),
                 ),
                 Text(
                   widget.dueDay,
                   textAlign: TextAlign.right,
-                  style: Styles.body_small.copyWith(color: Colors.grey),
+                  style: Styles.bodySmall.copyWith(color: Colors.grey),
                 ),
                 Text(
                   widget.dueDate,
                   textAlign: TextAlign.right,
-                  style: Styles.body_small.copyWith(color: Colors.grey),
+                  style: Styles.bodySmall.copyWith(color: Colors.grey),
                 ),
               ],
             )
@@ -172,9 +172,9 @@ class FeedbackCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(title, style: Styles.title_medium),
+                    Text(title, style: Styles.titleMedium),
                     const SizedBox(height: 5),
-                    Text(courseName, style: Styles.body_medium),
+                    Text(courseName, style: Styles.bodyMedium),
                   ],
                 ),
               ],
@@ -185,17 +185,17 @@ class FeedbackCard extends StatelessWidget {
                 Text(
                   'Due:',
                   textAlign: TextAlign.right,
-                  style: Styles.body_small.copyWith(color: Colors.grey),
+                  style: Styles.bodySmall.copyWith(color: Colors.grey),
                 ),
                 Text(
                   dayPosted,
                   textAlign: TextAlign.right,
-                  style: Styles.body_small.copyWith(color: Colors.grey),
+                  style: Styles.bodySmall.copyWith(color: Colors.grey),
                 ),
                 Text(
                   datePosted,
                   textAlign: TextAlign.right,
-                  style: Styles.body_small.copyWith(color: Colors.grey),
+                  style: Styles.bodySmall.copyWith(color: Colors.grey),
                 ),
               ],
             )

@@ -17,14 +17,14 @@ class TestHeader extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: Colors.black,
         child: Text(
           name.isNotEmpty ? name[0] : '',
-          style: Styles.title_medium.copyWith(fontWeight: FontWeight.bold),
+          style: Styles.titleMedium.copyWith(fontWeight: FontWeight.bold),
         ),
       ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(name, style: Styles.title_medium.copyWith(color: Colors.black)),
-          Text(id, style: Styles.body_medium.copyWith(color: Colors.black)),
+          Text(name, style: Styles.titleMedium.copyWith(color: Colors.black)),
+          Text(id, style: Styles.bodyMedium.copyWith(color: Colors.black)),
         ],
       ),
       actions: [

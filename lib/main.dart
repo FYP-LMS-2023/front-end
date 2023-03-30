@@ -79,17 +79,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 Text(
                   'Due:',
                   textAlign: TextAlign.right,
-                  style: Styles.body_small.copyWith(color: Colors.grey),
+                  style: Styles.bodySmall.copyWith(color: Colors.grey),
                 ),
                 Text(
                   "Thursday",
                   textAlign: TextAlign.right,
-                  style: Styles.body_small.copyWith(color: Colors.grey),
+                  style: Styles.bodySmall.copyWith(color: Colors.grey),
                 ),
                 Text(
                   "10-03-23",
                   textAlign: TextAlign.right,
-                  style: Styles.body_small.copyWith(color: Colors.grey),
+                  style: Styles.bodySmall.copyWith(color: Colors.grey),
                 ),
               ],
             ),
