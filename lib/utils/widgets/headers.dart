@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/fonts.dart';
 
-class TestHeader extends StatelessWidget implements PreferredSizeWidget {
+class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
   final String name;
   final String id;
 
-  const TestHeader({super.key, required this.name, required this.id});
+  const ProfileHeader({super.key, required this.name, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +17,14 @@ class TestHeader extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: Colors.black,
         child: Text(
           name.isNotEmpty ? name[0] : '',
-          style: Styles.title_medium.copyWith(fontWeight: FontWeight.bold),
+          style: Styles.titleMedium.copyWith(fontWeight: FontWeight.bold),
         ),
       ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(name, style: Styles.title_medium.copyWith(color: Colors.black)),
-          Text(id, style: Styles.body_medium.copyWith(color: Colors.black)),
+          Text(name, style: Styles.titleMedium.copyWith(color: Colors.black)),
+          Text(id, style: Styles.bodyMedium.copyWith(color: Colors.black)),
         ],
       ),
       actions: [
@@ -40,5 +40,32 @@ class TestHeader extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+  final Function onMenuPressed;
+
+  const CourseHeader(
+      {super.key, required this.title, required this.onMenuPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      elevation: 0.0,
+      backgroundColor: Colors.transparent,
+      centerTitle: false,
+      leading: IconButton(
+        color: Colors.black,
+        icon: const Icon(Icons.menu),
+        onPressed: onMenuPressed as void Function()?,
+      ),
+      title:
+          Text(title, style: Styles.titleMedium.copyWith(color: Colors.black)),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

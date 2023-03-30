@@ -31,7 +31,7 @@ class MainButton extends StatelessWidget {
         ),
         shadowColor: Colors.grey.shade900,
       ),
-      child: Text(text, style: Styles.label_large),
+      child: Text(text, style: Styles.labelLarge),
     );
   }
 }

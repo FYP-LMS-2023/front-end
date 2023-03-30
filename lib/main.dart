@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:front_end/constants/fonts.dart';
-import 'package:front_end/utils/widgets/buttons.dart';
-import 'package:front_end/utils/widgets/cards.dart';
 import 'package:front_end/utils/widgets/headers.dart';
-import 'package:front_end/utils/widgets/testWidget.dart';
-import 'package:front_end/utils/widgets/textfields.dart';
+import 'package:front_end/utils/widgets/cards.dart';
+import '../constants/colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MASH LMS',
-      theme: ThemeData(primarySwatch: Colors.blueGrey),
+      theme: ThemeData(primarySwatch: Palette.kToDark),
       home: const MyHomePage(title: 'MASH LMS'),
       debugShowCheckedModeBanner: false,
     );
@@ -34,71 +31,63 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool pressed = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TestHeader(
-        id: "18635",
-        name: "Shaheer Ahmed",
+      // appBar: const ProfileHeader(
+      //   id: "18635",
+      //   name: "Shaheer Ahmed",
+      // ),
+      appBar: CourseHeader(
+        title: "Final Year Project",
+        onMenuPressed: () {
+          //on pressed functionality
+        },
       ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              MainTextField(label: "Test"),
-              const SizedBox(
-                height: 64,
-              ),
-              const CourseCard(
-                courseName: "Final Year Project",
-                percentageCompleted: 20.7,
-              ),
-              const ToDoCard(
-                title: "System Design Document",
-                courseName: "Final Year Project",
-                dueDay: "Thursday",
-                dueDate: "10-03-23",
-              ),
-              const FeedbackCard(
-                title: "Add Music",
-                courseName: "Final Year Project",
-                dayPosted: "Wednesday",
-                datePosted: "09-02-23",
-              ),
-              CustomCard(
+              HomeOverviewCard(
                 title: "This is a test",
                 subtitle: "Final Year Project",
                 leading: Checkbox(
-                  value: false,
-                  onChanged: (value) => {},
+                  value: pressed,
+                  onChanged: (value) => {
+                    setState(() {
+                      pressed = !pressed;
+                    })
+                  },
                 ),
-                trailing: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Text(
-                  'Due:',
-                  textAlign: TextAlign.right,
-                  style: Styles.body_small.copyWith(color: Colors.grey),
-                ),
-                Text(
-                  "Thursday",
-                  textAlign: TextAlign.right,
-                  style: Styles.body_small.copyWith(color: Colors.grey),
-                ),
-                Text(
-                  "10-03-23",
-                  textAlign: TextAlign.right,
-                  style: Styles.body_small.copyWith(color: Colors.grey),
-                ),
-              ],
-            ),
+                trailing: CardDueDate(dueDate: DateTime.now()),
               ),
-              MainButton(
-                text: "Submit",
-                onPressed: () {},
-                color: Colors.green,
-              )
+              const HomeOverviewCard(
+                title: "Final Year Project",
+                trailing: CardProgressIndicator(progress: 67.5),
+              ),
+              HomeOverviewCard(
+                title: "Add Music",
+                subtitle: "Final Year Project",
+                trailing: CardDueDate(dueDate: DateTime.now()),
+              ),
+              CourseOverviewCard(
+                  type: "assignment",
+                  title: "System Design Document",
+                  postedBy: "Umair Azfar",
+                  date: DateTime.now(),
+                  description:
+                      "You have to make a document that can perform wonders. Good luck! You will need it.",
+                  status: "Not Started"),
+              CourseOverviewCard(
+                  status: "Assignment",
+                  title: "Assignment 1 Posted",
+                  postedBy: "Umair Azfar",
+                  date: DateTime.now(),
+                  description:
+                      "Please find the asignment posted in LMS at the worst time possible!",
+                  type: "announcment")
             ],
           ),
         ),
@@ -106,3 +95,42 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+final List<Map<String, String>> weekData = [
+  {'week': 'Week 1', 'assignment': 'Assignment 1'},
+  {'week': 'Week 2', 'assignment': 'Assignment 2'},
+  {'week': 'Week 3', 'assignment': ''},
+  {'week': 'Week 4', 'assignment': 'Assignment 4'},
+  {'week': 'Week 5', 'assignment': 'Assignment 5'},
+  {'week': 'Week 6', 'assignment': 'Assignment 6'},
+  {'week': 'Week 7', 'assignment': 'Assignment 7'},
+  {'week': 'Week 8', 'assignment': 'Assignment 8'},
+];
+const weekNames = [
+  "Week 1",
+  "Week 2",
+  "Week 3",
+  "Week 4",
+  "Week 5",
+  "Week 6",
+  "Week 7",
+  "Week 8",
+  "Week 9",
+  "Week 10",
+  "Week 11",
+  "Week 12",
+];
+const assignmentNames = [
+  "System Design Document",
+  " ",
+  "System Design Document",
+  "",
+  "System Design Document",
+  "",
+  "System Design Document",
+  " ",
+  "System Design Document",
+  "",
+  "System Design Document",
+  "",
+];
