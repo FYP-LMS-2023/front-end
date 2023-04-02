@@ -158,14 +158,16 @@ class CourseOverviewCard extends StatelessWidget {
   final DateTime date;
   final String description;
   final String status;
+  final Widget? progress;
 
   const CourseOverviewCard({
     super.key,
     required this.type,
     required this.title,
-    required this.postedBy,
+    this.postedBy = "",
     required this.date,
-    required this.description,
+    this.description = "",
+    this.progress,
     required this.status,
   });
 
@@ -197,12 +199,14 @@ class CourseOverviewCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 8.0),
                     Text(
-                      'Posted by $postedBy',
+                      type == "quiz"
+                          ? 'Time Left: ${date.difference(DateTime.now()).inMinutes} minutes'
+                          : 'Posted by $postedBy',
                       style: const TextStyle(fontSize: 16.0),
                     ),
                     const SizedBox(height: 8.0),
                     Text(
-                      type == "assignment"
+                      type == "assignment" || type == "quiz"
                           ? 'Due: ${DateFormat('dd, MMMM yyyy @ hh:mm a').format(date)}'
                           : DateFormat('dd, MMMM yyyy - hh:mm a').format(date),
                       style: const TextStyle(fontSize: 16.0),
@@ -223,19 +227,69 @@ class CourseOverviewCard extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  description,
-                  style: const TextStyle(fontSize: 16.0),
+          description == ""
+              ? const SizedBox()
+              : Container(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        description,
+                        style: const TextStyle(fontSize: 16.0),
+                      ),
+                      const SizedBox(height: 8.0),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 8.0),
-              ],
+          progress != null ? progress! : const SizedBox(),
+        ],
+      ),
+    );
+  }
+}
+
+class QuizProgress extends StatelessWidget {
+  final int totalQuestions;
+  final int answeredQuestions;
+
+  const QuizProgress({
+    super.key,
+    required this.totalQuestions,
+    required this.answeredQuestions,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Stack(
+        children: [
+          Container(
+            height: 30,
+            alignment: Alignment.centerRight,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade400,
+              borderRadius: BorderRadius.circular(18),
             ),
           ),
+          Container(
+            height: 30,
+            width: MediaQuery.of(context).size.width *
+                (answeredQuestions / totalQuestions),
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(18),
+            ),
+          ),
+          Container(
+            height: 30,
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width,
+            child: Text('$answeredQuestions/$totalQuestions Questions Answered',
+                style: Styles.bodySmall.copyWith(color: Colors.white)),
+          )
         ],
       ),
     );
@@ -276,6 +330,7 @@ class NumberOfStudentsCard extends StatelessWidget {
     );
   }
 }
+
 //! THIS IS CURRENTLY UNDER DEVELOPMENT
 //TODO - refactor the functionality of this card
 class ThreeLineCard extends StatelessWidget {

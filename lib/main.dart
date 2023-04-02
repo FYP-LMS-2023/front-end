@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/utils/widgets/buttons.dart';
 import 'package:front_end/utils/widgets/headers.dart';
 import 'package:front_end/utils/widgets/cards.dart';
+import 'package:front_end/utils/widgets/progress_buggy.dart';
 import '../constants/colors.dart';
 
 void main() {
@@ -39,55 +41,33 @@ class _MyHomePageState extends State<MyHomePage> {
       //   id: "18635",
       //   name: "Shaheer Ahmed",
       // ),
-      appBar: CourseHeader(
-        title: "Final Year Project",
-        onMenuPressed: () {
-          //on pressed functionality
-        },
-      ),
+      appBar: ProfileHeader(id: "18635", name: "Shaheer Ahmed"),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              MainButton(text: "Submit", onPressed: () {}),
               HomeOverviewCard(
-                title: "This is a test",
+                title: "Course 1",
                 subtitle: "Final Year Project",
                 leading: Checkbox(
-                  value: pressed,
-                  onChanged: (value) => {
-                    setState(() {
-                      pressed = !pressed;
-                    })
-                  },
+                  value: true,
+                  onChanged: (value) => {},
                 ),
-                trailing: CardDueDate(dueDate: DateTime.now()),
-              ),
-              const HomeOverviewCard(
-                title: "Final Year Project",
-                trailing: CardProgressIndicator(progress: 67.5),
-              ),
-              HomeOverviewCard(
-                title: "Add Music",
-                subtitle: "Final Year Project",
-                trailing: CardDueDate(dueDate: DateTime.now()),
+                trailing: CardProgressIndicator(
+                  progress: 75,
+                ),
               ),
               CourseOverviewCard(
-                  type: "assignment",
-                  title: "System Design Document",
-                  postedBy: "Umair Azfar",
-                  date: DateTime.now(),
-                  description:
-                      "You have to make a document that can perform wonders. Good luck! You will need it.",
-                  status: "Not Started"),
-              CourseOverviewCard(
-                  status: "Assignment",
-                  title: "Assignment 1 Posted",
-                  postedBy: "Umair Azfar",
-                  date: DateTime.now(),
-                  description:
-                      "Please find the asignment posted in LMS at the worst time possible!",
-                  type: "announcment")
+                type: "quiz",
+                title: "SRS",
+                date: DateTime(2023, 04, 03, 00, 51),
+                status: "completed",
+                progress: QuizProgress(
+                    totalQuestions: 30,
+                    answeredQuestions: 25),
+              )
             ],
           ),
         ),
