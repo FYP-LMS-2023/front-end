@@ -43,6 +43,9 @@ class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
+
+//* Changes need to be made to this
+//TODO implement side bar functionality
 class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Function onMenuPressed;

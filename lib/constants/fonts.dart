@@ -7,6 +7,8 @@ class Fonts {}
 class Styles {
   Styles._();
 
+  //! Dont use google fonts
+
   //display
   static final displayLarge =
       GoogleFonts.poppins(fontSize: 57, fontWeight: FontWeight.w400);
