@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //   id: "18635",
       //   name: "Shaheer Ahmed",
       // ),
-      appBar: ProfileHeader(id: "18635", name: "Shaheer Ahmed"),
+      appBar: const ProfileHeader(id: "18635", name: "Shaheer Ahmed"),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   value: true,
                   onChanged: (value) => {},
                 ),
-                trailing: CardProgressIndicator(
+                trailing: const CardProgressIndicator(
                   progress: 75,
                 ),
               ),
@@ -63,8 +63,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 type: "quiz",
                 title: "SRS",
                 date: DateTime(2023, 04, 03, 00, 51),
-                status: "completed",
-                progress: QuizProgress(
+                status: "Late",
+                progress: const QuizProgress(
                     totalQuestions: 30,
                     answeredQuestions: 25),
               )
@@ -76,41 +76,3 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-final List<Map<String, String>> weekData = [
-  {'week': 'Week 1', 'assignment': 'Assignment 1'},
-  {'week': 'Week 2', 'assignment': 'Assignment 2'},
-  {'week': 'Week 3', 'assignment': ''},
-  {'week': 'Week 4', 'assignment': 'Assignment 4'},
-  {'week': 'Week 5', 'assignment': 'Assignment 5'},
-  {'week': 'Week 6', 'assignment': 'Assignment 6'},
-  {'week': 'Week 7', 'assignment': 'Assignment 7'},
-  {'week': 'Week 8', 'assignment': 'Assignment 8'},
-];
-const weekNames = [
-  "Week 1",
-  "Week 2",
-  "Week 3",
-  "Week 4",
-  "Week 5",
-  "Week 6",
-  "Week 7",
-  "Week 8",
-  "Week 9",
-  "Week 10",
-  "Week 11",
-  "Week 12",
-];
-const assignmentNames = [
-  "System Design Document",
-  " ",
-  "System Design Document",
-  "",
-  "System Design Document",
-  "",
-  "System Design Document",
-  " ",
-  "System Design Document",
-  "",
-  "System Design Document",
-  "",
-];

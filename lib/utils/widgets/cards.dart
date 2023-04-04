@@ -149,7 +149,6 @@ class CardDueDate extends StatelessWidget {
   }
 }
 
-//Course Page Cards
 //* This is the main card widget used to buld the cards on the course overview page
 class CourseOverviewCard extends StatelessWidget {
   final String type;
@@ -170,6 +169,44 @@ class CourseOverviewCard extends StatelessWidget {
     this.progress,
     required this.status,
   });
+
+  Color statusColor() {
+    Color color = Colors.grey;
+
+    switch (status) {
+      case "Open":
+        Colors.blue;
+        break;
+      case "Closed":
+        color = Colors.grey;
+        break;
+      case "Late":
+        color = Colors.red;
+        break;
+      case "Submitted":
+        color = Colors.green;
+        break;
+      case "Returned":
+        color = Colors.purple;
+        break;
+      case "Active":
+        color = Colors.teal;
+        break;
+      case "Draft":
+        color = Colors.lightBlue;
+        break;
+      case "Passed":
+        color = Colors.green;
+        break;
+      case "Failed":
+        color = Colors.red;
+        break;
+      default:
+        color = Colors.grey;
+    }
+
+    return color;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -219,9 +256,9 @@ class CourseOverviewCard extends StatelessWidget {
                   child: Chip(
                     label: Text(
                       status,
-                      style: Styles.bodySmall.copyWith(color: Colors.black),
+                      style: Styles.bodySmall.copyWith(color: Colors.white),
                     ),
-                    backgroundColor: Colors.grey[400],
+                    backgroundColor: statusColor(),
                   ),
                 ),
               ],
