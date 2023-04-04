@@ -172,7 +172,6 @@ class CourseOverviewCard extends StatelessWidget {
 
   Color statusColor() {
     Color color = Colors.grey;
-
     switch (status) {
       case "Open":
         Colors.blue;
@@ -204,8 +203,31 @@ class CourseOverviewCard extends StatelessWidget {
       default:
         color = Colors.grey;
     }
-
     return color;
+  }
+
+  String timeLeft(date) {
+    Duration difference = date.difference(DateTime.now());
+
+    String timeLeft = '';
+
+    if (difference.inDays > 0) {
+      timeLeft += difference.inDays.toString() + 'd ';
+    }
+    if (difference.inHours > 0) {
+      timeLeft += (difference.inHours % 24).toString() + 'h ';
+    }
+    if (difference.inMinutes > 0) {
+      timeLeft += (difference.inMinutes % 60).toString() + 'm';
+    }
+    if(difference.inSeconds > 0 && difference.inMinutes == 0){
+      timeLeft += (difference.inSeconds % 60).toString() + 's';
+    }
+    if(difference.inSeconds <= 0){
+      timeLeft = 'Expired';
+    }
+
+    return timeLeft;
   }
 
   @override
@@ -237,7 +259,8 @@ class CourseOverviewCard extends StatelessWidget {
                     const SizedBox(height: 8.0),
                     Text(
                       type == "quiz"
-                          ? 'Time Left: ${date.difference(DateTime.now()).inMinutes} minutes'
+                          // ? 'Time Left: ${date.difference(DateTime.now()).inMinutes} minutes'
+                          ? 'Time Left: ${timeLeft(date)}'
                           : 'Posted by $postedBy',
                       style: const TextStyle(fontSize: 16.0),
                     ),
