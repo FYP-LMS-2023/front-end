@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
               CourseOverviewCard(
                 type: "quiz",
                 title: "Quiz 1",
-                date: DateTime(2023, 04, 04, 20, 20),
+                date: DateTime(2023, 04, 04, 20, 22),
                 status: "Late",
                 progress: const QuizProgress(
                     totalQuestions: 30,

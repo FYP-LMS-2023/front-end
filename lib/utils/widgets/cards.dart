@@ -212,16 +212,16 @@ class CourseOverviewCard extends StatelessWidget {
     String timeLeft = '';
 
     if (difference.inDays > 0) {
-      timeLeft += difference.inDays.toString() + 'd ';
+      timeLeft += '${difference.inDays}d ';
     }
     if (difference.inHours > 0) {
-      timeLeft += (difference.inHours % 24).toString() + 'h ';
+      timeLeft += '${difference.inHours % 24}h ';
     }
     if (difference.inMinutes > 0) {
-      timeLeft += (difference.inMinutes % 60).toString() + 'm';
+      timeLeft += '${difference.inMinutes % 60}m ';
     }
-    if(difference.inSeconds > 0 && difference.inMinutes == 0){
-      timeLeft += (difference.inSeconds % 60).toString() + 's';
+    if(difference.inSeconds > 0 && difference.inHours == 0){
+      timeLeft += '${difference.inSeconds % 60}s ';
     }
     if(difference.inSeconds <= 0){
       timeLeft = 'Expired';
