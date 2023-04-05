@@ -1,3 +1,4 @@
+import 'package:front_end/models/announcement_model.dart';
 import 'package:front_end/models/assignment_model.dart';
 import 'package:front_end/models/quiz_model.dart';
 
@@ -28,7 +29,10 @@ var assignmentJSON = {
     }
   ]
 };
+
 Assignment assignment = Assignment.fromJson(assignmentJSON);
+
+////////////////////////////////////////////////////////////////
 
 var quizJSON = {
   "title": "Quiz 1",
@@ -67,3 +71,13 @@ var quizJSON = {
 };
 
 Quiz quiz = Quiz.fromJson(quizJSON);
+
+////////////////////////////////////////////////////////////////
+
+var announcementJSON = {
+  "title": "Announcement 1",
+  "description": "This is an announcement",
+  "uploadDate": DateTime(2023, 04, 04, 20, 22),
+  "postedBy": "Umair Azfar",
+};
+Announcement announcement = Announcement.fromJson(announcementJSON);
