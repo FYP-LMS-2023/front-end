@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/models/announcement_model.dart';
 import 'package:intl/intl.dart';
 import 'package:front_end/constants/fonts.dart';
 
-//Home Page Cards
+import '../../models/assignment_model.dart';
+
+//* Home Page Cards
 //* This is the main card widget to build the cards on the home page
 class HomeOverviewCard extends StatefulWidget {
   final String title;
@@ -149,32 +152,34 @@ class CardDueDate extends StatelessWidget {
   }
 }
 
+//* Course Overview Cards
 //* This is the main card widget used to buld the cards on the course overview page
 class CourseOverviewCard extends StatelessWidget {
   final String type;
   final String title;
-  final String postedBy;
   final DateTime date;
-  final String description;
-  final String status;
+  final String? postedBy;
+  final String? description;
+  final String? status;
   final Widget? progress;
 
   const CourseOverviewCard({
     super.key,
     required this.type,
     required this.title,
-    this.postedBy = "",
     required this.date,
-    this.description = "",
+    this.postedBy,
+    this.description,
     this.progress,
-    required this.status,
+    this.status,
   });
 
+  //utility function to get the color of the status
   Color statusColor() {
     Color color = Colors.grey;
     switch (status) {
       case "Open":
-        Colors.blue;
+        color = Colors.blue;
         break;
       case "Closed":
         color = Colors.grey;
@@ -206,6 +211,7 @@ class CourseOverviewCard extends StatelessWidget {
     return color;
   }
 
+  //utility function to get the time left
   String timeLeft(date) {
     Duration difference = date.difference(DateTime.now());
 
@@ -220,10 +226,10 @@ class CourseOverviewCard extends StatelessWidget {
     if (difference.inMinutes > 0) {
       timeLeft += '${difference.inMinutes % 60}m ';
     }
-    if(difference.inSeconds > 0 && difference.inHours == 0){
+    if (difference.inSeconds > 0 && difference.inHours == 0) {
       timeLeft += '${difference.inSeconds % 60}s ';
     }
-    if(difference.inSeconds <= 0){
+    if (difference.inSeconds <= 0) {
       timeLeft = 'Expired';
     }
 
@@ -259,9 +265,8 @@ class CourseOverviewCard extends StatelessWidget {
                     const SizedBox(height: 8.0),
                     Text(
                       type == "quiz"
-                          // ? 'Time Left: ${date.difference(DateTime.now()).inMinutes} minutes'
                           ? 'Time Left: ${timeLeft(date)}'
-                          : 'Posted by $postedBy',
+                          : 'Posted by: $postedBy',
                       style: const TextStyle(fontSize: 16.0),
                     ),
                     const SizedBox(height: 8.0),
@@ -273,21 +278,24 @@ class CourseOverviewCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  alignment: Alignment.centerRight,
-                  child: Chip(
-                    label: Text(
-                      status,
-                      style: Styles.bodySmall.copyWith(color: Colors.white),
-                    ),
-                    backgroundColor: statusColor(),
-                  ),
-                ),
+                status == null
+                    ? const SizedBox()
+                    : Container(
+                        padding: const EdgeInsets.all(16.0),
+                        alignment: Alignment.centerRight,
+                        child: Chip(
+                          label: Text(
+                            status!,
+                            style:
+                                Styles.bodySmall.copyWith(color: Colors.white),
+                          ),
+                          backgroundColor: statusColor(),
+                        ),
+                      ),
               ],
             ),
           ),
-          description == ""
+          description == null
               ? const SizedBox()
               : Container(
                   padding: const EdgeInsets.all(16.0),
@@ -295,7 +303,7 @@ class CourseOverviewCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        description,
+                        description!,
                         style: const TextStyle(fontSize: 16.0),
                       ),
                       const SizedBox(height: 8.0),

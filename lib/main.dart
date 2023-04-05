@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:front_end/utils/widgets/buttons.dart';
 import 'package:front_end/utils/widgets/headers.dart';
 import 'package:front_end/utils/widgets/cards.dart';
-import 'package:front_end/utils/widgets/progress_buggy.dart';
 import '../constants/colors.dart';
+import '../models/mock_data.dart';
 
 void main() {
   runApp(const MyApp());
@@ -60,14 +60,30 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               CourseOverviewCard(
+                type: "assignment",
+                title: assignment.title,
+                date: assignment.dueDate,
+                status: assignment.status,
+                description: assignment.description,
+                postedBy: assignment.teacherName,
+              ),
+              CourseOverviewCard(
                 type: "quiz",
-                title: "Quiz 1",
-                date: DateTime(2023, 04, 04, 20, 22),
-                status: "Late",
-                progress: const QuizProgress(
-                    totalQuestions: 30,
-                    answeredQuestions: 25),
-              )
+                title: quiz.title,
+                date: quiz.dueDate,
+                status: quiz.status,
+                progress: QuizProgress(
+                  answeredQuestions: 1,
+                  totalQuestions: quiz.questions.length,
+                ),
+              ),
+              CourseOverviewCard(
+                type: "announcement",
+                title: announcement.title,
+                date: announcement.uploadDate,
+                description: announcement.description,
+                postedBy: announcement.postedBy,
+              ),
             ],
           ),
         ),
@@ -75,4 +91,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
