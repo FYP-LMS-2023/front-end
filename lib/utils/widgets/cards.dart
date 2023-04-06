@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/models/announcement_model.dart';
+import 'package:front_end/utils/functions/status_color.dart';
+import 'package:front_end/utils/functions/time_left.dart';
 import 'package:intl/intl.dart';
 import 'package:front_end/constants/fonts.dart';
 
-//Home Page Cards
-//* This is the main card widget to build the cards on the home page
+import '../../models/assignment_model.dart';
+
+//* Home Page Cards/////////////////////////////////////////////////////////////////////////////
 class HomeOverviewCard extends StatefulWidget {
   final String title;
   final String subtitle;
@@ -75,8 +79,8 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
 }
 
 //This is a component that is being used in the cards
-class CardProgressIndicator extends StatelessWidget {
-  const CardProgressIndicator({
+class CourseProgress extends StatelessWidget {
+  const CourseProgress({
     super.key,
     required this.progress,
   });
@@ -148,27 +152,27 @@ class CardDueDate extends StatelessWidget {
     );
   }
 }
+//* /////////////////////////////////////////////////////////////////////////////////////////////
 
-//Course Page Cards
-//* This is the main card widget used to buld the cards on the course overview page
+//* Course Overview Cards////////////////////////////////////////////////////////////////////////
 class CourseOverviewCard extends StatelessWidget {
   final String type;
   final String title;
-  final String postedBy;
   final DateTime date;
-  final String description;
-  final String status;
+  final String? postedBy;
+  final String? description;
+  final String? status;
   final Widget? progress;
 
   const CourseOverviewCard({
     super.key,
     required this.type,
     required this.title,
-    this.postedBy = "",
     required this.date,
-    this.description = "",
+    this.postedBy,
+    this.description,
     this.progress,
-    required this.status,
+    this.status,
   });
 
   @override
@@ -200,8 +204,8 @@ class CourseOverviewCard extends StatelessWidget {
                     const SizedBox(height: 8.0),
                     Text(
                       type == "quiz"
-                          ? 'Time Left: ${date.difference(DateTime.now()).inMinutes} minutes'
-                          : 'Posted by $postedBy',
+                          ? 'Time Left: ${time_left(date)}'
+                          : 'Posted by: $postedBy',
                       style: const TextStyle(fontSize: 16.0),
                     ),
                     const SizedBox(height: 8.0),
@@ -213,21 +217,24 @@ class CourseOverviewCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  alignment: Alignment.centerRight,
-                  child: Chip(
-                    label: Text(
-                      status,
-                      style: Styles.bodySmall.copyWith(color: Colors.black),
-                    ),
-                    backgroundColor: Colors.grey[400],
-                  ),
-                ),
+                status == null
+                    ? const SizedBox()
+                    : Container(
+                        padding: const EdgeInsets.all(16.0),
+                        alignment: Alignment.centerRight,
+                        child: Chip(
+                          label: Text(
+                            status!,
+                            style:
+                                Styles.bodySmall.copyWith(color: Colors.white),
+                          ),
+                          backgroundColor: status_color(status),
+                        ),
+                      ),
               ],
             ),
           ),
-          description == ""
+          description == null
               ? const SizedBox()
               : Container(
                   padding: const EdgeInsets.all(16.0),
@@ -235,7 +242,7 @@ class CourseOverviewCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        description,
+                        description!,
                         style: const TextStyle(fontSize: 16.0),
                       ),
                       const SizedBox(height: 8.0),
@@ -249,6 +256,7 @@ class CourseOverviewCard extends StatelessWidget {
   }
 }
 
+//This is a component that is being used in the cards
 class QuizProgress extends StatelessWidget {
   final int totalQuestions;
   final int answeredQuestions;
@@ -295,82 +303,196 @@ class QuizProgress extends StatelessWidget {
     );
   }
 }
+//* /////////////////////////////////////////////////////////////////////////////////////////////
 
-//! THIS IS CURRENTLY UNDER DEVELOPMENT
-//TODO - refactor the functionality of this card
-class NumberOfStudentsCard extends StatelessWidget {
-  final int numberOfStudents;
+//* Assignment Detail Card////////////////////////////////////////////////////////////////////////
+class AssignmentDetailCard extends StatelessWidget {
+  final DateTime dueDate;
+  final int numResubmissions;
+  final DateTime resubmissionDueDate;
+  final String status;
 
-  const NumberOfStudentsCard({super.key, required this.numberOfStudents});
+  const AssignmentDetailCard({
+    super.key,
+    required this.dueDate,
+    required this.numResubmissions,
+    required this.resubmissionDueDate,
+    required this.status,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(4.0),
+          height: 45,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(16.0),
+              color: status_color(status)),
+          child: Text(
+            status,
+            style: Styles.bodySmall.copyWith(color: Colors.white),
+          ),
+        ),
+        const SizedBox(height: 10.0),
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(15.0),
+            color: Colors.white,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Text(
+                      "Due Date: ",
+                      style: Styles.labelMedium,
+                    ),
+                    Text(
+                      DateFormat('dd, MMMM yyyy @ hh:mm a').format(dueDate),
+                      style: Styles.bodySmall,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10.0),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      "No. of Resubmissions Allowed: ",
+                      style: Styles.labelMedium,
+                    ),
+                    Text(
+                      numResubmissions.toString(),
+                      style: Styles.bodySmall,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      "Resubmission Deadline: ",
+                      style: Styles.labelMedium,
+                    ),
+                    Text(
+                      DateFormat('dd, MMMM yyyy @ hh:mm a')
+                          .format(resubmissionDueDate),
+                      style: Styles.bodySmall,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+//* /////////////////////////////////////////////////////////////////////////////////////////////
+
+class CenteredCard extends StatelessWidget {
+  final double width;
+  final int? number;
+  final String text;
+  final Icon? icon;
+  const CenteredCard({
+    super.key,
+    this.number,
+    required this.text,
+    this.icon,
+    this.width = 1,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.1,
-      width: MediaQuery.of(context).size.width * 0.33,
-      // width: double.infinity,
+      width: MediaQuery.of(context).size.width * width,
+      height: MediaQuery.of(context).size.height * 0.13,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
         border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(15.0),
+        color: Colors.white,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            numberOfStudents.toString(),
-            style: Styles.titleMedium.copyWith(fontWeight: FontWeight.bold),
-          ),
-          Text(
-            'Students',
-            style: Styles.bodyMedium.copyWith(color: Colors.grey),
-          ),
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          number != null
+              ? Text(number.toString(), style: Styles.titleMedium)
+              : icon!,
+          const SizedBox(height: 5.0),
+          Text(text, style: Styles.bodyMedium),
         ],
       ),
     );
   }
 }
 
-//! THIS IS CURRENTLY UNDER DEVELOPMENT
-//TODO - refactor the functionality of this card
-class ThreeLineCard extends StatelessWidget {
-  final String title;
-  final String subtitle1;
-  final String subtitle2;
+class DetailCard extends StatelessWidget {
+  final double width;
+  final String? teacherName;
+  final List<Map<String, dynamic>> details;
 
-  const ThreeLineCard({
+  const DetailCard({
     super.key,
-    required this.title,
-    required this.subtitle1,
-    required this.subtitle2,
+    this.teacherName,
+    required this.details,
+    this.width = 1,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.1,
-      width: MediaQuery.of(context).size.width * 0.5,
-      // width: double.infinity,
+      width: MediaQuery.of(context).size.width * width,
+      height: MediaQuery.of(context).size.height * 0.13,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
         border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(15.0),
+        color: Colors.white,
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            title,
-            textAlign: TextAlign.left,
-            style: Styles.labelLarge,
-          ),
-          Text(
-            subtitle1,
-            textAlign: TextAlign.left,
-            style: Styles.bodySmall,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            teacherName != null
+                ? Text(teacherName!, style: Styles.labelLarge)
+                : const SizedBox(),
+            const SizedBox(height: 5.0),
+            SizedBox(
+              // height: MediaQuery.of(context).size.height * 0.1,
+              width: double.infinity,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: details.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Text('${details[index]['label']}: ', style: Styles.labelMedium),
+                          Text(details[index]['value'], style: Styles.bodySmall),
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

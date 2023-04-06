@@ -205,3 +205,85 @@ class FeedbackCard extends StatelessWidget {
     );
   }
 }
+
+
+
+//! THIS IS CURRENTLY UNDER DEVELOPMENT
+//TODO - refactor the functionality of this card
+class NumberOfStudentsCard extends StatelessWidget {
+  final int numberOfStudents;
+
+  const NumberOfStudentsCard({super.key, required this.numberOfStudents});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.1,
+      width: MediaQuery.of(context).size.width * 0.33,
+      // width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.grey),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            numberOfStudents.toString(),
+            style: Styles.titleMedium.copyWith(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            'Students',
+            style: Styles.bodyMedium.copyWith(color: Colors.grey),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+//! THIS IS CURRENTLY UNDER DEVELOPMENT
+//TODO - refactor the functionality of this card
+class ThreeLineCard extends StatelessWidget {
+  final String title;
+  final String subtitle1;
+  final String subtitle2;
+
+  const ThreeLineCard({
+    super.key,
+    required this.title,
+    required this.subtitle1,
+    required this.subtitle2,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.1,
+      width: MediaQuery.of(context).size.width * 0.5,
+      // width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.grey),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            textAlign: TextAlign.left,
+            style: Styles.labelLarge,
+          ),
+          Text(
+            subtitle1,
+            textAlign: TextAlign.left,
+            style: Styles.bodySmall,
+          ),
+        ],
+      ),
+    );
+  }
+}
