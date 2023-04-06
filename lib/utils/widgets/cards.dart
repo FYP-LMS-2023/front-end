@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/models/announcement_model.dart';
+import 'package:front_end/utils/functions/status_color.dart';
+import 'package:front_end/utils/functions/time_left.dart';
 import 'package:intl/intl.dart';
 import 'package:front_end/constants/fonts.dart';
 
@@ -174,68 +176,6 @@ class CourseOverviewCard extends StatelessWidget {
     this.status,
   });
 
-  //utility function to get the color of the status
-  Color statusColor() {
-    Color color = Colors.grey;
-    switch (status) {
-      case "Open":
-        color = Colors.blue;
-        break;
-      case "Closed":
-        color = Colors.grey;
-        break;
-      case "Late":
-        color = Colors.red;
-        break;
-      case "Submitted":
-        color = Colors.green;
-        break;
-      case "Returned":
-        color = Colors.purple;
-        break;
-      case "Active":
-        color = Colors.teal;
-        break;
-      case "Draft":
-        color = Colors.lightBlue;
-        break;
-      case "Passed":
-        color = Colors.green;
-        break;
-      case "Failed":
-        color = Colors.red;
-        break;
-      default:
-        color = Colors.grey;
-    }
-    return color;
-  }
-
-  //utility function to get the time left
-  String timeLeft(date) {
-    Duration difference = date.difference(DateTime.now());
-
-    String timeLeft = '';
-
-    if (difference.inDays > 0) {
-      timeLeft += '${difference.inDays}d ';
-    }
-    if (difference.inHours > 0) {
-      timeLeft += '${difference.inHours % 24}h ';
-    }
-    if (difference.inMinutes > 0) {
-      timeLeft += '${difference.inMinutes % 60}m ';
-    }
-    if (difference.inSeconds > 0 && difference.inHours == 0) {
-      timeLeft += '${difference.inSeconds % 60}s ';
-    }
-    if (difference.inSeconds <= 0) {
-      timeLeft = 'Expired';
-    }
-
-    return timeLeft;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -265,7 +205,7 @@ class CourseOverviewCard extends StatelessWidget {
                     const SizedBox(height: 8.0),
                     Text(
                       type == "quiz"
-                          ? 'Time Left: ${timeLeft(date)}'
+                          ? 'Time Left: ${time_left(date)}'
                           : 'Posted by: $postedBy',
                       style: const TextStyle(fontSize: 16.0),
                     ),
@@ -289,7 +229,7 @@ class CourseOverviewCard extends StatelessWidget {
                             style:
                                 Styles.bodySmall.copyWith(color: Colors.white),
                           ),
-                          backgroundColor: statusColor(),
+                          backgroundColor: status_color(status),
                         ),
                       ),
               ],
@@ -360,6 +300,97 @@ class QuizProgress extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class AssignmentDetailCard extends StatelessWidget {
+  final DateTime dueDate;
+  final int numResubmissions;
+  final DateTime resubmissionDueDate;
+  final String status;
+
+  const AssignmentDetailCard({
+    super.key,
+    required this.dueDate,
+    required this.numResubmissions,
+    required this.resubmissionDueDate,
+    required this.status,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(4.0),
+          height: 45,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(16.0),
+              color: status_color(status)),
+          child: Text(
+            status,
+            style: Styles.bodySmall.copyWith(color: Colors.white),
+          ),
+        ),
+        const SizedBox(height: 10.0),
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(15.0),
+            color: Colors.white,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Text(
+                      "Due Date: ",
+                      style: Styles.labelMedium,
+                    ),
+                    Text(
+                      DateFormat('dd, MMMM yyyy @ hh:mm a').format(dueDate),
+                      style: Styles.bodySmall,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10.0),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      "No. of Resubmissions Allowed: ",
+                      style: Styles.labelMedium,
+                    ),
+                    Text(
+                      numResubmissions.toString(),
+                      style: Styles.bodySmall,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      "Resubmission Deadline: ",
+                      style: Styles.labelMedium,
+                    ),
+                    Text(
+                      DateFormat('dd, MMMM yyyy @ hh:mm a')
+                          .format(resubmissionDueDate),
+                      style: Styles.bodySmall,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

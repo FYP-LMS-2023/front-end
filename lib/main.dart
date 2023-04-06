@@ -84,6 +84,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 description: announcement.description,
                 postedBy: announcement.postedBy,
               ),
+              AssignmentDetailCard(
+                dueDate: DateTime.now(),
+                numResubmissions: 2,
+                resubmissionDueDate: DateTime.now(),
+                status: "Submitted",
+              )
             ],
           ),
         ),
