@@ -47,49 +47,81 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              MainButton(text: "Submit", onPressed: () {}),
-              HomeOverviewCard(
-                title: "Course 1",
-                subtitle: "Final Year Project",
-                leading: Checkbox(
-                  value: true,
-                  onChanged: (value) => {},
-                ),
-                trailing: const CardProgressIndicator(
-                  progress: 75,
-                ),
+              // MainButton(text: "Submit", onPressed: () {}),
+              // HomeOverviewCard(
+              //   title: "Course 1",
+              //   subtitle: "Final Year Project",
+              //   leading: Checkbox(
+              //     value: true,
+              //     onChanged: (value) => {},
+              //   ),
+              //   trailing: const CourseProgress(
+              //     progress: 75,
+              //   ),
+              // ),
+              // CourseOverviewCard(
+              //   type: "assignment",
+              //   title: assignment.title,
+              //   date: assignment.dueDate,
+              //   status: assignment.status,
+              //   description: assignment.description,
+              //   postedBy: assignment.teacherName,
+              // ),
+              // CourseOverviewCard(
+              //   type: "quiz",
+              //   title: quiz.title,
+              //   date: quiz.dueDate,
+              //   status: quiz.status,
+              //   progress: QuizProgress(
+              //     answeredQuestions: 1,
+              //     totalQuestions: quiz.questions.length,
+              //   ),
+              // ),
+              // CourseOverviewCard(
+              //   type: "announcement",
+              //   title: announcement.title,
+              //   date: announcement.uploadDate,
+              //   description: announcement.description,
+              //   postedBy: announcement.postedBy,
+              // ),
+              // AssignmentDetailCard(
+              //   dueDate: DateTime.now(),
+              //   numResubmissions: 2,
+              //   resubmissionDueDate: DateTime.now(),
+              //   status: "Submitted",
+              // ),
+              const SizedBox(
+                height: 10,
               ),
-              CourseOverviewCard(
-                type: "assignment",
-                title: assignment.title,
-                date: assignment.dueDate,
-                status: assignment.status,
-                description: assignment.description,
-                postedBy: assignment.teacherName,
+              Column(
+                children: [
+                  const CenteredCard(
+                    text: "Mark Attendance",
+                    icon: Icon(Icons.qr_code),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: CenteredCard(
+                          text: "students",
+                          number: mockClass.students.length,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: DetailCard(
+                          teacherName: mockClass.teacherName,
+                          details: [
+                            {"label": "Class", "value": mockClass.semester},
+                            {"label": "TA", "value": mockClass.ta![0]["name"]},
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                ],
               ),
-              CourseOverviewCard(
-                type: "quiz",
-                title: quiz.title,
-                date: quiz.dueDate,
-                status: quiz.status,
-                progress: QuizProgress(
-                  answeredQuestions: 1,
-                  totalQuestions: quiz.questions.length,
-                ),
-              ),
-              CourseOverviewCard(
-                type: "announcement",
-                title: announcement.title,
-                date: announcement.uploadDate,
-                description: announcement.description,
-                postedBy: announcement.postedBy,
-              ),
-              AssignmentDetailCard(
-                dueDate: DateTime.now(),
-                numResubmissions: 2,
-                resubmissionDueDate: DateTime.now(),
-                status: "Submitted",
-              )
             ],
           ),
         ),

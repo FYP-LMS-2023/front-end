@@ -7,8 +7,7 @@ import 'package:front_end/constants/fonts.dart';
 
 import '../../models/assignment_model.dart';
 
-//* Home Page Cards
-//* This is the main card widget to build the cards on the home page
+//* Home Page Cards/////////////////////////////////////////////////////////////////////////////
 class HomeOverviewCard extends StatefulWidget {
   final String title;
   final String subtitle;
@@ -80,8 +79,8 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
 }
 
 //This is a component that is being used in the cards
-class CardProgressIndicator extends StatelessWidget {
-  const CardProgressIndicator({
+class CourseProgress extends StatelessWidget {
+  const CourseProgress({
     super.key,
     required this.progress,
   });
@@ -153,9 +152,9 @@ class CardDueDate extends StatelessWidget {
     );
   }
 }
+//* /////////////////////////////////////////////////////////////////////////////////////////////
 
-//* Course Overview Cards
-//* This is the main card widget used to buld the cards on the course overview page
+//* Course Overview Cards////////////////////////////////////////////////////////////////////////
 class CourseOverviewCard extends StatelessWidget {
   final String type;
   final String title;
@@ -257,6 +256,7 @@ class CourseOverviewCard extends StatelessWidget {
   }
 }
 
+//This is a component that is being used in the cards
 class QuizProgress extends StatelessWidget {
   final int totalQuestions;
   final int answeredQuestions;
@@ -303,7 +303,9 @@ class QuizProgress extends StatelessWidget {
     );
   }
 }
+//* /////////////////////////////////////////////////////////////////////////////////////////////
 
+//* Assignment Detail Card////////////////////////////////////////////////////////////////////////
 class AssignmentDetailCard extends StatelessWidget {
   final DateTime dueDate;
   final int numResubmissions;
@@ -394,82 +396,103 @@ class AssignmentDetailCard extends StatelessWidget {
     );
   }
 }
+//* /////////////////////////////////////////////////////////////////////////////////////////////
 
-//! THIS IS CURRENTLY UNDER DEVELOPMENT
-//TODO - refactor the functionality of this card
-class NumberOfStudentsCard extends StatelessWidget {
-  final int numberOfStudents;
-
-  const NumberOfStudentsCard({super.key, required this.numberOfStudents});
+class CenteredCard extends StatelessWidget {
+  final double width;
+  final int? number;
+  final String text;
+  final Icon? icon;
+  const CenteredCard({
+    super.key,
+    this.number,
+    required this.text,
+    this.icon,
+    this.width = 1,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.1,
-      width: MediaQuery.of(context).size.width * 0.33,
-      // width: double.infinity,
+      width: MediaQuery.of(context).size.width * width,
+      height: MediaQuery.of(context).size.height * 0.13,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
         border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(15.0),
+        color: Colors.white,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            numberOfStudents.toString(),
-            style: Styles.titleMedium.copyWith(fontWeight: FontWeight.bold),
-          ),
-          Text(
-            'Students',
-            style: Styles.bodyMedium.copyWith(color: Colors.grey),
-          ),
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          number != null
+              ? Text(number.toString(), style: Styles.titleMedium)
+              : icon!,
+          const SizedBox(height: 5.0),
+          Text(text, style: Styles.bodyMedium),
         ],
       ),
     );
   }
 }
 
-//! THIS IS CURRENTLY UNDER DEVELOPMENT
-//TODO - refactor the functionality of this card
-class ThreeLineCard extends StatelessWidget {
-  final String title;
-  final String subtitle1;
-  final String subtitle2;
+class DetailCard extends StatelessWidget {
+  final double width;
+  final String? teacherName;
+  final List<Map<String, dynamic>> details;
 
-  const ThreeLineCard({
+  const DetailCard({
     super.key,
-    required this.title,
-    required this.subtitle1,
-    required this.subtitle2,
+    this.teacherName,
+    required this.details,
+    this.width = 1,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.1,
-      width: MediaQuery.of(context).size.width * 0.5,
-      // width: double.infinity,
+      width: MediaQuery.of(context).size.width * width,
+      height: MediaQuery.of(context).size.height * 0.13,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
         border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(15.0),
+        color: Colors.white,
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            title,
-            textAlign: TextAlign.left,
-            style: Styles.labelLarge,
-          ),
-          Text(
-            subtitle1,
-            textAlign: TextAlign.left,
-            style: Styles.bodySmall,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            teacherName != null
+                ? Text(teacherName!, style: Styles.labelLarge)
+                : const SizedBox(),
+            const SizedBox(height: 5.0),
+            SizedBox(
+              // height: MediaQuery.of(context).size.height * 0.1,
+              width: double.infinity,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: details.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Text('${details[index]['label']}: ', style: Styles.labelMedium),
+                          Text(details[index]['value'], style: Styles.bodySmall),
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
