@@ -17,7 +17,6 @@ class CourseOverviewPage extends StatelessWidget {
       appBar: CourseHeader(
         title: "CS150 - Final Year Project",
         onMenuPressed: () {},
-        isBack: true,
       ),
       body: Center(
         child: Column(
