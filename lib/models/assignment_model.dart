@@ -1,4 +1,4 @@
-class Assignment {
+class AssignmentModel {
   late DateTime uploadDate;
   late DateTime dueDate;
   late String title;
@@ -11,7 +11,7 @@ class Assignment {
   List<Map<String, dynamic>>? submissions;
   List<Map<String, dynamic>>? attachments;
 
-  Assignment(
+  AssignmentModel(
       {required this.uploadDate,
       required this.dueDate,
       required this.title,
@@ -24,7 +24,7 @@ class Assignment {
       this.submissions,
       required this.marks});
 
-  Assignment.fromJson(Map<String, dynamic> json) {
+  AssignmentModel.fromJson(Map<String, dynamic> json) {
     uploadDate = json['uploadDate'];
     dueDate = json['dueDate'];
     title = json['title'];
