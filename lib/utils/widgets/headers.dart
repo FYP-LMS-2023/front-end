@@ -51,6 +51,7 @@ class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
 class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Function onMenuPressed;
+  // final Widget drawer;
   final String? subtitle;
 
   const CourseHeader({
@@ -63,6 +64,7 @@ class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      iconTheme: IconThemeData(color: Colors.black),
       elevation: 0.0,
       backgroundColor: Colors.transparent,
       centerTitle: false,
@@ -93,16 +95,6 @@ class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
               : const SizedBox(),
         ],
       ),
-      actions: [
-        IconButton(
-          color: Colors.black,
-          icon: const Icon(Icons.menu),
-          onPressed: onMenuPressed as void Function()?,
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-      ],
     );
   }
 
