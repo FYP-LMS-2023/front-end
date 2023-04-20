@@ -6,7 +6,7 @@ import 'package:front_end/models/quiz_model.dart';
 class QuizProvider extends ChangeNotifier {
   List<QuizEntity> list = [];
 
-  List<QuizEntity> get getQuizes => list;
+  List<QuizEntity> get getQuizzes => list;
 
   void loadQuizzes() {
     list = [];
