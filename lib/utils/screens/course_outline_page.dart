@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/utils/widgets/drawer.dart';
 import 'package:front_end/utils/widgets/headers.dart';
 
 class CourseOutlinePage extends StatelessWidget {
@@ -6,15 +7,8 @@ class CourseOutlinePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CourseHeader(
-        title: "Course Outline",
-        subtitle: "CS150 - Final Year Project",
-        onMenuPressed: () {},
-      ),
-      body: const Center(
-        child: Text("Course Outline Page"),
-      ),
+    return const Center(
+      child: Text("Course Outline Page"),
     );
   }
 }
