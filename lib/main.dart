@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/utils/screens/login_page.dart';
+import 'package:provider/provider.dart';
 import '../constants/colors.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ClassProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,6 +18,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<ClassProvider>().loadClasses();
     return MaterialApp(
       title: 'MASH LMS',
       theme: ThemeData(primarySwatch: Palette.kToDark),
