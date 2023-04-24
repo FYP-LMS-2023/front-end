@@ -1,29 +1,27 @@
 class ClassEntity {
-  final String semester;
-  final String courseCode;
-  final String courseName;
-  final String teacherName;
-  final String? syllabus;
-  final List<Map<String, dynamic>> students;
-  final List<Map<String, dynamic>>? ta;
-  final List<Map<String, dynamic>> announcements;
-  final List<Map<String, dynamic>>? quizes;
-  final List<Map<String, dynamic>> resources;
-  final List<Map<String, dynamic>> assignments;
-  final List<Map<String, dynamic>> attendance;
+  Map<String, dynamic> semester;
+  Map<String, dynamic> course;
+  Map<String, dynamic> teacher;
+  String syllabus;
+  List<Map<String, dynamic>> studentList;
+  List<Map<String, dynamic>> ta;
+  Map<String, dynamic> channel;
+  List<Map<String, dynamic>> announcements;
+  List<Map<String, dynamic>> quizzes;
+  List<Map<String, dynamic>> resources;
+  List<Map<String, dynamic>> assignments;
 
   ClassEntity({
     required this.semester,
-    required this.courseCode,
-    required this.courseName,
-    required this.teacherName,
-    this.syllabus,
-    required this.students,
-    this.ta,
+    required this.course,
+    required this.teacher,
+    this.syllabus = "Syllabus not available",
+    required this.studentList,
+    this.ta = const [],
+    required this.channel,
     required this.announcements,
-    this.quizes,
-    required this.resources,
+    this.quizzes = const [],
+    this.resources = const [],
     required this.assignments,
-    required this.attendance,
   });
 }
