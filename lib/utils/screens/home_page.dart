@@ -25,16 +25,13 @@ class _HomePageState extends State<HomePage> {
   List<AnnouncementEntity> announcements = [];
   List<AssignmentEntity> assignments = [];
   List<QuizEntity> quizzes = [];
-  
+
   @override
   Widget build(BuildContext context) {
-
     classes = context.watch<ClassProvider>().getClasses;
     announcements = context.watch<AnnouncementProvider>().getAnnouncements;
     assignments = context.watch<AssignmentProvider>().getAssignments;
     quizzes = context.watch<QuizProvider>().getQuizzes;
-
-
 
     return Scaffold(
       appBar: const ProfileHeader(
@@ -49,13 +46,13 @@ class _HomePageState extends State<HomePage> {
           itemCount: classes.length,
           itemBuilder: (context, index) {
             return HomeOverviewCard(
-              title: classes[index].courseName,
+              title: classes[index].course["courseName"],
               trailing: CourseProgress(progress: Random().nextDouble() * 100),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => CourseMainPage(
-                      myclass: classes[index],
+                      myClass: classes[index],
                     ),
                   ),
                 );

@@ -11,12 +11,12 @@ import 'package:front_end/utils/widgets/drawer.dart';
 import 'package:front_end/utils/widgets/headers.dart';
 
 class CourseMainPage extends StatefulWidget {
-  final ClassEntity myclass;
+  final ClassEntity myClass;
   String currentTab;
 
   CourseMainPage({
     super.key,
-    required this.myclass,
+    required this.myClass,
     this.currentTab = "Overview",
   });
 
@@ -25,14 +25,13 @@ class CourseMainPage extends StatefulWidget {
 }
 
 class _CourseMainPageState extends State<CourseMainPage> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       endDrawer: DrawerWidget(
-        courseCode: widget.myclass.courseCode,
-        courseName: widget.myclass.courseName,
-        teacherName: widget.myclass.teacherName,
+        courseCode: widget.myClass.course["courseCode"],
+        courseName: widget.myClass.course["courseName"],
+        teacherName: widget.myClass.teacher["fullName"],
         onOptionSelected: (String option) {
           setState(() {
             widget.currentTab = option;
@@ -41,7 +40,8 @@ class _CourseMainPageState extends State<CourseMainPage> {
         tabSelected: widget.currentTab,
       ),
       appBar: CourseHeader(
-        title: "${widget.myclass.courseCode} - ${widget.myclass.courseName}",
+        title:
+            "${widget.myClass.course["courseCode"]} - ${widget.myClass.course["courseName"]}",
         onMenuPressed: () {},
       ),
       body: createPage(widget.currentTab),
@@ -51,7 +51,9 @@ class _CourseMainPageState extends State<CourseMainPage> {
   createPage(String currentTab) {
     switch (currentTab) {
       case "Overview":
-        return const CousrseOverviewPage();
+        return CousrseOverviewPage(
+          myClass: widget.myClass,
+        );
       case "Outline":
         return const CourseOutlinePage();
       case "Attendance":
