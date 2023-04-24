@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:front_end/constants/fonts.dart';
+part of 'custom_widgets.dart';
 
 class CourseCard extends StatelessWidget {
   final String courseName;
