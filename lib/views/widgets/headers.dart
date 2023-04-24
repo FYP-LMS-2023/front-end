@@ -10,14 +10,18 @@ class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      toolbarHeight: 80,
       elevation: 0.0,
       backgroundColor: Colors.transparent,
       centerTitle: false,
-      leading: CircleAvatar(
-        backgroundColor: Colors.black,
-        child: Text(
-          name.isNotEmpty ? name[0] : '',
-          style: Styles.titleMedium.copyWith(fontWeight: FontWeight.bold),
+      leading: Padding(
+        padding: const EdgeInsets.only(left:8.0),
+        child: CircleAvatar(
+          backgroundColor: Colors.black,
+          child: Text(
+            name.isNotEmpty ? name[0] : '',
+            style: Styles.titleMedium.copyWith(fontWeight: FontWeight.bold),
+          ),
         ),
       ),
       title: Column(
@@ -40,7 +44,7 @@ class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(80);
 }
 
 

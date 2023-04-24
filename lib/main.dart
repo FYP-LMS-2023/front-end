@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:front_end/utils/widgets/buttons.dart';
-import 'package:front_end/utils/widgets/headers.dart';
-import 'package:front_end/utils/widgets/cards.dart';
+import 'package:front_end/views/widgets/buttons.dart';
+import 'package:front_end/views/widgets/headers.dart';
+import 'package:front_end/views/widgets/cards.dart';
 import '../constants/colors.dart';
 import '../models/mock_data.dart';
+import 'views/screens/homepage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MASH LMS',
       theme: ThemeData(primarySwatch: Palette.kToDark),
-      home: const MyHomePage(title: 'MASH LMS'),
+      home: const HomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
