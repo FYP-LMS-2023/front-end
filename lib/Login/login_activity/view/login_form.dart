@@ -33,27 +33,37 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 child: Column(
                     //mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Align(
+                    children: [
+                      const Align(
                           alignment: Alignment.topLeft,
                           child: Text(
                             "Login",
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.w500),
                           )),
-                      SizedBox(height: 50),
-                      CustomTextField(
+                      const SizedBox(height: 50),
+                      const CustomTextField(
                         labelStyle: TextStyle(color: Colors.black),
                         //errorText: "Username is required",
                         labelText: "Username",
                       ),
-                      SizedBox(height: 28),
-                      CustomTextField(
+                      const SizedBox(height: 28),
+                      const CustomTextField(
                         labelText: "Password",
                         labelStyle: TextStyle(color: Colors.black),
                         obscureText: true,
                         //errorText: "Password is required",
-                      )
+                      ),
+                      const SizedBox(height: 42),
+                      SizedBox(
+                          width: size.width * 0.8,
+                          child: const CustomElevatedButton(
+                            title: "Login",
+                            buttonColor: Colors.black,
+                            fontColor: Colors.white,
+                            radius: 106,
+                            fontSize: 20,
+                          ))
                     ]),
               ),
             ]))));
