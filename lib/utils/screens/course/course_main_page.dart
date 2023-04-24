@@ -10,6 +10,7 @@ import 'package:front_end/utils/screens/resource_list_page.dart';
 import 'package:front_end/utils/widgets/drawer.dart';
 import 'package:front_end/utils/widgets/headers.dart';
 
+// ignore: must_be_immutable
 class CourseMainPage extends StatefulWidget {
   final ClassEntity myclass;
   String currentTab;
