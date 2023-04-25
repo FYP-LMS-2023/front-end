@@ -3,7 +3,7 @@ import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/utils/screens/login_page.dart';
 import 'package:provider/provider.dart';
 import '../constants/colors.dart';
-import 'utils/screens/threads_page.dart';
+import 'utils/screens/threads_list.dart';
 
 void main() {
   runApp(
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MASH LMS',
       theme: ThemeData(primarySwatch: Palette.kToDark),
-      home: ThreadsPage(),
+      home: ThreadsList(),
       debugShowCheckedModeBanner: false,
     );
   }

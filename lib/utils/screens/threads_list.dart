@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'dart:math';
 
-class ThreadsPage extends StatelessWidget {
-  ThreadsPage({super.key});
+import 'thread_page.dart';
+
+class ThreadsList extends StatelessWidget {
+  ThreadsList({super.key});
 
   final List<String> userNames = ['John Doe', 'Jane Smith', 'Bob Johnson', 'Emily Davis', 'Chris Lee'];
   final List<String> threadTitles = [
@@ -18,6 +20,7 @@ class ThreadsPage extends StatelessWidget {
   'What is the best way to get started with machine learning?',
   'How can I become a better public speaker?',
 ];
+final List<String> tags = ['General', 'Homework', 'Project', 'Exam', 'Question', 'Other'];
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +38,7 @@ class ThreadsPage extends StatelessWidget {
           final int upVoteCount = Random().nextInt(1000);
           final int downVoteCount = Random().nextInt(100);
           final int commentsCount = Random().nextInt(1000);
+          final String tag = tags[Random().nextInt(6)];
 
           return Column(
             children: [
@@ -46,6 +50,7 @@ class ThreadsPage extends StatelessWidget {
                 upVoteCount: upVoteCount,
                 downVoteCount: downVoteCount,
                 commentsCount: commentsCount,
+                tag: tag,
               ),
               const Divider(thickness: 1.2,)
             ],
@@ -57,7 +62,7 @@ class ThreadsPage extends StatelessWidget {
   }
 }
 
-class ThreadTile extends StatelessWidget {
+class ThreadTile extends StatefulWidget {
   final String userInitials;
   final String userFullName;
   final String timeSincePosted;
@@ -65,6 +70,7 @@ class ThreadTile extends StatelessWidget {
   final int upVoteCount;
   final int downVoteCount;
   final int commentsCount;
+  final String tag;
 
   const ThreadTile({super.key, 
     required this.userInitials,
@@ -74,13 +80,24 @@ class ThreadTile extends StatelessWidget {
     required this.upVoteCount,
     required this.downVoteCount,
     required this.commentsCount,
+    required this.tag
   });
 
+  @override
+  State<ThreadTile> createState() => _ThreadTileState();
+}
+
+class _ThreadTileState extends State<ThreadTile> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Do something when the tile is clicked
+        setState(() {
+          Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => ThreadPage()) 
+        );
+        });
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
@@ -89,7 +106,7 @@ class ThreadTile extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 28.0,
-              child: Text(userInitials,),
+              child: Text(widget.userInitials,),
             ),
             const SizedBox(width: 16.0),
             Expanded(
@@ -99,17 +116,17 @@ class ThreadTile extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        userFullName,
+                        widget.userFullName,
                         style: Styles.labelLarge,
                       ),
                       const SizedBox(width: 8.0),
-                      Text(timeSincePosted, style: Styles.labelLarge,),
+                      Text('• ${widget.timeSincePosted}', style: Styles.labelLarge,),
                     ],
                   ),
                   const SizedBox(height: 4.0),
                   
                   Text(
-                    threadTitle,
+                    widget.threadTitle,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: Styles.bodySmall,
@@ -118,13 +135,17 @@ class ThreadTile extends StatelessWidget {
                   Row(
                     children: [
                       const Icon(Icons.arrow_upward, size: 16.0),
-                      Text(upVoteCount.toString(), style: Styles.labelMedium,),
+                      Text(widget.upVoteCount.toString(), style: Styles.labelMedium,),
                       const SizedBox(width: 8.0),
-                      const Icon(Icons.arrow_downward, size: 16.0),
-                      Text(downVoteCount.toString(),style: Styles.labelMedium),
-                      const SizedBox(width: 8.0),
+                      // const Icon(Icons.arrow_downward, size: 16.0),
+                      // Text(widget.downVoteCount.toString(),style: Styles.labelMedium),
+                      // const SizedBox(width: 8.0),
                       const Icon(Icons.comment, size: 16.0),
-                      Text(commentsCount.toString(),style: Styles.labelMedium),
+                      SizedBox(width: 4,),
+                      Text(widget.commentsCount.toString(),style: Styles.labelMedium),
+                      const SizedBox(width: 8.0,),
+                      const Icon(Icons.flag, size: 16.0,),
+                      Text(widget.tag, style: Styles.labelMedium),
                     ],
                   ),
                 ],
