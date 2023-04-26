@@ -162,6 +162,7 @@ class CourseOverviewCard extends StatelessWidget {
   final String? description;
   final String? status;
   final Widget? progress;
+  final Function? onClick;
 
   const CourseOverviewCard({
     super.key,
@@ -172,84 +173,91 @@ class CourseOverviewCard extends StatelessWidget {
     this.description,
     this.progress,
     this.status,
+    this.onClick,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(15.0),
-        color: Colors.white,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      type == "quiz"
-                          ? 'Time Left: ${time_left(date)}'
-                          : 'Posted by: $postedBy',
-                      style: const TextStyle(fontSize: 16.0),
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      type == "assignment" || type == "quiz"
-                          ? 'Due: ${DateFormat('dd, MMMM yyyy @ hh:mm a').format(date)}'
-                          : DateFormat('dd, MMMM yyyy - hh:mm a').format(date),
-                      style: const TextStyle(fontSize: 16.0),
-                    ),
-                  ],
-                ),
-                status == null
-                    ? const SizedBox()
-                    : Container(
-                        padding: const EdgeInsets.all(16.0),
-                        alignment: Alignment.centerRight,
-                        child: Chip(
-                          label: Text(
-                            status!,
-                            style:
-                                Styles.bodySmall.copyWith(color: Colors.white),
-                          ),
-                          backgroundColor: status_color(status),
-                        ),
-                      ),
-              ],
-            ),
-          ),
-          description == null
-              ? const SizedBox()
-              : Container(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
+    return InkWell(
+      onTap: () {
+        if (onClick != null) onClick!();
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(15.0),
+          color: Colors.transparent,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        description!,
+                        title,
+                        style: const TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        type == "quiz"
+                            ? 'Time Left: ${time_left(date)}'
+                            : 'Posted by: $postedBy',
                         style: const TextStyle(fontSize: 16.0),
                       ),
                       const SizedBox(height: 8.0),
+                      Text(
+                        type == "assignment" || type == "quiz"
+                            ? 'Due: ${DateFormat('dd, MMMM yyyy @ hh:mm a').format(date)}'
+                            : DateFormat('dd, MMMM yyyy - hh:mm a')
+                                .format(date),
+                        style: const TextStyle(fontSize: 16.0),
+                      ),
                     ],
                   ),
-                ),
-          progress != null ? progress! : const SizedBox(),
-        ],
+                  status == null
+                      ? const SizedBox()
+                      : Container(
+                          padding: const EdgeInsets.all(16.0),
+                          alignment: Alignment.centerRight,
+                          child: Chip(
+                            label: Text(
+                              status!,
+                              style: Styles.bodySmall
+                                  .copyWith(color: Colors.white),
+                            ),
+                            backgroundColor: status_color(status),
+                          ),
+                        ),
+                ],
+              ),
+            ),
+            description == null
+                ? const SizedBox()
+                : Container(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          description!,
+                          style: const TextStyle(fontSize: 16.0),
+                        ),
+                        const SizedBox(height: 8.0),
+                      ],
+                    ),
+                  ),
+            progress != null ? progress! : const SizedBox(),
+          ],
+        ),
       ),
     );
   }
