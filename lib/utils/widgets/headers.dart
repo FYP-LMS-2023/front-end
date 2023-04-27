@@ -51,30 +51,34 @@ class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
 class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Function onMenuPressed;
-  // final Widget drawer;
   final String? subtitle;
+  final bool disableBack;
 
   const CourseHeader({
     super.key,
     required this.title,
     required this.onMenuPressed,
     this.subtitle,
+    this.disableBack = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: disableBack ? false : true,
       iconTheme: IconThemeData(color: Colors.black),
       elevation: 0.0,
       backgroundColor: Colors.transparent,
       centerTitle: false,
-      leading: IconButton(
-        color: Colors.black,
-        icon: const Icon(Icons.arrow_back_ios),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ),
+      leading: !disableBack
+          ? IconButton(
+              color: Colors.black,
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          : null,
       title: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
