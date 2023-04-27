@@ -17,7 +17,7 @@ class CourseMainPage extends StatefulWidget {
   CourseMainPage({
     super.key,
     required this.myClass,
-    this.currentTab = "Overview",
+    this.currentTab = "Quizzes",
   });
 
   @override
@@ -40,7 +40,8 @@ class _CourseMainPageState extends State<CourseMainPage> {
         tabSelected: widget.currentTab,
       ),
       appBar: CourseHeader(
-        title:
+        title: widget.currentTab,
+        subtitle:
             "${widget.myClass.course["courseCode"]} - ${widget.myClass.course["courseName"]}",
         onMenuPressed: () {},
       ),
