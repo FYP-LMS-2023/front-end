@@ -3,6 +3,7 @@ import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/utils/screens/login_page.dart';
 import 'package:provider/provider.dart';
 import '../constants/colors.dart';
+import 'Attendance/attendance.dart';
 
 void main() {
   runApp(
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MASH LMS',
       theme: ThemeData(primarySwatch: Palette.kToDark),
-      home: const LoginPage(),
+      home: AttendanceScreen(courseName: "Mathematics"),
       debugShowCheckedModeBanner: false,
     );
   }
