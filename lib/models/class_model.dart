@@ -1,6 +1,8 @@
 class ClassModel {
   late String semester;
   late String teacherName;
+  late String courseCode;
+  late String courseName;
   String? syllabus;
   late List<Map<String, dynamic>> students;
   List<Map<String, dynamic>>? ta;
@@ -12,6 +14,8 @@ class ClassModel {
 
   ClassModel({
     required this.semester,
+    required this.courseCode,
+    required this.courseName,
     required this.teacherName,
     this.syllabus,
     required this.students,
@@ -25,6 +29,8 @@ class ClassModel {
 
   ClassModel.fromJson(Map<String, dynamic> json) {
     semester = json['semester'];
+    courseCode = json['courseCode'];
+    courseName = json['courseName'];
     teacherName = json['teacherName'];
     syllabus = json['syllabus'];
     if (json['students'] != null) {
@@ -75,6 +81,9 @@ class ClassModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['semester'] = semester;
     data['teacherName'] = teacherName;
+    data['courseCode'] = courseCode;
+    data['courseName'] = courseName;
+
     data['syllabus'] = syllabus;
     if (students.isNotEmpty) {
       data['students'] = students.map((v) => v).toList();

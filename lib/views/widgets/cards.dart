@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:front_end/models/announcement_model.dart';
 import 'package:front_end/utils/functions/status_color.dart';
 import 'package:front_end/utils/functions/time_left.dart';
 import 'package:intl/intl.dart';
 import 'package:front_end/constants/fonts.dart';
-
-import '../../models/assignment_model.dart';
 
 //* Home Page Cards/////////////////////////////////////////////////////////////////////////////
 class HomeOverviewCard extends StatefulWidget {
@@ -13,6 +10,7 @@ class HomeOverviewCard extends StatefulWidget {
   final String subtitle;
   final Widget leading;
   final Widget trailing;
+  final Function onPressed;
 
   const HomeOverviewCard({
     super.key,
@@ -20,6 +18,7 @@ class HomeOverviewCard extends StatefulWidget {
     this.subtitle = "",
     this.leading = const SizedBox(),
     this.trailing = const SizedBox(),
+    required this.onPressed,
   });
 
   @override
@@ -41,7 +40,7 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
       ),
       child: InkWell(
         onTap: () {
-          //on pressed functionality
+          widget.onPressed();
         },
         child: Padding(
           padding: const EdgeInsets.all(15.0),
@@ -522,8 +521,10 @@ class DetailCard extends StatelessWidget {
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Text('${details[index]['label']}: ', style: Styles.labelMedium),
-                          Text(details[index]['value'], style: Styles.bodySmall),
+                          Text('${details[index]['label']}: ',
+                              style: Styles.labelMedium),
+                          Text(details[index]['value'],
+                              style: Styles.bodySmall),
                         ],
                       ),
                     ],
