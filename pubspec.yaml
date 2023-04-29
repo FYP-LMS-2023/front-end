@@ -37,6 +37,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^3.0.1
   intl: ^0.18.0
+<<<<<<< HEAD
+=======
+  flutter_screenutil: ^5.7.0
+>>>>>>> 412684c3ed709264a504185dd7ca085c7e22877f
   provider: ^6.0.5
 
 dev_dependencies:
