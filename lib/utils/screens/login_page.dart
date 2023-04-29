@@ -4,13 +4,19 @@ import 'package:front_end/utils/screens/home_page.dart';
 import 'package:front_end/utils/widgets/buttons.dart';
 import 'package:front_end/utils/widgets/textfields.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
-    TextEditingController _usernameController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -40,13 +46,13 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(height: 50),
                     MainTextField(
                       label: "Username",
-                      controller: _usernameController,
+                      controller: usernameController,
                     ),
                     const SizedBox(height: 28),
                     MainTextField(
                       label: "Password",
                       obsureText: true,
-                      controller: _passwordController,
+                      controller: passwordController,
                     ),
                     const SizedBox(height: 42),
                     MainButton(

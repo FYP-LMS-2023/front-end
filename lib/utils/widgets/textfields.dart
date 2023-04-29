@@ -4,7 +4,8 @@ class MainTextField extends StatelessWidget {
   final String label;
   final TextEditingController? controller;
   final bool? obsureText;
-  const MainTextField({super.key, required this.label, this.controller, this.obsureText});
+  const MainTextField(
+      {super.key, required this.label, this.controller, this.obsureText});
 
   @override
   Widget build(BuildContext context) {
