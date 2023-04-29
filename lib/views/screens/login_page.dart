@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/fonts.dart';
-import 'package:front_end/utils/screens/home_page.dart';
-import 'package:front_end/utils/widgets/buttons.dart';
-import 'package:front_end/utils/widgets/textfields.dart';
+import '../../views/widgets/textfields.dart';
+import '../../views/widgets/buttons.dart';
+import '../../views/screens/homepage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
