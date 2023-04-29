@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:front_end/utils/widgets/headers.dart';
+import '../widgets/headers.dart';
 
 class MarkAttendancePage extends StatelessWidget {
   const MarkAttendancePage({super.key});
