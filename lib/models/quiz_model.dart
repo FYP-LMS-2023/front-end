@@ -1,4 +1,4 @@
-class Quiz {
+class QuizModel {
   late String title;
   late String description;
   late DateTime uploadDate;
@@ -12,7 +12,7 @@ class Quiz {
   List<Map<String, dynamic>>? submissions;
   late List<Map<String, dynamic>> questions;
 
-  Quiz({
+  QuizModel({
     required this.title,
     required this.description,
     required this.uploadDate,
@@ -27,7 +27,7 @@ class Quiz {
     required this.questions,
   });
 
-  Quiz.fromJson(Map<String, dynamic> json) {
+  QuizModel.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     description = json['description'];
     uploadDate = json['uploadDate'];

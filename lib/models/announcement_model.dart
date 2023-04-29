@@ -1,17 +1,17 @@
-class Announcement {
+class AnnouncementModel {
   late String title;
   late String description;
   late DateTime uploadDate;
   late String postedBy;
 
-  Announcement({
+  AnnouncementModel({
     required this.title,
     required this.description,
     required this.uploadDate,
     required this.postedBy,
   });
 
-  Announcement.fromJson(Map<String, dynamic> json) {
+  AnnouncementModel.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     description = json['description'];
     uploadDate = json['uploadDate'];

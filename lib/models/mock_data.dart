@@ -31,7 +31,7 @@ var assignmentJSON = {
   ]
 };
 
-Assignment assignment = Assignment.fromJson(assignmentJSON);
+AssignmentModel assignment = AssignmentModel.fromJson(assignmentJSON);
 
 ////////////////////////////////////////////////////////////////
 
@@ -71,7 +71,7 @@ var quizJSON = {
   ]
 };
 
-Quiz quiz = Quiz.fromJson(quizJSON);
+QuizModel quiz = QuizModel.fromJson(quizJSON);
 
 ////////////////////////////////////////////////////////////////
 
@@ -81,12 +81,14 @@ var announcementJSON = {
   "uploadDate": DateTime(2023, 04, 04, 20, 22),
   "postedBy": "Umair Azfar",
 };
-Announcement announcement = Announcement.fromJson(announcementJSON);
+AnnouncementModel announcement = AnnouncementModel.fromJson(announcementJSON);
 
 ////////////////////////////////////////////////////////////////
 
 var classJSON = {
   "semester": "Fall 2021",
+  "courseCode": "CS 201",
+  "courseName": "Data Structures",
   "teacherName": "Umair Azfar",
   "syllabus": "https://www.google.com",
   "students": [

@@ -13,11 +13,14 @@ class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0.0,
       backgroundColor: Colors.transparent,
       centerTitle: false,
-      leading: CircleAvatar(
-        backgroundColor: Colors.black,
-        child: Text(
-          name.isNotEmpty ? name[0] : '',
-          style: Styles.titleMedium.copyWith(fontWeight: FontWeight.bold),
+      leading: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: CircleAvatar(
+          backgroundColor: Colors.black,
+          child: Text(
+            name.isNotEmpty ? name[0] : '',
+            style: Styles.titleMedium.copyWith(color: Colors.white),
+          ),
         ),
       ),
       title: Column(
@@ -43,29 +46,55 @@ class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-
 //* Changes need to be made to this
 //TODO implement side bar functionality
 class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Function onMenuPressed;
+  // final Widget drawer;
+  final String? subtitle;
 
-  const CourseHeader(
-      {super.key, required this.title, required this.onMenuPressed});
+  const CourseHeader({
+    super.key,
+    required this.title,
+    required this.onMenuPressed,
+    this.subtitle,
+  });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      iconTheme: IconThemeData(color: Colors.black),
       elevation: 0.0,
       backgroundColor: Colors.transparent,
       centerTitle: false,
       leading: IconButton(
         color: Colors.black,
-        icon: const Icon(Icons.menu),
-        onPressed: onMenuPressed as void Function()?,
+        icon: const Icon(Icons.arrow_back_ios),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
       ),
-      title:
-          Text(title, style: Styles.titleMedium.copyWith(color: Colors.black)),
+      title: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: Styles.titleMedium.copyWith(
+              color: Colors.black,
+            ),
+          ),
+          subtitle != null
+              ? Text(
+                  subtitle!,
+                  style: Styles.labelMedium.copyWith(
+                    color: Colors.black,
+                  ),
+                )
+              : const SizedBox(),
+        ],
+      ),
     );
   }
 
