@@ -1,7 +1,6 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
-import 'package:front_end/Custom%20Widgets/custom_widgets.dart';
 import 'package:front_end/constants/colors.dart';
 
 class AttendanceScreen extends StatefulWidget {
@@ -17,6 +16,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   int presentCount = 0;
   int absenceCount = 0;
   int totalCount = 0;
+  String kAssetImagePath = "lib/constants/Images/";
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +38,10 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             widget.courseName,
             textAlign: TextAlign.right,
             style: const TextStyle(
-              color: Colors.grey,
               fontSize: 14,
             ),
           )
         ]),
-        backgroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -58,24 +56,21 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    width: 2,
+                    width: 1.2,
                     color: Colors.grey,
                   ),
                 ),
                 child: Column(
                   children: [
                     Center(
-                      child: Image.network(
-                        'https://www.investopedia.com/thmb/hJrIBjjMBGfx0oa_bHAgZ9AWyn0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/qr-code-bc94057f452f4806af70fd34540f72ad.png',
-                        height: size.width * 0.1,
-                        width: size.width * 0.1,
-                      ),
+                      child:
+                          Image.asset('lib/constants/Images/attendance_qr.png'),
                     ),
                     const SizedBox(height: 8),
                     const Text(
                       'Mark Attendance',
                       style: TextStyle(
-                          fontSize: 24.0, fontWeight: FontWeight.w400),
+                          fontSize: 22.0, fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),
@@ -91,7 +86,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        width: 2,
+                        width: 1.2,
                         color: Colors.grey,
                       ),
                     ),
@@ -104,72 +99,75 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   ),
                 ),
                 const SizedBox(width: 20.0),
-                SizedBox(
-                  height: size.height * 0.15,
-                  width: size.width * 0.5,
-                  child: Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          width: 2,
-                          color: Colors.grey,
+                GestureDetector(
+                  //onTap: ,
+                  child: SizedBox(
+                    height: size.height * 0.15,
+                    width: size.width * 0.5,
+                    child: Container(
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            width: 1.2,
+                            color: Colors.grey,
+                          ),
                         ),
-                      ),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Text(
-                                  'Present: ',
-                                  style: TextStyle(
-                                    fontSize: 14.0,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Present: ',
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  presentCount.toString(),
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
+                                  Text(
+                                    presentCount.toString(),
+                                    style: const TextStyle(
+                                      fontSize: 16.0,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 5),
-                            Row(
-                              children: [
-                                const Text(
-                                  'Absent:  ',
-                                  style: TextStyle(
-                                    fontSize: 14.0,
+                                ],
+                              ),
+                              const SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Absent:  ',
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  absenceCount.toString(),
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
+                                  Text(
+                                    absenceCount.toString(),
+                                    style: const TextStyle(
+                                      fontSize: 16.0,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 5),
-                            Row(
-                              children: [
-                                const Text(
-                                  'Total Days:  ',
-                                  style: TextStyle(
-                                    fontSize: 14.0,
+                                ],
+                              ),
+                              const SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Total Days:  ',
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  totalCount.toString(),
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
+                                  Text(
+                                    totalCount.toString(),
+                                    style: const TextStyle(
+                                      fontSize: 16.0,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ])),
+                                ],
+                              ),
+                            ])),
+                  ),
                 ),
               ],
             ),
