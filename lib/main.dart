@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:front_end/Login/login_activity/view/login_form.dart';
 import 'package:front_end/controllers/class_controller.dart';
+import 'package:front_end/utils/screens/login_page.dart';
 import 'package:provider/provider.dart';
 import '../constants/colors.dart';
 
