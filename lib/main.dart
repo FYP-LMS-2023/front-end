@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MASH LMS',
       theme: ThemeData(primarySwatch: Palette.kToDark),
-      home: ThreadsList(),
+      home: const LoginPage(),
       debugShowCheckedModeBanner: false,
     );
   }
