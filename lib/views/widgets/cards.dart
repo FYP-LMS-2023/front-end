@@ -449,19 +449,21 @@ class CenteredCard extends StatelessWidget {
   final int? number;
   final String text;
   final Icon? icon;
+  final double height;
   const CenteredCard({
     super.key,
     this.number,
     required this.text,
     this.icon,
     this.width = 1,
+    this.height = 0.13,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * width,
-      height: MediaQuery.of(context).size.height * 0.13,
+      height: MediaQuery.of(context).size.height * height,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(15.0),
