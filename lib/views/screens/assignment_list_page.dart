@@ -38,7 +38,9 @@ class AssignmentListPage extends StatelessWidget {
                           onClick: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const AssignmentPage(),
+                                builder: (context) => const AssignmentPage(
+                                  graded: false,
+                                ),
                               ),
                             );
                           },

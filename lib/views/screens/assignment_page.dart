@@ -103,16 +103,18 @@ class AssignmentPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(16),
-        child: MainButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          text: "Submit Assignment",
-          color: Colors.green,
-        ),
-      ),
+      bottomNavigationBar: !graded
+          ? Container(
+              padding: const EdgeInsets.all(16),
+              child: MainButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                text: "Submit Assignment",
+                color: Colors.green,
+              ),
+            )
+          : const SizedBox(),
     );
   }
 }
