@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/entities/class_entity.dart';
+import 'package:front_end/views/screens/threads_list.dart';
 import '../screens/course_outline_page.dart';
 import '../screens/course_overview_page.dart';
 import '../screens/assignment_list_page.dart';
@@ -41,7 +42,8 @@ class _CourseMainPageState extends State<CourseMainPage> {
         tabSelected: widget.currentTab,
       ),
       appBar: CourseHeader(
-        title: "${widget.myclass.courseCode} - ${widget.myclass.courseName}",
+        title: widget.currentTab,
+        subtitle: "${widget.myclass.courseCode} - ${widget.myclass.courseName}",
         onMenuPressed: () {},
       ),
       body: createPage(widget.currentTab),
@@ -64,6 +66,8 @@ class _CourseMainPageState extends State<CourseMainPage> {
         return const AnnouncementListPage();
       case "Resources":
         return const ResourceListPage();
+      case "Channel":
+        return ThreadsList();
     }
   }
 }
