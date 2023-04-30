@@ -474,7 +474,9 @@ class CenteredCard extends StatelessWidget {
         children: <Widget>[
           number != null
               ? Text(number.toString(), style: Styles.titleMedium)
-              : icon!,
+              : icon != null
+                  ? icon!
+                  : const SizedBox(),
           const SizedBox(height: 5.0),
           Text(text, style: Styles.bodyMedium),
         ],
