@@ -27,30 +27,38 @@ class AssignmentPage extends StatelessWidget {
                   dueDate: DateTime.now(),
                   numResubmissions: 4,
                   resubmissionDueDate: DateTime(2023, 05, 04, 20, 20),
-                  status: "Graded",
+                  status: "Open",
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Feedback",
-                    style: Styles.labelMedium,
-                  ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.01,
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    "I think you did alright. But for next time I want work that will will you a nobel piece prize",
-                  ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.03,
-                ),
+                graded
+                    ? Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Feedback",
+                          style: Styles.labelMedium,
+                        ),
+                      )
+                    : const SizedBox(),
+                graded
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
+                      )
+                    : const SizedBox(),
+                graded
+                    ? Container(
+                        alignment: Alignment.centerLeft,
+                        child: const Text(
+                          "I think you did alright. But for next time I want work that will will you a nobel piece prize",
+                        ),
+                      )
+                    : const SizedBox(),
+                graded
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      )
+                    : const SizedBox(),
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
