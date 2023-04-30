@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:front_end/utils/widgets/headers.dart';
+import '../widgets/headers.dart';
+
 
 class AnnouncementPage extends StatelessWidget {
   const AnnouncementPage({super.key});

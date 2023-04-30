@@ -43,7 +43,7 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
           widget.onPressed();
         },
         child: Padding(
-          padding: const EdgeInsets.all(25.0),
+          padding: const EdgeInsets.all(15.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -57,7 +57,15 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(widget.title, style: Styles.titleMedium),
+                      SizedBox(
+                        width: 200,
+                        child: Text(
+                          widget.title, style: 
+                          Styles.titleMedium,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          )
+                        ),
                       if (widget.subtitle != "")
                         const SizedBox(
                           height: 5,
@@ -68,7 +76,8 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
                   ),
                 ],
               ),
-              if (widget.trailing != const SizedBox()) widget.trailing,
+              if (widget.trailing != const SizedBox()) 
+                Flexible(child: widget.trailing),
             ],
           ),
         ),
@@ -137,6 +146,37 @@ class CardDueDate extends StatelessWidget {
           textAlign: TextAlign.right,
           style: Styles.bodySmall.copyWith(color: Colors.grey),
         ),
+        Text(
+          day,
+          textAlign: TextAlign.right,
+          style: Styles.bodySmall.copyWith(color: Colors.grey),
+        ),
+        Text(
+          date,
+          textAlign: TextAlign.right,
+          style: Styles.bodySmall.copyWith(color: Colors.grey),
+        ),
+      ],
+    );
+  }
+}
+
+class CardDate extends StatelessWidget {
+  const CardDate({
+    super.key,
+    required this.Date,
+  });
+
+  final DateTime Date;
+
+  @override
+  Widget build(BuildContext context) {
+    String day = DateFormat('EEEE').format(Date);
+    String date = DateFormat('dd-MM-yy').format(Date);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: <Widget>[
         Text(
           day,
           textAlign: TextAlign.right,

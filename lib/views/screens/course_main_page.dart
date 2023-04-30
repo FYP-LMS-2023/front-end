@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/entities/class_entity.dart';
-import 'package:front_end/utils/screens/announcment_list_page.dart';
-import 'package:front_end/utils/screens/assignment_list_page.dart';
-import 'package:front_end/utils/screens/attendance_page.dart';
-import 'package:front_end/utils/screens/course_outline_page.dart';
-import 'package:front_end/utils/screens/course_overview_page.dart';
-import 'package:front_end/utils/screens/quiz_list_page.dart';
-import 'package:front_end/utils/screens/resource_list_page.dart';
-import 'package:front_end/utils/widgets/drawer.dart';
-import 'package:front_end/utils/widgets/headers.dart';
+import '../screens/course_outline_page.dart';
+import '../screens/course_overview_page.dart';
+import '../screens/assignment_list_page.dart';
+import '../screens/announcment_list_page.dart';
+import '../screens/quiz_list_page.dart';
+import '../screens/attendance_page.dart';
+import '../screens/resource_list_page.dart';
+import '../widgets/headers.dart';
+import '../../../views/widgets/drawer.dart';
 
 // ignore: must_be_immutable
 class CourseMainPage extends StatefulWidget {
@@ -26,7 +26,6 @@ class CourseMainPage extends StatefulWidget {
 }
 
 class _CourseMainPageState extends State<CourseMainPage> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
