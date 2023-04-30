@@ -111,15 +111,77 @@ class _ThreadPageState extends State<ThreadPage> {
           const Divider(),
           // Thread description, vote buttons, comments, and flag
           Expanded(
-              child: SingleChildScrollView(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
+            child: SingleChildScrollView(
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const CircleAvatar(
+                              child: Text('FL'),
+                            ),
+                            const SizedBox(width: 8.0),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Full Name', style: Styles.labelLarge),
+                                  const SizedBox(height: 4.0),
+                                  const Text(
+                                    'Comment text goes here dajdhiasd sdhiasjd asd ahsidj asfhasifj asf 93e3 94adha f fuad fyadf dbfuad fadgf adfg afhia fa faodf adbf923 efbafy',
+                                    style: TextStyle(fontSize: 14.0),
+                                  ),
+                                  const SizedBox(height: 4.0),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(
+                                          Icons.reply,
+                                          size: 20,
+                                        ),
+                                        onPressed: () {},
+                                      ),
+                                      Text(
+                                        "Reply",
+                                        style: Styles.labelMedium,
+                                      ),
+                                      // const Text('5'),
+                                      IconButton(
+                                        icon: const Icon(
+                                          Icons.arrow_upward,
+                                          size: 20,
+                                        ),
+                                        onPressed: () {},
+                                      ),
+                                      Text(
+                                        "10",
+                                        style: Styles.labelMedium,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: 5,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 45.0, top: 8.0),
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
@@ -139,7 +201,7 @@ class _ThreadPageState extends State<ThreadPage> {
                                                 style: Styles.labelLarge),
                                             const SizedBox(height: 4.0),
                                             const Text(
-                                              'Comment text goes here dajdhiasd sdhiasjd asd ahsidj asfhasifj asf 93e3 94adha f fuad fyadf dbfuad fadgf adfg afhia fa faodf adbf923 efbafy',
+                                              'Reply text goes here dajdhiasd sdhiasjd asd ahsidj asfhasifj asf 93e3 94adha f fuad fyadf dbfuad fadgf adfg afhia fa faodf adbf923 efbafy',
                                               style: TextStyle(fontSize: 14.0),
                                             ),
                                             const SizedBox(height: 4.0),
@@ -158,7 +220,6 @@ class _ThreadPageState extends State<ThreadPage> {
                                                   "Reply",
                                                   style: Styles.labelMedium,
                                                 ),
-                                                // const Text('5'),
                                                 IconButton(
                                                   icon: const Icon(
                                                     Icons.arrow_upward,
@@ -177,106 +238,36 @@ class _ThreadPageState extends State<ThreadPage> {
                                       ),
                                     ],
                                   ),
-                                  ListView.builder(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: 5,
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 45.0, top: 8.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    const CircleAvatar(
-                                                      child: Text('FL'),
-                                                    ),
-                                                    const SizedBox(width: 8.0),
-                                                    Expanded(
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text('Full Name',
-                                                              style: Styles
-                                                                  .labelLarge),
-                                                          const SizedBox(
-                                                              height: 4.0),
-                                                          const Text(
-                                                            'Reply text goes here dajdhiasd sdhiasjd asd ahsidj asfhasifj asf 93e3 94adha f fuad fyadf dbfuad fadgf adfg afhia fa faodf adbf923 efbafy',
-                                                            style: TextStyle(
-                                                                fontSize: 14.0),
-                                                          ),
-                                                          const SizedBox(
-                                                              height: 4.0),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              IconButton(
-                                                                icon:
-                                                                    const Icon(
-                                                                  Icons.reply,
-                                                                  size: 20,
-                                                                ),
-                                                                onPressed:
-                                                                    () {},
-                                                              ),
-                                                              Text(
-                                                                "Reply",
-                                                                style: Styles
-                                                                    .labelMedium,
-                                                              ),
-                                                              IconButton(
-                                                                icon:
-                                                                    const Icon(
-                                                                  Icons
-                                                                      .arrow_upward,
-                                                                  size: 20,
-                                                                ),
-                                                                onPressed:
-                                                                    () {},
-                                                              ),
-                                                              Text(
-                                                                "10",
-                                                                style: Styles
-                                                                    .labelMedium,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ));
-                                      })
-                                ]));
-                      }))),
+                                ],
+                              ),
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
           // At the bottom of the body Column
           GestureDetector(
             child: Expanded(
-                child: Container(
-                    height: 50,
-                    width: 900,
-                    decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(20.0)),
-                    child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Text(
-                          "Write a comment...",
-                          style: Styles.bodyMedium,
-                        )))),
+              child: Container(
+                height: 50,
+                width: 900,
+                decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(20.0)),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                    "Write a comment...",
+                    style: Styles.bodyMedium,
+                  ),
+                ),
+              ),
+            ),
             onTap: () {
               showModalBottomSheet(
                 context: context,
