@@ -1,3 +1,4 @@
+import 'package:front_end/entities/class_entity.dart';
 import 'package:front_end/models/announcement_model.dart';
 import 'package:front_end/models/assignment_model.dart';
 import 'package:front_end/models/class_model.dart';
@@ -204,3 +205,17 @@ var classJSON = {
 };
 
 ClassModel mockClass = ClassModel.fromJson(classJSON);
+ClassEntity myClassE = ClassEntity(
+  semester: mockClass.semester,
+  courseCode: mockClass.courseCode,
+  courseName: mockClass.courseName,
+  teacherName: mockClass.teacherName,
+  syllabus: mockClass.syllabus,
+  students: mockClass.students,
+  ta: mockClass.ta,
+  announcements: mockClass.announcements,
+  quizes: mockClass.quizes,
+  resources: mockClass.resources,
+  assignments: mockClass.assignments,
+  attendance: mockClass.attendance,
+);
