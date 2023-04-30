@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:front_end/entities/class_entity.dart';
-import 'package:front_end/models/class_model.dart';
+// import 'package:front_end/entities/class_entity.dart';
+// import 'package:front_end/models/class_model.dart';
 import 'package:front_end/models/mock_data.dart';
 import 'package:front_end/views/screens/course_main_page.dart';
 import 'package:front_end/views/widgets/headers.dart';
@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ClassEntity myClass = myClassE;
+  // ClassEntity myClass = myClassE;
   bool isChecked = false;
 
   @override
@@ -44,12 +44,14 @@ class _HomePageState extends State<HomePage> {
                 style: Styles.titleMedium.copyWith(color: Colors.black)),
           ),
           HomeOverviewCard(
-            title: myClass.courseName,
+            // title: myClass.courseName,
+            title: 'Final Year Project',
             trailing: CourseProgress(progress: 60),
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => CourseMainPage(myclass: myClass),
+                  // builder: (context) => CourseMainPage(myclass: myClass),
+                  builder: (context) => CourseMainPage(),
                 ),
               );
             },

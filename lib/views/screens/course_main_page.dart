@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:front_end/entities/class_entity.dart';
+// import 'package:front_end/entities/class_entity.dart';
 import 'package:front_end/views/screens/threads_list.dart';
 import '../screens/course_outline_page.dart';
 import '../screens/course_overview_page.dart';
@@ -13,13 +13,13 @@ import '../../../views/widgets/drawer.dart';
 
 // ignore: must_be_immutable
 class CourseMainPage extends StatefulWidget {
-  final ClassEntity myclass;
+  // final ClassEntity myclass;
   String currentTab;
 
   CourseMainPage({
     super.key,
-    required this.myclass,
-    this.currentTab = "Assignments",
+    // required this.myclass,
+    this.currentTab = "Assigh",
   });
 
   @override
@@ -31,9 +31,9 @@ class _CourseMainPageState extends State<CourseMainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       endDrawer: DrawerWidget(
-        courseCode: widget.myclass.courseCode,
-        courseName: widget.myclass.courseName,
-        teacherName: widget.myclass.teacherName,
+        courseCode: "CS150",
+        courseName: "Final Year Project",
+        teacherName: "Dr Umair Azfar",
         onOptionSelected: (String option) {
           setState(() {
             widget.currentTab = option;
@@ -43,7 +43,8 @@ class _CourseMainPageState extends State<CourseMainPage> {
       ),
       appBar: CourseHeader(
         title: widget.currentTab,
-        subtitle: "${widget.myclass.courseCode} - ${widget.myclass.courseName}",
+        subtitle: "CS150 - Final Year Project",
+        // subtitle: "${widget.myclass.courseCode} - ${widget.myclass.courseName}",
         onMenuPressed: () {},
       ),
       body: createPage(widget.currentTab),
