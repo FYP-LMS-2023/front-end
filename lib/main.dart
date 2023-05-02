@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:front_end/controllers/class_controller.dart';
+import 'package:front_end/controllers/class_controller.dart';
 import 'package:provider/provider.dart';
 import '../constants/colors.dart';
 import '../views/screens/login_page.dart';
