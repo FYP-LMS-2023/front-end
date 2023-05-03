@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/views/screens/announcment_page.dart';
 import 'package:front_end/views/screens/homepage.dart';
+import 'package:front_end/views/screens/login_page.dart';
 import 'package:provider/provider.dart';
 import '../constants/colors.dart';
-import '../views/screens/login_page.dart';
+import 'views/screens/view_attendance.dart';
 
 void main() {
   runApp(
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MASH LMS',
       theme: ThemeData(primarySwatch: Palette.kToDark),
+      // home: ViewAttendanceScreen(courseName: "Math"),
       home: const LoginPage(),
       debugShowCheckedModeBanner: false,
     );
