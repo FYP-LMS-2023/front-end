@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/entities/class_entity.dart';
+import 'package:front_end/models/class_model.dart';
+import 'package:front_end/models/mock_data.dart';
+import 'package:front_end/views/screens/course_main_page.dart';
 import 'package:front_end/views/widgets/headers.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/views/widgets/announcements.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/cards.dart';
 
@@ -13,7 +18,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  ClassEntity myClass = myClassE;
   bool isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,9 +44,15 @@ class _HomePageState extends State<HomePage> {
                 style: Styles.titleMedium.copyWith(color: Colors.black)),
           ),
           HomeOverviewCard(
-            title: 'Final Year Project',
+            title: myClass.courseName,
             trailing: CourseProgress(progress: 60),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CourseMainPage(myclass: myClass),
+                ),
+              );
+            },
           ),
           HomeOverviewCard(
             title: 'Information Security and Ethics',

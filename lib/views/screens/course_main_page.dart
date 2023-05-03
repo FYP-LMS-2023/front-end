@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/entities/class_entity.dart';
+import 'package:front_end/views/screens/threads_list.dart';
 import '../screens/course_outline_page.dart';
 import '../screens/course_overview_page.dart';
 import '../screens/assignment_list_page.dart';
@@ -10,6 +11,7 @@ import '../screens/resource_list_page.dart';
 import '../widgets/headers.dart';
 import '../../../views/widgets/drawer.dart';
 
+// ignore: must_be_immutable
 class CourseMainPage extends StatefulWidget {
   final ClassEntity myclass;
   String currentTab;
@@ -17,7 +19,7 @@ class CourseMainPage extends StatefulWidget {
   CourseMainPage({
     super.key,
     required this.myclass,
-    this.currentTab = "Overview",
+    this.currentTab = "Assignments",
   });
 
   @override
@@ -40,7 +42,8 @@ class _CourseMainPageState extends State<CourseMainPage> {
         tabSelected: widget.currentTab,
       ),
       appBar: CourseHeader(
-        title: "${widget.myclass.courseCode} - ${widget.myclass.courseName}",
+        title: widget.currentTab,
+        subtitle: "${widget.myclass.courseCode} - ${widget.myclass.courseName}",
         onMenuPressed: () {},
       ),
       body: createPage(widget.currentTab),
@@ -63,6 +66,8 @@ class _CourseMainPageState extends State<CourseMainPage> {
         return const AnnouncementListPage();
       case "Resources":
         return const ResourceListPage();
+      case "Channel":
+        return ThreadsList();
     }
   }
 }

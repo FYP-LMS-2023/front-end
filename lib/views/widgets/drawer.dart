@@ -54,8 +54,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 widget.tabSelected = "Overview";
               });
             },
-            tileColor:
-                widget.tabSelected == "Overview" ? Colors.grey[300] : Colors.white,
+            tileColor: widget.tabSelected == "Overview"
+                ? Colors.grey[300]
+                : Colors.white,
           ),
           ListTile(
             title: Text(
@@ -69,8 +70,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 widget.tabSelected = "Outline";
               });
             },
-            tileColor:
-                widget.tabSelected == "Outline" ? Colors.grey[300] : Colors.white,
+            tileColor: widget.tabSelected == "Outline"
+                ? Colors.grey[300]
+                : Colors.white,
           ),
           ListTile(
             title: Text(
@@ -84,8 +86,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               widget.onOptionSelected!("Attendance");
               Navigator.pop(context);
             },
-            tileColor:
-                widget.tabSelected == "Attendance" ? Colors.grey[300] : Colors.white,
+            tileColor: widget.tabSelected == "Attendance"
+                ? Colors.grey[300]
+                : Colors.white,
           ),
           ListTile(
             title: Text(
@@ -99,8 +102,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               widget.onOptionSelected!("Quizzes");
               Navigator.pop(context);
             },
-            tileColor:
-                widget.tabSelected == "Quizzes" ? Colors.grey[300] : Colors.white,
+            tileColor: widget.tabSelected == "Quizzes"
+                ? Colors.grey[300]
+                : Colors.white,
           ),
           ListTile(
             title: Text(
@@ -114,8 +118,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               widget.onOptionSelected!("Assignments");
               Navigator.pop(context);
             },
-            tileColor:
-                widget.tabSelected == "Assignments" ? Colors.grey[300] : Colors.white,
+            tileColor: widget.tabSelected == "Assignments"
+                ? Colors.grey[300]
+                : Colors.white,
           ),
           ListTile(
             title: Text(
@@ -145,8 +150,25 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               widget.onOptionSelected!("Resources");
               Navigator.pop(context);
             },
-            tileColor:
-                widget.tabSelected == "Resources" ? Colors.grey[300] : Colors.white,
+            tileColor: widget.tabSelected == "Resources"
+                ? Colors.grey[300]
+                : Colors.white,
+          ),
+          ListTile(
+            title: Text(
+              "Channel",
+              style: Styles.titleMedium,
+            ),
+            onTap: () {
+              setState(() {
+                widget.tabSelected = "Channel";
+              });
+              widget.onOptionSelected!("Channel");
+              Navigator.pop(context);
+            },
+            tileColor: widget.tabSelected == "Channel"
+                ? Colors.grey[300]
+                : Colors.white,
           ),
         ],
       ),
