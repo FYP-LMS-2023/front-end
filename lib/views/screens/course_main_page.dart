@@ -20,7 +20,7 @@ class CourseMainPage extends StatefulWidget {
   CourseMainPage({
     super.key,
     required this.myclass,
-    this.currentTab = "Attendance",
+    this.currentTab = "Overview",
   });
 
   @override
