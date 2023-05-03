@@ -27,7 +27,7 @@ class CousrseOverviewPage extends StatelessWidget {
                     style: Styles.bodyLarge,
                     textAlign: TextAlign.center),
               ),
-              const VerticleSpacer(),
+              const VerticalSpacer(),
               Row(
                 children: const <Widget>[
                   Expanded(
@@ -56,7 +56,7 @@ class CousrseOverviewPage extends StatelessWidget {
                   )
                 ],
               ),
-              const VerticleSpacer(),
+              const VerticalSpacer(),
               const Subheading(text: "Latest Assignment"),
               CourseOverviewCard(
                 type: "assignment",
@@ -66,7 +66,7 @@ class CousrseOverviewPage extends StatelessWidget {
                 description: "description",
                 status: "status",
               ),
-              const VerticleSpacer(),
+              const VerticalSpacer(),
               const Subheading(text: "Latest Announcement"),
               CourseOverviewCard(
                 type: "announcement",
