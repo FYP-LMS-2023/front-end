@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/box_decoration.dart';
+import 'package:front_end/constants/colors.dart';
+import 'package:front_end/constants/drop_shadow.dart';
 import 'package:front_end/utils/functions/status_color.dart';
 import 'package:front_end/utils/functions/time_left.dart';
 import 'package:intl/intl.dart';
@@ -221,12 +224,8 @@ class CourseOverviewCard extends StatelessWidget {
       onTap: () {
         onClick != null ? onClick!() : null;
       },
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(15.0),
-          color: Colors.white,
-        ),
+      child: Ink(
+        decoration: boxDecoration,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -240,25 +239,22 @@ class CourseOverviewCard extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Styles.headlineSmall,
                       ),
-                      const SizedBox(height: 8.0),
+                      const SizedBox(height: 5.0),
                       Text(
                         type == "quiz"
                             ? 'Time Left: ${time_left(date)}'
                             : 'Posted by: $postedBy',
-                        style: const TextStyle(fontSize: 16.0),
+                        style: Styles.labelLarge,
                       ),
-                      const SizedBox(height: 8.0),
+                      const SizedBox(height: 5.0),
                       Text(
                         type == "assignment" || type == "quiz"
                             ? 'Due: ${DateFormat('dd, MMMM yyyy @ hh:mm a').format(date)}'
                             : DateFormat('dd, MMMM yyyy - hh:mm a')
                                 .format(date),
-                        style: const TextStyle(fontSize: 16.0),
+                        style: Styles.labelLarge,
                       ),
                     ],
                   ),
@@ -288,7 +284,7 @@ class CourseOverviewCard extends StatelessWidget {
                       children: [
                         Text(
                           description!,
-                          style: const TextStyle(fontSize: 16.0),
+                          style: Styles.bodyMedium,
                         ),
                         const SizedBox(height: 8.0),
                       ],
@@ -320,23 +316,15 @@ class QuizProgress extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            height: 30,
-            alignment: Alignment.centerRight,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade400,
-              borderRadius: BorderRadius.circular(18),
-            ),
-          ),
+              height: 30,
+              alignment: Alignment.centerRight,
+              width: MediaQuery.of(context).size.width,
+              decoration: boxDecoration),
           Container(
-            height: 30,
-            width: MediaQuery.of(context).size.width *
-                (answeredQuestions / totalQuestions),
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(18),
-            ),
-          ),
+              height: 30,
+              width: MediaQuery.of(context).size.width *
+                  (answeredQuestions / totalQuestions),
+              decoration: boxDecoration),
           Container(
             height: 30,
             alignment: Alignment.center,
@@ -374,10 +362,7 @@ class AssignmentDetailCard extends StatelessWidget {
           padding: const EdgeInsets.all(4.0),
           height: 45,
           alignment: Alignment.center,
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(16.0),
-              color: status_color(status)),
+          decoration: boxDecoration,
           child: Text(
             status,
             style: Styles.bodySmall.copyWith(color: Colors.white),
@@ -386,11 +371,7 @@ class AssignmentDetailCard extends StatelessWidget {
         const SizedBox(height: 10.0),
         Container(
           width: double.infinity,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(15.0),
-            color: Colors.white,
-          ),
+          decoration: boxDecoration,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -461,27 +442,26 @@ class CenteredCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * width,
-      height: MediaQuery.of(context).size.height * height,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(15.0),
-        color: Colors.white,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          number != null
-              ? Text(number.toString(), style: Styles.titleMedium)
-              : icon != null
-                  ? icon!
-                  : const SizedBox(),
-          const SizedBox(height: 5.0),
-          Text(text, style: Styles.bodyMedium),
-        ],
+    return InkWell(
+      onTap: () {},
+      child: Ink(
+        width: MediaQuery.of(context).size.width * width,
+        height: MediaQuery.of(context).size.height * height,
+        decoration: boxDecoration,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          // mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            number != null
+                ? Text(number.toString(), style: Styles.headlineLarge)
+                : icon != null
+                    ? icon!
+                    : const SizedBox(),
+            const SizedBox(height: 5.0),
+            Text(text, style: Styles.labelLarge),
+          ],
+        ),
       ),
     );
   }
@@ -501,49 +481,48 @@ class DetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * width,
-      height: MediaQuery.of(context).size.height * 0.13,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(15.0),
-        color: Colors.white,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            teacherName != null
-                ? Text(teacherName!, style: Styles.labelLarge)
-                : const SizedBox(),
-            const SizedBox(height: 5.0),
-            SizedBox(
-              // height: MediaQuery.of(context).size.height * 0.1,
-              width: double.infinity,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: details.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text('${details[index]['label']}: ',
-                              style: Styles.labelMedium),
-                          Text(details[index]['value'],
-                              style: Styles.bodySmall),
-                        ],
-                      ),
-                    ],
-                  );
-                },
-              ),
-            )
-          ],
+    return InkWell(
+      onTap: () {},
+      child: Ink(
+        width: MediaQuery.of(context).size.width * width,
+        height: MediaQuery.of(context).size.height * 0.13,
+        decoration: boxDecoration,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              teacherName != null
+                  ? Text(teacherName!, style: Styles.titleMedium)
+                  : const SizedBox(),
+              const SizedBox(height: 5.0),
+              SizedBox(
+                // height: MediaQuery.of(context).size.height * 0.1,
+                width: double.infinity,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: details.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text('${details[index]['label']} ',
+                                style: Styles.labelLarge),
+                            Text(details[index]['value'],
+                                style: Styles.bodyMedium),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
