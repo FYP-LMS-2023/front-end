@@ -11,12 +11,12 @@ class HorizontalSpacer extends StatelessWidget {
   }
 }
 
-class VerticleSpacer extends StatelessWidget {
-  const VerticleSpacer({super.key});
+class VerticalSpacer extends StatelessWidget {
+  const VerticalSpacer({super.key});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return SizedBox(height: size.height * 0.05);
+    return SizedBox(height: size.height * 0.04);
   }
 }
