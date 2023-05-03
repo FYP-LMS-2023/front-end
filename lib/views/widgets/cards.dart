@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
 import 'package:front_end/constants/colors.dart';
-import 'package:front_end/constants/drop_shadow.dart';
 import 'package:front_end/utils/functions/status_color.dart';
 import 'package:front_end/utils/functions/time_left.dart';
 import 'package:intl/intl.dart';
@@ -11,7 +10,7 @@ import 'package:front_end/constants/fonts.dart';
 class HomeOverviewCard extends StatefulWidget {
   final String title;
   final String subtitle;
-  final Widget leading;
+  // final Widget leading;
   final Widget trailing;
   final Function onPressed;
 
@@ -19,7 +18,7 @@ class HomeOverviewCard extends StatefulWidget {
     super.key,
     required this.title,
     this.subtitle = "",
-    this.leading = const SizedBox(),
+    // this.leading = const SizedBox(),
     this.trailing = const SizedBox(),
     required this.onPressed,
   });
@@ -33,42 +32,33 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-        side: const BorderSide(
-          color: Colors.grey,
-          width: 1.0,
-        ),
-      ),
-      child: InkWell(
-        onTap: () {
-          widget.onPressed();
-        },
+    return InkWell(
+      onTap: () {
+        widget.onPressed();
+      },
+      child: Ink(
+        // width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.width * 0.2,
+        decoration: boxDecoration,
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  if (widget.leading != const SizedBox()) widget.leading,
-                  if (widget.leading != const SizedBox())
-                    const SizedBox(
-                      width: 10,
-                    ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(
-                          width: 200,
-                          child: Text(
-                            widget.title,
-                            style: Styles.titleMedium,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                      if (widget.subtitle != "")
+                      Text(
+                        widget.title,
+                        style: Styles.titleMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                      ),
+                      if (widget.subtitle == "")
                         const SizedBox(
                           height: 5,
                         ),
@@ -78,8 +68,8 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
                   ),
                 ],
               ),
-              if (widget.trailing != const SizedBox())
-                Flexible(child: widget.trailing),
+              // Spacer(),
+              if (widget.trailing != const SizedBox()) widget.trailing,
             ],
           ),
         ),
@@ -88,43 +78,83 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
   }
 }
 
-//This is a component that is being used in the cards
-class CourseProgress extends StatelessWidget {
-  const CourseProgress({
-    super.key,
-    required this.progress,
-  });
+// class NewHomeCard extends StatelessWidget {
+//   const NewHomeCard({super.key, this.subtitle});
+//   final String? subtitle;
 
-  final double progress;
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: () {},
+//       child: Ink(
+//         width: MediaQuery.of(context).size.width,
+//         height: MediaQuery.of(context).size.width * 0.2,
+//         decoration: boxDecoration,
+//         child: Padding(
+//           padding: const EdgeInsets.all(16.0),
+//           child: Align(
+//             alignment: Alignment.centerLeft,
+//             child: Column(
+//               // crossAxisAlignment: CrossAxisAlignment.center,
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: [
+//                 Text(
+//                   "Class Name", style: Styles.titleMedium,
+//                   // textAlign: TextAlign.left,
+//                 ),
+//                 if (subtitle != null)
+//                   Text(
+//                     subtitle!,
+//                     style: Styles.bodyMedium,
+//                     textAlign: TextAlign.left,
+//                   ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SizedBox(
-          width: 50,
-          height: 50,
-          child: CircularProgressIndicator(
-            value: progress / 100,
-          ),
-        ),
-        SizedBox(
-          width: 50,
-          height: 50,
-          child: Center(
-            child: Text(
-              '${progress.toStringAsFixed(0)}%',
-              style: const TextStyle(
-                fontSize: 12.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
+// //This is a component that is being used in the cards
+// class CourseProgress extends StatelessWidget {
+//   const CourseProgress({
+//     super.key,
+//     required this.progress,
+//   });
+
+//   final double progress;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       children: [
+//         SizedBox(
+//           width: 50,
+//           height: 50,
+//           child: CircularProgressIndicator(
+//             value: progress / 100,
+//             color: Palette.kToDark[50],
+//           ),
+//         ),
+//         SizedBox(
+//           width: 50,
+//           height: 50,
+//           child: Center(
+//             child: Text(
+//               '${progress.toStringAsFixed(0)}%',
+//               style: const TextStyle(
+//                 fontSize: 12.0,
+//                 fontWeight: FontWeight.bold,
+//               ),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 //This is a component that is being used in the cards
 class CardDueDate extends StatelessWidget {

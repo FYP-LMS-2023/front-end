@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/entities/class_entity.dart';
-import 'package:front_end/models/class_model.dart';
 import 'package:front_end/models/mock_data.dart';
 import 'package:front_end/views/screens/course_main_page.dart';
 import 'package:front_end/views/widgets/headers.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/views/widgets/announcements.dart';
-import 'package:provider/provider.dart';
+import 'package:front_end/views/widgets/subheadings.dart';
+import 'package:front_end/constants/spacers.dart';
 
 import '../widgets/cards.dart';
 
@@ -24,77 +24,51 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const ProfileHeader(name: "Huzaifa", id: "18591"),
-        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 12.0),
-            child: Text("Announcements",
-                style: Styles.titleMedium.copyWith(color: Colors.black)),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Announcements(),
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 12.0),
-            child: Text("Courses",
-                style: Styles.titleMedium.copyWith(color: Colors.black)),
-          ),
-          HomeOverviewCard(
-            title: myClass.courseName,
-            trailing: CourseProgress(progress: 60),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => CourseMainPage(myclass: myClass),
+      backgroundColor: Colors.white,
+      appBar: const ProfileHeader(name: "Huzaifa", id: "18591"),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Subheading(text: "Announcements"),
+                const Announcements(),
+                const VerticalSpacer(),
+                const Subheading(text: "Courses"),
+                HomeOverviewCard(
+                  title: myClass.courseName,
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CourseMainPage(myclass: myClass),
+                    ));
+                  },
                 ),
-              );
-            },
-          ),
-          HomeOverviewCard(
-            title: 'Information Security and Ethics',
-            trailing: CourseProgress(progress: 80),
-            onPressed: () {},
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 12.0),
-            child: Text("To Do List",
-                style: Styles.titleMedium.copyWith(color: Colors.black)),
-          ),
-          HomeOverviewCard(
-            title: "Assignment 1",
-            subtitle: "Final Year Project",
-            leading: Checkbox(
-              value: isChecked,
-              onChanged: (bool? value) {
-                setState(() {
-                  isChecked = !isChecked;
-                });
-              },
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.01,
+                ),
+                HomeOverviewCard(
+                  title: 'Information Security and Ethics',
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CourseMainPage(myclass: myClass),
+                    ));
+                  },
+                ),
+                const VerticalSpacer(),
+                const Subheading(text: "Due Soon"),
+                HomeOverviewCard(
+                  title: "Assignment 1",
+                  subtitle: "Final Year Project",
+                  trailing: CardDueDate(dueDate: DateTime.now()),
+                  onPressed: () {},
+                ),
+              ],
             ),
-            trailing: CardDueDate(dueDate: DateTime.now()),
-            onPressed: () {},
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 12.0),
-            child: Text("Recent Feedback",
-                style: Styles.titleMedium.copyWith(color: Colors.black)),
-          ),
-          HomeOverviewCard(
-            title: "Add System Design",
-            subtitle: "Final Year Project",
-            trailing: CardDate(Date: DateTime.now()),
-            onPressed: () {},
-          ),
-        ]));
+        ),
+      ),
+    );
   }
 }
