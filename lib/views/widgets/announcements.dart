@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/spacers.dart';
+import 'package:front_end/views/screens/announcment_page.dart';
 
 class Announcements extends StatelessWidget {
   const Announcements({super.key});
@@ -14,10 +15,13 @@ class Announcements extends StatelessWidget {
         itemBuilder: (context, index) => Row(
           children: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AnnouncementPage()));
+              },
               child: CircleAvatar(
                 radius: (MediaQuery.of(context).size.width / 5) * 0.35,
-                backgroundColor: Colors.grey[400],
+                backgroundColor: Colors.grey[500],
                 child: const Icon(
                   Icons.assignment,
                   color: Colors.white,
