@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
+import 'dart:math' as math;
+
+import 'package:front_end/views/screens/profile_page.dart';
 
 class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
   final String name;
@@ -13,31 +17,46 @@ class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: 80,
       elevation: 0.0,
       backgroundColor: Colors.transparent,
+      // backgroundColor: Colors.green,
       centerTitle: false,
       leading: Padding(
         padding: const EdgeInsets.only(left: 8.0),
-        child: CircleAvatar(
-          backgroundColor: Colors.black,
-          child: Text(
-            name.isNotEmpty ? name[0] : '',
-            style: Styles.titleMedium.copyWith(fontWeight: FontWeight.bold),
+        child: Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.rotationY(math.pi),
+          child: IconButton(
+            icon: const Icon(Icons.logout),
+            color: Colors.red,
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
         ),
       ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(name, style: Styles.titleMedium.copyWith(color: Colors.black)),
-          Text(id, style: Styles.bodyMedium.copyWith(color: Colors.black)),
+          Text(name, style: Styles.name.copyWith(color: Colors.black)),
+          Text(id, style: Styles.titleMedium.copyWith(color: Colors.black)),
         ],
       ),
       actions: [
-        IconButton(
-          icon: const Icon(Icons.more_vert),
-          color: Colors.black,
-          onPressed: () {
-            // TODO: add action
-          },
+        Padding(
+          padding: const EdgeInsets.only(right: 16.0),
+          child: InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ProfilePage(),
+              ));
+            },
+            child: CircleAvatar(
+              backgroundColor: Palette.kToDark[50],
+              child: Text(
+                name.isNotEmpty ? name[0] : '',
+                style: Styles.titleMedium.copyWith(color: Colors.white),
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -67,8 +86,9 @@ class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      toolbarHeight: 100,
       automaticallyImplyLeading: disableBack ? false : true,
-      iconTheme: IconThemeData(color: Colors.black),
+      iconTheme: const IconThemeData(color: Colors.black),
       elevation: 0.0,
       backgroundColor: Colors.transparent,
       centerTitle: false,
@@ -87,14 +107,14 @@ class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Text(
             title,
-            style: Styles.titleMedium.copyWith(
+            style: Styles.name.copyWith(
               color: Colors.black,
             ),
           ),
           subtitle != null
               ? Text(
                   subtitle!,
-                  style: Styles.labelMedium.copyWith(
+                  style: Styles.titleMedium.copyWith(
                     color: Colors.black,
                   ),
                 )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
 import 'package:front_end/constants/colors.dart';
+import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/utils/functions/status_color.dart';
 import 'package:front_end/utils/functions/time_left.dart';
 import 'package:intl/intl.dart';
@@ -38,7 +39,7 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
       },
       child: Ink(
         // width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.width * 0.2,
+        height: MediaQuery.of(context).size.width * 0.21,
         decoration: boxDecoration,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -392,13 +393,19 @@ class AssignmentDetailCard extends StatelessWidget {
           padding: const EdgeInsets.all(4.0),
           height: 45,
           alignment: Alignment.center,
-          decoration: boxDecoration,
+          decoration: BoxDecoration(
+            color: status_color(status),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
           child: Text(
             status,
-            style: Styles.bodySmall.copyWith(color: Colors.white),
+            style: Styles.bodyLarge.copyWith(color: Colors.white),
           ),
         ),
-        const SizedBox(height: 10.0),
+        // const VerticalSpacer(),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.02,
+        ),
         Container(
           width: double.infinity,
           decoration: boxDecoration,
@@ -411,11 +418,11 @@ class AssignmentDetailCard extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       "Due Date: ",
-                      style: Styles.labelMedium,
+                      style: Styles.titleMedium,
                     ),
                     Text(
                       DateFormat('dd, MMMM yyyy @ hh:mm a').format(dueDate),
-                      style: Styles.bodySmall,
+                      style: Styles.bodyLarge,
                     ),
                   ],
                 ),
@@ -424,24 +431,24 @@ class AssignmentDetailCard extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       "No. of Resubmissions Allowed: ",
-                      style: Styles.labelMedium,
+                      style: Styles.titleMedium,
                     ),
                     Text(
                       numResubmissions.toString(),
-                      style: Styles.bodySmall,
+                      style: Styles.bodyLarge,
                     ),
                   ],
                 ),
                 Row(
                   children: <Widget>[
                     Text(
-                      "Resubmission Deadline: ",
-                      style: Styles.labelMedium,
+                      "Resub Deadline: ",
+                      style: Styles.titleMedium,
                     ),
                     Text(
                       DateFormat('dd, MMMM yyyy @ hh:mm a')
                           .format(resubmissionDueDate),
-                      style: Styles.bodySmall,
+                      style: Styles.bodyLarge,
                     ),
                   ],
                 ),
