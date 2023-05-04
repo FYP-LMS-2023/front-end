@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 // import 'package:front_end/entities/class_entity.dart';
 import 'package:front_end/views/screens/threads_list.dart';
+import 'package:front_end/views/screens/view_attendance.dart';
 import '../screens/course_outline_page.dart';
 import '../screens/course_overview_page.dart';
 import '../screens/assignment_list_page.dart';
 import '../screens/announcment_list_page.dart';
 import '../screens/quiz_list_page.dart';
-import '../screens/attendance_page.dart';
 import '../screens/resource_list_page.dart';
 import '../widgets/headers.dart';
 import '../../../views/widgets/drawer.dart';
@@ -18,8 +18,8 @@ class CourseMainPage extends StatefulWidget {
 
   CourseMainPage({
     super.key,
-    // required this.myclass,
-    this.currentTab = "Assigh",
+    required this.myclass,
+    this.currentTab = "Overview",
   });
 
   @override
@@ -30,6 +30,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       endDrawer: DrawerWidget(
         courseCode: "CS150",
         courseName: "Final Year Project",
@@ -58,7 +59,9 @@ class _CourseMainPageState extends State<CourseMainPage> {
       case "Outline":
         return const CourseOutlinePage();
       case "Attendance":
-        return const AttendancePage();
+        return const ViewAttendanceScreen(
+          courseName: "Math",
+        );
       case "Quizzes":
         return const QuizListPage();
       case "Assignments":

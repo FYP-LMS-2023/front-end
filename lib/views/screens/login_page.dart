@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/box_decoration.dart';
 import 'package:front_end/constants/fonts.dart';
+import 'package:front_end/constants/spacers.dart';
 import '../../views/widgets/textfields.dart';
 import '../../views/widgets/buttons.dart';
 import '../../views/screens/homepage.dart';
@@ -20,22 +22,21 @@ class _LoginPageState extends State<LoginPage> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(26.0),
-        child: Center(
-          child: Stack(
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Text(
+                "SMASH LMS",
+                style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+              ),
+              const VerticalSpacer(),
               Container(
                 padding: const EdgeInsets.all(16),
-                width: size.width,
-                height: size.height * 0.5,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    width: 2,
-                    color: Colors.grey,
-                  ),
-                ),
+//                width: size.width,
+                decoration: boxDecoration,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -43,18 +44,20 @@ class _LoginPageState extends State<LoginPage> {
                       "Login",
                       style: Styles.titleLarge,
                     ),
-                    const SizedBox(height: 50),
+                    // const SizedBox(height: 50),
+                    const VerticalSpacer(),
                     MainTextField(
                       label: "Username",
                       controller: usernameController,
                     ),
-                    const SizedBox(height: 28),
+                    // const SizedBox(height: 28),
+                    const VerticalSpacer(),
                     MainTextField(
                       label: "Password",
                       obsureText: true,
                       controller: passwordController,
                     ),
-                    const SizedBox(height: 42),
+                    const VerticalSpacer(),
                     MainButton(
                       text: "Login",
                       onPressed: () {
@@ -64,7 +67,9 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         );
                       },
-                    )
+                    ),
+                    const VerticalSpacer(),
+
                   ],
                 ),
               ),

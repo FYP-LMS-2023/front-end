@@ -14,8 +14,8 @@ class Palette {
       600: Color(0xffbcbcbc), //70%
       700: Color(0xffd2d2d2), //80%
       800: Color(0xffe9e9e9), //90%
-      900: Color(0xffffffff), //100%
+      850: Color(0xfff5f5f5),
+      900: Color(0xfffdfdfd), //100%
     },
   );
 }
-
