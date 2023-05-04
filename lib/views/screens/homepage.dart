@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/entities/class_entity.dart';
 import 'package:front_end/models/mock_data.dart';
+import 'package:front_end/views/screens/assignment_page.dart';
 import 'package:front_end/views/screens/course_main_page.dart';
 import 'package:front_end/views/widgets/headers.dart';
 import 'package:front_end/constants/fonts.dart';
@@ -25,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const ProfileHeader(name: "Huzaifa", id: "18591"),
+      appBar: const ProfileHeader(name: "Shaheer Ahmed", id: "18635"),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
@@ -38,7 +39,7 @@ class _HomePageState extends State<HomePage> {
                 const VerticalSpacer(),
                 const Subheading(text: "Courses"),
                 HomeOverviewCard(
-                  title: myClass.courseName,
+                  title: '${myClass.courseCode} - ${myClass.courseName}',
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CourseMainPage(myclass: myClass),
@@ -49,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                   height: MediaQuery.of(context).size.height * 0.01,
                 ),
                 HomeOverviewCard(
-                  title: 'Information Security and Ethics',
+                  title: 'CS110 - Information Security and Ethics',
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CourseMainPage(myclass: myClass),
@@ -62,7 +63,11 @@ class _HomePageState extends State<HomePage> {
                   title: "Assignment 1",
                   subtitle: "Final Year Project",
                   trailing: CardDueDate(dueDate: DateTime.now()),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AssignmentPage(),
+                    ));
+                  },
                 ),
               ],
             ),
