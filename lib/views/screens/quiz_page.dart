@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/views/widgets/buttons.dart';
 import 'package:front_end/views/widgets/headers.dart';
@@ -106,7 +107,7 @@ class _QuizPageState extends State<QuizPage> {
 
     return Scaffold(
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
         child: MainButton(
           onPressed: () {
             formatResponse(answerIDs, questionIDs);
@@ -137,12 +138,17 @@ class _QuizPageState extends State<QuizPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Palette.kToDark[50],
+                    ),
                     padding: const EdgeInsets.all(5),
                     width: double.infinity,
-                    color: Colors.grey[300],
                     child: Text(
-                      question["questionDescription"],
-                      style: Styles.titleMedium,
+                      'Q${1}) ${question["questionDescription"]}',
+                      style: Styles.titleMedium.copyWith(color: Colors.white),
                     ),
                   ),
                   const SizedBox(
@@ -157,6 +163,7 @@ class _QuizPageState extends State<QuizPage> {
                     return Row(
                       children: [
                         Radio(
+                          fillColor: MaterialStateProperty.all(Colors.black),
                           value: answerID,
                           groupValue: answerIDs[questionIndex],
                           onChanged: (value) {

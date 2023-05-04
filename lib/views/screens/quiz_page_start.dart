@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/views/screens/quiz_page.dart';
 import 'package:front_end/views/widgets/buttons.dart';
@@ -17,7 +18,7 @@ class QuizPageStart extends StatelessWidget {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
           child: Flex(
             direction: Axis.vertical,
             children: [
@@ -39,21 +40,25 @@ class QuizPageStart extends StatelessWidget {
                       "We will add some basic instructions here that will be followed for all tests",
                       style: Styles.bodyMedium,
                     ),
-                    const Spacer(),
-                    MainButton(
-                        text: "Start Quiz",
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => QuizPage(),
-                            ),
-                          );
-                        })
                   ],
                 ),
               ),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
+        child: MainButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const QuizPage(),
+              ),
+            );
+          },
+          text: "Start Quiz",
+          color: Palette.kToDark[50],
         ),
       ),
     );
