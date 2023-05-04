@@ -11,6 +11,7 @@ class QuizPageStart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: CourseHeader(
         title: "Quiz Number 1",
         subtitle: "CS150 - Final Year Project",

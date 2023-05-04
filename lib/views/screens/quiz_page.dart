@@ -106,6 +106,7 @@ class _QuizPageState extends State<QuizPage> {
     quizID = quizDetails["_id"];
 
     return Scaffold(
+      backgroundColor: Colors.white,
       bottomNavigationBar: Container(
         padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
         child: MainButton(
