@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -26,12 +27,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Palette.kToDark[900],
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: const BoxDecoration(
-              color: Colors.white,
+            decoration: BoxDecoration(
+              color: Palette.kToDark[900],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +58,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             },
             tileColor: widget.tabSelected == "Overview"
                 ? Colors.grey[300]
-                : Colors.white,
+                : Palette.kToDark[900],
           ),
           ListTile(
             title: Text(
@@ -72,7 +74,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             },
             tileColor: widget.tabSelected == "Outline"
                 ? Colors.grey[300]
-                : Colors.white,
+                : Palette.kToDark[900],
           ),
           ListTile(
             title: Text(
@@ -88,7 +90,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             },
             tileColor: widget.tabSelected == "Attendance"
                 ? Colors.grey[300]
-                : Colors.white,
+                : Palette.kToDark[900],
           ),
           ListTile(
             title: Text(
@@ -104,7 +106,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             },
             tileColor: widget.tabSelected == "Quizzes"
                 ? Colors.grey[300]
-                : Colors.white,
+                : Palette.kToDark[900],
           ),
           ListTile(
             title: Text(
@@ -120,7 +122,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             },
             tileColor: widget.tabSelected == "Assignments"
                 ? Colors.grey[300]
-                : Colors.white,
+                : Palette.kToDark[900],
           ),
           ListTile(
             title: Text(
@@ -136,7 +138,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             },
             tileColor: widget.tabSelected == "Announcements"
                 ? Colors.grey[300]
-                : Colors.white,
+                : Palette.kToDark[900],
           ),
           ListTile(
             title: Text(
@@ -152,7 +154,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             },
             tileColor: widget.tabSelected == "Resources"
                 ? Colors.grey[300]
-                : Colors.white,
+                : Palette.kToDark[900],
           ),
           ListTile(
             title: Text(
@@ -168,7 +170,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             },
             tileColor: widget.tabSelected == "Channel"
                 ? Colors.grey[300]
-                : Colors.white,
+                : Palette.kToDark[900],
           ),
         ],
       ),

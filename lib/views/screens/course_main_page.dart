@@ -7,7 +7,6 @@ import '../screens/course_overview_page.dart';
 import '../screens/assignment_list_page.dart';
 import '../screens/announcment_list_page.dart';
 import '../screens/quiz_list_page.dart';
-import '../screens/attendance_page.dart';
 import '../screens/resource_list_page.dart';
 import '../widgets/headers.dart';
 import '../../../views/widgets/drawer.dart';
@@ -59,7 +58,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
       case "Outline":
         return const CourseOutlinePage();
       case "Attendance":
-        return const  ViewAttendanceScreen(
+        return const ViewAttendanceScreen(
           courseName: "Math",
         );
       case "Quizzes":
