@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/box_decoration.dart';
 import 'package:front_end/constants/fonts.dart';
+import 'package:front_end/constants/spacers.dart';
 import 'dart:math';
 
 import 'thread_page.dart';
@@ -37,41 +39,43 @@ class ThreadsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(16.0),
-      children: List.generate(
-        10,
-        (index) {
-          final String userFullName =
-              userNames[Random().nextInt(userNames.length)];
-          final String userInitials =
-              userFullName.split(' ').map((name) => name[0]).join();
-          final String timeSincePosted = '${Random().nextInt(24)}h';
-          final String threadTitle =
-              threadTitles[Random().nextInt(threadTitles.length)];
-          final int upVoteCount = Random().nextInt(1000);
-          final int downVoteCount = Random().nextInt(100);
-          final int commentsCount = Random().nextInt(1000);
-          final String tag = tags[Random().nextInt(6)];
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
+        child: ListView(
+          children: List.generate(
+            5,
+            (index) {
+              final String userFullName =
+                  userNames[Random().nextInt(userNames.length)];
+              final String userInitials =
+                  userFullName.split(' ').map((name) => name[0]).join();
+              final String timeSincePosted = '${Random().nextInt(24)}h';
+              final String threadTitle =
+                  threadTitles[Random().nextInt(threadTitles.length)];
+              final int upVoteCount = Random().nextInt(1000);
+              final int downVoteCount = Random().nextInt(100);
+              final int commentsCount = Random().nextInt(1000);
+              final String tag = tags[Random().nextInt(6)];
 
-          return Column(
-            children: [
-              ThreadTile(
-                userInitials: userInitials,
-                userFullName: userFullName,
-                timeSincePosted: timeSincePosted,
-                threadTitle: threadTitle,
-                upVoteCount: upVoteCount,
-                downVoteCount: downVoteCount,
-                commentsCount: commentsCount,
-                tag: tag,
-              ),
-              const Divider(
-                thickness: 1.2,
-              ),
-            ],
-          );
-        },
+              return Column(
+                children: [
+                  ThreadTile(
+                    userInitials: userInitials,
+                    userFullName: userFullName,
+                    timeSincePosted: timeSincePosted,
+                    threadTitle: threadTitle,
+                    upVoteCount: upVoteCount,
+                    downVoteCount: downVoteCount,
+                    commentsCount: commentsCount,
+                    tag: tag,
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                ],
+              );
+            },
+          ),
+        ),
       ),
     );
   }
@@ -112,15 +116,22 @@ class _ThreadTileState extends State<ThreadTile> {
               context, MaterialPageRoute(builder: (_) => ThreadPage()));
         });
       },
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+      child: Ink(
+        padding: const EdgeInsets.all(16.0),
+        decoration: boxDecoration,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircleAvatar(
-              radius: 28.0,
-              child: Text(
-                widget.userInitials,
+            Container(
+              child: CircleAvatar(
+                backgroundColor:
+                    Colors.primaries[Random().nextInt(Colors.primaries.length)],
+                radius: 28.0,
+                child: Text(
+                  widget.userInitials,
+                  style: Styles.labelLarge.copyWith(color: Colors.white),
+                ),
               ),
             ),
             const SizedBox(width: 16.0),
@@ -134,14 +145,14 @@ class _ThreadTileState extends State<ThreadTile> {
                         widget.userFullName,
                         style: Styles.labelLarge,
                       ),
-                      const SizedBox(width: 8.0),
+                      const HorizontalSpacer(),
                       Text(
-                        '• ${widget.timeSincePosted}',
-                        style: Styles.labelLarge,
+                        widget.timeSincePosted,
+                        style: Styles.bodySmall,
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4.0),
+                  const SizedBox(height: 8.0),
                   Text(
                     widget.threadTitle,
                     maxLines: 2,
@@ -157,11 +168,8 @@ class _ThreadTileState extends State<ThreadTile> {
                         style: Styles.labelMedium,
                       ),
                       const SizedBox(width: 8.0),
-                      // const Icon(Icons.arrow_downward, size: 16.0),
-                      // Text(widget.downVoteCount.toString(),style: Styles.labelMedium),
-                      // const SizedBox(width: 8.0),
                       const Icon(Icons.comment, size: 16.0),
-                      SizedBox(
+                      const SizedBox(
                         width: 4,
                       ),
                       Text(widget.commentsCount.toString(),
