@@ -48,4 +48,7 @@ class Styles {
       GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400);
   static final bodySmall =
       GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w400);
+
+  static final name =
+      GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.w600);
 }

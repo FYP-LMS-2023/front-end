@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/box_decoration.dart';
+import 'package:front_end/constants/colors.dart';
+import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/utils/functions/status_color.dart';
 import 'package:front_end/utils/functions/time_left.dart';
 import 'package:intl/intl.dart';
@@ -8,7 +11,7 @@ import 'package:front_end/constants/fonts.dart';
 class HomeOverviewCard extends StatefulWidget {
   final String title;
   final String subtitle;
-  final Widget leading;
+  // final Widget leading;
   final Widget trailing;
   final Function onPressed;
 
@@ -16,7 +19,7 @@ class HomeOverviewCard extends StatefulWidget {
     super.key,
     required this.title,
     this.subtitle = "",
-    this.leading = const SizedBox(),
+    // this.leading = const SizedBox(),
     this.trailing = const SizedBox(),
     required this.onPressed,
   });
@@ -30,42 +33,33 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-        side: const BorderSide(
-          color: Colors.grey,
-          width: 1.0,
-        ),
-      ),
-      child: InkWell(
-        onTap: () {
-          widget.onPressed();
-        },
+    return InkWell(
+      onTap: () {
+        widget.onPressed();
+      },
+      child: Ink(
+        // width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.width * 0.21,
+        decoration: boxDecoration,
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  if (widget.leading != const SizedBox()) widget.leading,
-                  if (widget.leading != const SizedBox())
-                    const SizedBox(
-                      width: 10,
-                    ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(
-                          width: 200,
-                          child: Text(
-                            widget.title,
-                            style: Styles.titleMedium,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                      if (widget.subtitle != "")
+                      Text(
+                        widget.title,
+                        style: Styles.titleMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                      ),
+                      if (widget.subtitle == "")
                         const SizedBox(
                           height: 5,
                         ),
@@ -75,8 +69,8 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
                   ),
                 ],
               ),
-              if (widget.trailing != const SizedBox())
-                Flexible(child: widget.trailing),
+              // Spacer(),
+              if (widget.trailing != const SizedBox()) widget.trailing,
             ],
           ),
         ),
@@ -85,43 +79,83 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
   }
 }
 
-//This is a component that is being used in the cards
-class CourseProgress extends StatelessWidget {
-  const CourseProgress({
-    super.key,
-    required this.progress,
-  });
+// class NewHomeCard extends StatelessWidget {
+//   const NewHomeCard({super.key, this.subtitle});
+//   final String? subtitle;
 
-  final double progress;
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: () {},
+//       child: Ink(
+//         width: MediaQuery.of(context).size.width,
+//         height: MediaQuery.of(context).size.width * 0.2,
+//         decoration: boxDecoration,
+//         child: Padding(
+//           padding: const EdgeInsets.all(16.0),
+//           child: Align(
+//             alignment: Alignment.centerLeft,
+//             child: Column(
+//               // crossAxisAlignment: CrossAxisAlignment.center,
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: [
+//                 Text(
+//                   "Class Name", style: Styles.titleMedium,
+//                   // textAlign: TextAlign.left,
+//                 ),
+//                 if (subtitle != null)
+//                   Text(
+//                     subtitle!,
+//                     style: Styles.bodyMedium,
+//                     textAlign: TextAlign.left,
+//                   ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SizedBox(
-          width: 50,
-          height: 50,
-          child: CircularProgressIndicator(
-            value: progress / 100,
-          ),
-        ),
-        SizedBox(
-          width: 50,
-          height: 50,
-          child: Center(
-            child: Text(
-              '${progress.toStringAsFixed(0)}%',
-              style: const TextStyle(
-                fontSize: 12.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
+// //This is a component that is being used in the cards
+// class CourseProgress extends StatelessWidget {
+//   const CourseProgress({
+//     super.key,
+//     required this.progress,
+//   });
+
+//   final double progress;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       children: [
+//         SizedBox(
+//           width: 50,
+//           height: 50,
+//           child: CircularProgressIndicator(
+//             value: progress / 100,
+//             color: Palette.kToDark[50],
+//           ),
+//         ),
+//         SizedBox(
+//           width: 50,
+//           height: 50,
+//           child: Center(
+//             child: Text(
+//               '${progress.toStringAsFixed(0)}%',
+//               style: const TextStyle(
+//                 fontSize: 12.0,
+//                 fontWeight: FontWeight.bold,
+//               ),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 //This is a component that is being used in the cards
 class CardDueDate extends StatelessWidget {
@@ -221,12 +255,8 @@ class CourseOverviewCard extends StatelessWidget {
       onTap: () {
         onClick != null ? onClick!() : null;
       },
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(15.0),
-          color: Colors.white,
-        ),
+      child: Ink(
+        decoration: boxDecoration,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -240,25 +270,22 @@ class CourseOverviewCard extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Styles.headlineSmall,
                       ),
-                      const SizedBox(height: 8.0),
+                      const SizedBox(height: 5.0),
                       Text(
                         type == "quiz"
                             ? 'Time Left: ${time_left(date)}'
                             : 'Posted by: $postedBy',
-                        style: const TextStyle(fontSize: 16.0),
+                        style: Styles.labelLarge,
                       ),
-                      const SizedBox(height: 8.0),
+                      const SizedBox(height: 5.0),
                       Text(
                         type == "assignment" || type == "quiz"
                             ? 'Due: ${DateFormat('dd, MMMM yyyy @ hh:mm a').format(date)}'
                             : DateFormat('dd, MMMM yyyy - hh:mm a')
                                 .format(date),
-                        style: const TextStyle(fontSize: 16.0),
+                        style: Styles.labelLarge,
                       ),
                     ],
                   ),
@@ -288,7 +315,7 @@ class CourseOverviewCard extends StatelessWidget {
                       children: [
                         Text(
                           description!,
-                          style: const TextStyle(fontSize: 16.0),
+                          style: Styles.bodyMedium,
                         ),
                         const SizedBox(height: 8.0),
                       ],
@@ -320,23 +347,15 @@ class QuizProgress extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            height: 30,
-            alignment: Alignment.centerRight,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade400,
-              borderRadius: BorderRadius.circular(18),
-            ),
-          ),
+              height: 30,
+              alignment: Alignment.centerRight,
+              width: MediaQuery.of(context).size.width,
+              decoration: boxDecoration),
           Container(
-            height: 30,
-            width: MediaQuery.of(context).size.width *
-                (answeredQuestions / totalQuestions),
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(18),
-            ),
-          ),
+              height: 30,
+              width: MediaQuery.of(context).size.width *
+                  (answeredQuestions / totalQuestions),
+              decoration: boxDecoration),
           Container(
             height: 30,
             alignment: Alignment.center,
@@ -375,22 +394,21 @@ class AssignmentDetailCard extends StatelessWidget {
           height: 45,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(16.0),
-              color: status_color(status)),
+            color: status_color(status),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
           child: Text(
             status,
-            style: Styles.bodySmall.copyWith(color: Colors.white),
+            style: Styles.bodyLarge.copyWith(color: Colors.white),
           ),
         ),
-        const SizedBox(height: 10.0),
+        // const VerticalSpacer(),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.02,
+        ),
         Container(
           width: double.infinity,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(15.0),
-            color: Colors.white,
-          ),
+          decoration: boxDecoration,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -400,11 +418,11 @@ class AssignmentDetailCard extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       "Due Date: ",
-                      style: Styles.labelMedium,
+                      style: Styles.titleMedium,
                     ),
                     Text(
                       DateFormat('dd, MMMM yyyy @ hh:mm a').format(dueDate),
-                      style: Styles.bodySmall,
+                      style: Styles.bodyLarge,
                     ),
                   ],
                 ),
@@ -413,24 +431,24 @@ class AssignmentDetailCard extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       "No. of Resubmissions Allowed: ",
-                      style: Styles.labelMedium,
+                      style: Styles.titleMedium,
                     ),
                     Text(
                       numResubmissions.toString(),
-                      style: Styles.bodySmall,
+                      style: Styles.bodyLarge,
                     ),
                   ],
                 ),
                 Row(
                   children: <Widget>[
                     Text(
-                      "Resubmission Deadline: ",
-                      style: Styles.labelMedium,
+                      "Resub Deadline: ",
+                      style: Styles.titleMedium,
                     ),
                     Text(
                       DateFormat('dd, MMMM yyyy @ hh:mm a')
                           .format(resubmissionDueDate),
-                      style: Styles.bodySmall,
+                      style: Styles.bodyLarge,
                     ),
                   ],
                 ),
@@ -461,27 +479,26 @@ class CenteredCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * width,
-      height: MediaQuery.of(context).size.height * height,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(15.0),
-        color: Colors.white,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          number != null
-              ? Text(number.toString(), style: Styles.titleMedium)
-              : icon != null
-                  ? icon!
-                  : const SizedBox(),
-          const SizedBox(height: 5.0),
-          Text(text, style: Styles.bodyMedium),
-        ],
+    return InkWell(
+      onTap: () {},
+      child: Ink(
+        width: MediaQuery.of(context).size.width * width,
+        height: MediaQuery.of(context).size.height * height,
+        decoration: boxDecoration,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          // mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            number != null
+                ? Text(number.toString(), style: Styles.headlineLarge)
+                : icon != null
+                    ? icon!
+                    : const SizedBox(),
+            const SizedBox(height: 5.0),
+            Text(text, style: Styles.labelLarge),
+          ],
+        ),
       ),
     );
   }
@@ -501,49 +518,48 @@ class DetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * width,
-      height: MediaQuery.of(context).size.height * 0.13,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(15.0),
-        color: Colors.white,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            teacherName != null
-                ? Text(teacherName!, style: Styles.labelLarge)
-                : const SizedBox(),
-            const SizedBox(height: 5.0),
-            SizedBox(
-              // height: MediaQuery.of(context).size.height * 0.1,
-              width: double.infinity,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: details.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text('${details[index]['label']}: ',
-                              style: Styles.labelMedium),
-                          Text(details[index]['value'],
-                              style: Styles.bodySmall),
-                        ],
-                      ),
-                    ],
-                  );
-                },
-              ),
-            )
-          ],
+    return InkWell(
+      onTap: () {},
+      child: Ink(
+        width: MediaQuery.of(context).size.width * width,
+        height: MediaQuery.of(context).size.height * 0.13,
+        decoration: boxDecoration,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              teacherName != null
+                  ? Text(teacherName!, style: Styles.titleMedium)
+                  : const SizedBox(),
+              const SizedBox(height: 5.0),
+              SizedBox(
+                // height: MediaQuery.of(context).size.height * 0.1,
+                width: double.infinity,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: details.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text('${details[index]['label']} ',
+                                style: Styles.labelLarge),
+                            Text(details[index]['value'],
+                                style: Styles.bodyMedium),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
