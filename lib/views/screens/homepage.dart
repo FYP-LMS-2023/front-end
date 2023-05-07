@@ -38,10 +38,11 @@ class _HomePageState extends State<HomePage> {
                 const VerticalSpacer(),
                 const Subheading(text: "Courses"),
                 HomeOverviewCard(
-                  title: '${myClass.courseCode} - ${myClass.courseName}',
+                  // title: '${myClass.courseCode} - ${myClass.courseName}',
+                  title: 'CS150 - Final Year Project',
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CourseMainPage(myclass: myClass),
+                      builder: (context) => CourseMainPage(),
                     ));
                   },
                 ),
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                   title: 'CS110 - Information Security and Ethics',
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CourseMainPage(myclass: myClass),
+                      builder: (context) => CourseMainPage(),
                     ));
                   },
                 ),
