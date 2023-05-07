@@ -3,6 +3,7 @@ import 'package:front_end/models/program_model.dart';
 
 class UserModel {
   String id;
+  String token;
   String fullName;
   String erp;
   String email;
@@ -17,6 +18,7 @@ class UserModel {
 
   UserModel({
     this.id = "<!id>",
+    this.token = "<!token>",
     this.fullName = "<!fullName>",
     this.erp = "<!erp>",
     this.email = "<!email>",
@@ -32,6 +34,7 @@ class UserModel {
 
   UserModel copyWith({
     String? id,
+    String? token,
     String? fullName,
     String? erp,
     String? email,
@@ -46,6 +49,7 @@ class UserModel {
   }) =>
       UserModel(
         id: id ?? this.id,
+        token: token ?? this.token,
         fullName: fullName ?? this.fullName,
         erp: erp ?? this.erp,
         email: email ?? this.email,
@@ -58,29 +62,35 @@ class UserModel {
         notifications: notifications ?? this.notifications,
       );
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        id: json["_id"] ?? "<!id>",
-        fullName: json["fullName"] ?? "<!name>",
-        erp: json["ERP"] ?? "<!erp>",
-        email: json["email"] ?? "<!email>",
-        userType: json["userType"] ?? "<!userType>",
-        profilePic: json["profilePic"] ?? "<!profilePic>",
-        courses: json["courses"] != null
-            ? List<CourseModel>.from(
-                json["courses"].map((x) => CourseModel.fromJson(x)))
-            : [],
-        phoneNumber: json["phoneNumber"] ?? "<!phoneNumber>",
-        cgpa: json["CGPA"]?.toDouble() ?? -1,
-        program: json["program"] != null
-            ? ProgramModel.fromJson(json["program"])
-            : ProgramModel(),
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    // final json = res["user"];
 
-        //TODO: Change to NotificationModel
-        notifications: List<String>.from(json["notifications"].map((x) => x)),
-      );
+    return UserModel(
+      id: json["_id"] ?? "<!id>",
+      token: json["token"] ?? "<!token>",
+      fullName: json["fullName"] ?? "<!name>",
+      erp: json["ERP"] ?? "<!erp>",
+      email: json["email"] ?? "<!email>",
+      userType: json["userType"] ?? "<!userType>",
+      profilePic: json["profilePic"] ?? "<!profilePic>",
+      courses: json["courses"] != null
+          ? List<CourseModel>.from(
+              json["courses"].map((x) => CourseModel.fromJson(x)))
+          : [],
+      phoneNumber: json["phoneNumber"] ?? "<!phoneNumber>",
+      cgpa: json["CGPA"]?.toDouble() ?? -1,
+      program: json["program"] != null
+          ? ProgramModel.fromJson(json["program"])
+          : ProgramModel(),
+
+      //TODO: Change to NotificationModel
+      notifications: List<String>.from(json["notifications"].map((x) => x)),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "_id": id,
+        "token": token,
         "fullName": fullName,
         "ERP": erp,
         "email": email,
