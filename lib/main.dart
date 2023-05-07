@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/views/screens/login_page.dart';
 import 'package:provider/provider.dart';
 import '../constants/colors.dart';
+import 'controllers/home_controller.dart';
 
 void main() {
-  // runApp(
-  //   ChangeNotifierProvider(
-  //     create: (_) => ClassProvider(),
-  //     child: const MyApp(),
-  //   ),
-  // );
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => HomeProvider(), // Provide an instance of HomeProvider
+      child: const MyApp(),
+    ),
+  );
+ // runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
