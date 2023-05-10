@@ -6,6 +6,7 @@ import 'package:front_end/controllers/user_controller.dart';
 import 'package:front_end/views/screens/dummy_faculty_screen.dart';
 import 'package:front_end/views/widgets/loading.dart';
 import 'package:provider/provider.dart';
+import '../../constants/log.dart';
 import '../../views/widgets/textfields.dart';
 import '../../views/widgets/buttons.dart';
 import '../../views/screens/homepage.dart';
@@ -27,6 +28,11 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       loading = true;
     });
+    Log.i("Login button pressed");
+    Log.i("password contoroller ${passwordController.text}");
+    Log.i("usernameController ${usernameController.text}");
+    Log.i("Login button pressed");
+
     await context
         .read<UserController>()
         .login(
@@ -39,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
           setState(() {
             loading = false;
           });
-          var userType = context.read<UserController>().user?.userType;
+          var userType = context.read<UserController>().getUser?.userType;
           if (userType == "Student") {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -54,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
             );
           }
         } else {
-          var errorCode = context.read<UserController>().errorCode;
+          var errorCode = context.read<UserController>().getErrorCode;
           setState(() {
             loading = false;
           });
@@ -89,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
           : Center(
             child: Padding(
               padding:
-                  EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
+                  EdgeInsets.all(MediaQuery.of(context).size.width * 0.09),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -184,6 +190,8 @@ class _LoginPageState extends State<LoginPage> {
                           MainButton(
                             text: "Login",
                             onPressed: () async {
+                              Log.i("Login button pressed");
+
                               if (_formKey.currentState!.validate()) {
                                 await userLogin();
                                 passwordController.clear();

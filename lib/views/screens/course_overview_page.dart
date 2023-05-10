@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/fonts.dart';
+import 'package:front_end/models/class_model.dart';
 import 'package:front_end/views/widgets/cards.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
 import '../../constants/spacers.dart';
 
 class CousrseOverviewPage extends StatelessWidget {
   // final ClassEntity myClass;
+  final ClassModel classData;
   const CousrseOverviewPage({
     super.key,
     // required this.myClass,
+    required this.classData,
   });
 
   @override
@@ -22,19 +25,17 @@ class CousrseOverviewPage extends StatelessWidget {
             children: <Widget>[
               Container(
                 alignment: Alignment.center,
-                child: Text(
-                    "This is course description here hahaha good morning",
-                    style: Styles.bodyLarge,
-                    textAlign: TextAlign.center),
+                child: Text(classData.course!.courseDescription,
+                    style: Styles.bodyLarge, textAlign: TextAlign.center),
               ),
               const VerticalSpacer(),
               Row(
-                children: const <Widget>[
+                children: <Widget>[
                   Expanded(
                     flex: 1,
                     child: CenteredCard(
                       text: "Students",
-                      number: 24,
+                      number: classData.studentList.length,
                     ),
                   ),
                   HorizontalSpacer(),
@@ -44,37 +45,64 @@ class CousrseOverviewPage extends StatelessWidget {
                       details: [
                         {
                           "label": "Class: ",
-                          "value": "classID",
+                          "value": classData.course!.courseCode,
                         },
                         {
                           "label": "TA: ",
-                          "value": "taName",
+                          "value": classData.ta.isNotEmpty
+                              ? classData.ta[0].fullName
+                              : "N/A",
                         }
                       ],
-                      teacherName: "teacherName",
+                      teacherName: classData.teacher?.fullName,
                     ),
                   )
                 ],
               ),
               const VerticalSpacer(),
               const Subheading(text: "Latest Assignment"),
-              CourseOverviewCard(
-                type: "assignment",
-                title: "title",
-                date: DateTime.now(),
-                postedBy: "postedBy",
-                description: "description",
-                status: "status",
-              ),
+              classData.assignments.isEmpty
+                  ? Container(
+                      height: size.height * 0.05,
+                      alignment: Alignment.center,
+                      child: Text("No assignments yet",
+                          style: Styles.bodySmall.copyWith(color: Colors.grey),
+                          textAlign: TextAlign.center),
+                    )
+                  : CourseOverviewCard(
+                      type: "assignment",
+                      title:
+                          "YAYAYAYAYAYAYAYA THIS IS OUR VERY FIRST ASSIGNMENT YAYAYAYAYAYAYAYA",
+                      date: DateTime.now(),
+                      postedBy: "postedBy",
+                      description: "description",
+                      status: "status",
+                    ),
               const VerticalSpacer(),
               const Subheading(text: "Latest Announcement"),
-              CourseOverviewCard(
-                type: "announcement",
-                title: "title",
-                date: DateTime.now(),
-                postedBy: "postedBy",
-                description: "description",
-              ),
+              classData.announcement.isEmpty
+                  ? Container(
+                      height: size.height * 0.05,
+                      alignment: Alignment.center,
+                      child: Text("No announcements yet",
+                          style: Styles.bodySmall.copyWith(color: Colors.grey),
+                          textAlign: TextAlign.center),
+                    )
+                  : CourseOverviewCard(
+                      type: "announcement",
+                      title: classData.announcement.isNotEmpty
+                          ? classData.announcement[0].title
+                          : "No announcements yet",
+                      date: classData.announcement.isEmpty
+                          ? DateTime.now()
+                          : classData.announcement[0].datePosted!,
+                      postedBy: classData.announcement.isEmpty
+                          ? "N/A"
+                          : classData.announcement[0].postedBy!.fullName,
+                      description: classData.announcement.isEmpty
+                          ? "N/A"
+                          : classData.announcement[0].description,
+                    ),
             ],
           ),
         ),
