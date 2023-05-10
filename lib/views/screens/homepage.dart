@@ -7,7 +7,9 @@ import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/views/widgets/announcements.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
 import 'package:front_end/constants/spacers.dart';
-
+import 'package:provider/provider.dart';
+import '../../controllers/home_controller.dart';
+import '../../models/course_model.dart';
 import '../widgets/cards.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,9 +22,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // ClassEntity myClass = myClassE;
   bool isChecked = false;
+  List<CourseModel>? activeClasses;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) async => {await context.read<HomeProvider>().getActiveCourses()});
+  }
 
   @override
   Widget build(BuildContext context) {
+    activeClasses = context.watch<HomeProvider>().activeClasses;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const ProfileHeader(name: "Shaheer Ahmed", id: "18635"),
@@ -37,38 +50,54 @@ class _HomePageState extends State<HomePage> {
                 const Announcements(),
                 const VerticalSpacer(),
                 const Subheading(text: "Courses"),
-                HomeOverviewCard(
-                  // title: '${myClass.courseCode} - ${myClass.courseName}',
-                  title: 'CS150 - Final Year Project',
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CourseMainPage(),
-                    ));
-                  },
+                // HomeOverviewCard(
+                //   title: "CS123 - Data Structures",
+                //   onPressed: () {
+                //     Navigator.of(context).push(MaterialPageRoute(
+                //       builder: (context) => CourseMainPage(),
+                //     ));
+                //   },
+                // ),
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.height * 0.01,
+                // ),
+                // HomeOverviewCard(
+                //   title: 'CS110 - Information Security and Ethics',
+                //   onPressed: () {
+                //     Navigator.of(context).push(MaterialPageRoute(
+                //       builder: (context) => CourseMainPage(),
+                //     ));
+                //   },
+                // ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  child: ListView.builder(
+                    itemCount: activeClasses?.length ?? 0,
+                    itemBuilder: (BuildContext context, int index) {
+                      final course = activeClasses![index];
+                      return HomeOverviewCard(
+                        title: '${course.courseCode} - ${course.courseName}',
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => CourseMainPage(),
+                          ));
+                        },
+                      );
+                    },
+                  ),
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.01,
-                ),
-                HomeOverviewCard(
-                  title: 'CS110 - Information Security and Ethics',
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CourseMainPage(),
-                    ));
-                  },
-                ),
-                const VerticalSpacer(),
-                const Subheading(text: "Due Soon"),
-                HomeOverviewCard(
-                  title: "Assignment 1",
-                  subtitle: "Final Year Project",
-                  trailing: CardDueDate(dueDate: DateTime.now()),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const AssignmentPage(),
-                    ));
-                  },
-                ),
+                // const VerticalSpacer(),
+                // const Subheading(text: "Due Soon"),
+                // HomeOverviewCard(
+                //   title: "Assignment 1",
+                //   subtitle: "Final Year Project",
+                //   trailing: CardDueDate(dueDate: DateTime.now()),
+                //   onPressed: () {
+                //     Navigator.of(context).push(MaterialPageRoute(
+                //       builder: (context) => const AssignmentPage(),
+                //     ));
+                //   },
+                // ),
               ],
             ),
           ),

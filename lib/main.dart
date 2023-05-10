@@ -3,6 +3,7 @@ import 'package:front_end/views/screens/login_page.dart';
 import 'package:provider/provider.dart';
 import '../constants/colors.dart';
 import '../../controllers/user_controller.dart';
+import 'controllers/home_controller.dart';
 
 void main() {
   runApp(
