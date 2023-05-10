@@ -2,6 +2,7 @@ import 'package:front_end/models/announcement_model.dart';
 import 'package:front_end/models/assignment_model.dart';
 import 'package:front_end/models/attendance_model.dart';
 import 'package:front_end/models/channel_model.dart';
+import 'package:front_end/models/course_model.dart';
 import 'package:front_end/models/quiz_model.dart';
 import 'package:front_end/models/resource_model.dart';
 import 'package:front_end/models/semester_model.dart';
@@ -9,8 +10,10 @@ import 'package:front_end/models/user_model.dart';
 
 class ClassModel {
   String id;
-  SemesterModel? semesterId;
-  List<UserModel> teacherIDs;
+  // SemesterModel? semesterId;
+  CourseModel? course;
+  // List<UserModel> teacher;
+  UserModel? teacher;
   String syllabus;
   List<UserModel> studentList;
   List<UserModel> ta;
@@ -24,8 +27,10 @@ class ClassModel {
 
   ClassModel({
     this.id = "<!id>",
-    this.semesterId,
-    this.teacherIDs = const [],
+    // this.semesterId,
+    this.course,
+    // this.teacher = const [],
+    this.teacher,
     this.syllabus = "<!syllabus>",
     this.studentList = const [],
     this.ta = const [],
@@ -40,8 +45,10 @@ class ClassModel {
 
   ClassModel copyWith({
     String? id,
-    SemesterModel? semesterId,
-    List<UserModel>? teacherIDs,
+    // SemesterModel? semesterId,
+    CourseModel? course,
+    // List<UserModel>? teacherIDs,
+    UserModel? teacher,
     String? syllabus,
     List<UserModel>? studentList,
     List<UserModel>? ta,
@@ -55,8 +62,10 @@ class ClassModel {
   }) =>
       ClassModel(
           id: id ?? this.id,
-          semesterId: semesterId ?? this.semesterId ?? SemesterModel(),
-          teacherIDs: teacherIDs ?? this.teacherIDs,
+          // semesterId: semesterId ?? this.semesterId ?? SemesterModel(),
+          course: course ?? this.course ?? CourseModel(),
+          // teacher: teacherIDs ?? this.teacher,
+          teacher: teacher ?? this.teacher ?? UserModel(),
           syllabus: syllabus ?? this.syllabus,
           studentList: studentList ?? this.studentList,
           ta: ta ?? this.ta,
@@ -73,45 +82,51 @@ class ClassModel {
 //TODO: NULL CHECKS
   factory ClassModel.fromJson(Map<String, dynamic> json) => ClassModel(
         id: json["_id"] ?? "<!id>",
-        semesterId: json["semesterID"] == null
-            ? SemesterModel()
-            : SemesterModel.fromJson(json["semesterID"]),
-        teacherIDs: json["teacherIDs"] == null
-            ? []
-            : List<UserModel>.from(
-                json["teacherIDs"].map((x) => UserModel.fromJson(x))),
+        // semesterId: json["semesterID"] == null
+        //     ? SemesterModel()
+        //     : SemesterModel.fromJson(json["semesterID"]),
+        course: json["course"] == null
+            ? CourseModel()
+            : CourseModel.fromJson(json["course"]),
+        // // teacher: json["teacherIDs"] == null
+        // //     ? []
+        // //     : List<UserModel>.from(
+        // //         json["teacherIDs"].map((x) => UserModel.fromJson(x))),
+        teacher: json["teacher"] == null
+            ? UserModel()
+            : UserModel.fromJson(json["teacher"]),
         syllabus: json["syllabus"] ?? "<!syllabus>",
-        studentList: json["studentList"] == null
+        studentList: json["student_list"] == null
             ? []
             : List<UserModel>.from(
-                json["studentList"].map((x) => UserModel.fromJson(x))),
+                json["student_list"].map((x) => UserModel.fromJson(x))),
         ta: json["TA"] == null
             ? []
             : List<UserModel>.from(
                 json["TA"].map((x) => UserModel.fromJson(x))),
-        channel: json["Channel"] == null
+        channel: json["channel"] == null
             ? ChannelModel()
-            : ChannelModel.fromJson(json["Channel"]),
-        announcement: json["Announcement"] == null
+            : ChannelModel.fromJson(json["channel"]),
+        announcement: json["announcements"] == null
             ? []
             : List<AnnouncementModel>.from(
-                json["Announcement"].map((x) => AnnouncementModel.fromJson(x))),
-        quizzes: json["Quizzes"] == null
+                json["announcements"].map((x) => AnnouncementModel.fromJson(x))),
+        quizzes: json["quizzes"] == null
             ? []
             : List<QuizModel>.from(
-                json["Quizzes"].map((x) => QuizModel.fromJson(x))),
-        resources: json["Resources"] == null
+                json["quizzes"].map((x) => QuizModel.fromJson(x))),
+        resources: json["resources"] == null
             ? []
             : List<ResourceModel>.from(
-                json["Resources"].map((x) => ResourceModel.fromJson(x))),
-        assignments: json["Assignments"] == null
+                json["resources"].map((x) => ResourceModel.fromJson(x))),
+        assignments: json["assignments"] == null
             ? []
             : List<AssignmentModel>.from(
-                json["Assignments"].map((x) => AssignmentModel.fromJson(x))),
-        attendance: json["Attendance"] == null
+                json["assignments"].map((x) => AssignmentModel.fromJson(x))),
+        attendance: json["attendance"] == null
             ? []
             : List<AttendanceModel>.from(
-                json["Attendance"].map((x) => AttendanceModel.fromJson(x))),
+                json["attendance"].map((x) => AttendanceModel.fromJson(x))),
         startDate: json["startDate"] == null
             ? DateTime(2000, 2, 15, 00, 00, 00, 00, 00)
             : DateTime.parse(json["startDate"]),
@@ -120,17 +135,19 @@ class ClassModel {
   //TODO: NULL CHECKS
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "semesterID": semesterId == null ? null : semesterId!.toJson(),
-        "teacherIDs": List<dynamic>.from(teacherIDs.map((x) => x.toJson())),
+        // "semesterID": semesterId == null ? null : semesterId!.toJson(),
+        "course": course == null ? null : course!.toJson(),
+        // "teacherIDs": List<dynamic>.from(teacher.map((x) => x.toJson())),
+        "teacher": teacher == null ? null : teacher!.toJson(),
         "syllabus": syllabus,
-        "studentList": List<dynamic>.from(studentList.map((x) => x.toJson())),
+        "student_list": List<dynamic>.from(studentList.map((x) => x.toJson())),
         "TA": List<dynamic>.from(ta.map((x) => x.toJson())),
-        "Channel": channel == null ? null : channel!.toJson(),
-        "Announcement": List<dynamic>.from(announcement.map((x) => x.toJson())),
-        "Quizzes": List<dynamic>.from(quizzes.map((x) => x.toJson())),
-        "Resources": List<dynamic>.from(resources.map((x) => x.toJson())),
-        "Assignments": List<dynamic>.from(assignments.map((x) => x.toJson())),
-        "Attendance": List<dynamic>.from(attendance.map((x) => x.toJson())),
+        "channel": channel == null ? null : channel!.toJson(),
+        "announcements": List<dynamic>.from(announcement.map((x) => x.toJson())),
+        "quizzes": List<dynamic>.from(quizzes.map((x) => x.toJson())),
+        "resources": List<dynamic>.from(resources.map((x) => x.toJson())),
+        "assignments": List<dynamic>.from(assignments.map((x) => x.toJson())),
+        "attendance": List<dynamic>.from(attendance.map((x) => x.toJson())),
         "startDate": startDate == null ? null : startDate!.toIso8601String(),
       };
 }

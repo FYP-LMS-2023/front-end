@@ -36,19 +36,21 @@ class AnnouncementModel {
         announcementType: announcementType ?? this.announcementType,
       );
 
-  factory AnnouncementModel.fromJson(Map<String, dynamic> json) =>
-      AnnouncementModel(
-        id: json["_id"] ?? "<!id>",
-        title: json["title"] ?? "<!title>",
-        description: json["description"] ?? "<!description>",
-        postedBy: json["postedBy"] == null
-            ? UserModel()
-            : UserModel.fromJson(json["postedBy"]),
-        datePosted: json["datePosted"] == null
-            ? DateTime(2000, 02, 15, 00, 00, 00, 00, 00)
-            : DateTime.parse(json["datePosted"]),
-        announcementType: json["announcementType"] ?? "<!announcementType>",
-      );
+  factory AnnouncementModel.fromJson(Map<String, dynamic> json) {
+    print('AnnouncementModel.fromJson: json = $json');
+    return AnnouncementModel(
+      id: json["_id"] ?? "<!id>",
+      title: json["title"] ?? "<!title>",
+      description: json["description"] ?? "<!description>",
+      postedBy: json["postedBy"] == null
+          ? UserModel()
+          : UserModel.fromJson(json["postedBy"]),
+      datePosted: json["datePosted"] == null
+          ? DateTime(2000, 02, 15, 00, 00, 00, 00, 00)
+          : DateTime.parse(json["datePosted"]),
+      announcementType: json["announcementType"] ?? "<!announcementType>",
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "_id": id,

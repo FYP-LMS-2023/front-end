@@ -1,34 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/env.dart';
+import 'package:front_end/constants/secure_storage.dart';
+import 'package:front_end/models/announcement_model.dart';
+import 'package:front_end/models/class_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/course_model.dart';
 
-class HomeProvider extends ChangeNotifier {
-  List<CourseModel>? activeClasses;
-  String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ1NDU2NzliZTk2NTQ2MjI2ZDM5MTQiLCJlbWFpbCI6InN0dWQxQGdtYWlsLmNvbSIsIkVSUCI6IjAwMDAyIiwidXNlclR5cGUiOiJTdHVkZW50IiwiaWF0IjoxNjgzMjk5MTUwLCJleHAiOjE2ODMzODU1NTB9.abX1GH32kJ0PPlJw1yn1dqVm3TIFqTHIORhlSvkDGJQ";
+class HomeController extends ChangeNotifier {
+  final secureStorage = SecureStorage();
+  List<ClassModel>? activeClasses;
+  List<AnnouncementModel>? announcements;
 
-  Future<void> getActiveCourses() async {
+  List<ClassModel>? get getActiveClasses => activeClasses;
+  List<AnnouncementModel>? get getAnnouncements => announcements;
+
+  Future<void> getDashboard() async {
     try {
+      final token = await secureStorage.getToken();
       final response = await http.get(
-        Uri.parse(
-            'https://smash-back-end-lms.vercel.app/general/getMainDashboard'),
-        headers: {'Authorization': 'Bearer $token'},
+        Uri.parse('${Environment.baseURL}general/getMainDashboard'),
+        headers: {'Authorization': token ?? ""},
       );
+
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
-        final activeCoursesData = jsonData['activeClasses'] as List<dynamic>;
-        activeClasses = activeCoursesData
-            .map((courseData) => CourseModel(
-                courseName: courseData['courseName'],
-                courseCode: courseData['courseCode']))
+
+        final activeClassData = jsonData['activeClasses'] as List<dynamic>;
+        activeClasses = activeClassData
+            .map((courseData) => ClassModel(
+                id: courseData['_id'],
+                course: CourseModel(
+                    courseName: courseData['courseName'],
+                    courseCode: courseData['courseCode'])))
             .toList();
+
+        final announcementsData = jsonData['announcements'] as List<dynamic>;
+        announcements = announcementsData
+            .map((announcementData) => AnnouncementModel(
+                  id: announcementData['_id'],
+                  announcementType: announcementData['announcementType'],
+                ))
+            .toList();
+
         notifyListeners();
       } else {
-        throw Exception('Failed to load active courses');
+        print('${response.statusCode}: ${response.body}');
       }
     } catch (error) {
-      print(error.toString());
-      throw Exception('Failed to load active courses');
+      print('hello: ${error.toString()}');
     }
   }
 }

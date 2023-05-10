@@ -3,7 +3,6 @@ import 'package:front_end/models/program_model.dart';
 
 class UserModel {
   String id;
-  String token;
   String fullName;
   String erp;
   String email;
@@ -14,11 +13,10 @@ class UserModel {
   double cgpa;
   ProgramModel? program;
   //TODO: Change to NotificationModel
-  List<String> notifications; //?
+  // List<String> notifications; //?
 
   UserModel({
     this.id = "<!id>",
-    this.token = "<!token>",
     this.fullName = "<!fullName>",
     this.erp = "<!erp>",
     this.email = "<!email>",
@@ -29,12 +27,11 @@ class UserModel {
     this.cgpa = -1,
     this.program,
     //TODO: Change to NotificationModel
-    this.notifications = const [],
+    // this.notifications = const [],
   });
 
   UserModel copyWith({
     String? id,
-    String? token,
     String? fullName,
     String? erp,
     String? email,
@@ -45,11 +42,10 @@ class UserModel {
     double? cgpa,
     ProgramModel? program,
     //TODO: Change to NotificationModel
-    List<String>? notifications,
+    // List<String>? notifications,
   }) =>
       UserModel(
         id: id ?? this.id,
-        token: token ?? this.token,
         fullName: fullName ?? this.fullName,
         erp: erp ?? this.erp,
         email: email ?? this.email,
@@ -59,15 +55,14 @@ class UserModel {
         phoneNumber: phoneNumber ?? this.phoneNumber,
         cgpa: cgpa ?? this.cgpa,
         program: program ?? this.program ?? ProgramModel(),
-        notifications: notifications ?? this.notifications,
+        // notifications: notifications ?? this.notifications,
       );
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     // final json = res["user"];
-
+    // print("UserModel.fromJson: $json");
     return UserModel(
       id: json["_id"] ?? "<!id>",
-      token: json["token"] ?? "<!token>",
       fullName: json["fullName"] ?? "<!name>",
       erp: json["ERP"] ?? "<!erp>",
       email: json["email"] ?? "<!email>",
@@ -84,13 +79,12 @@ class UserModel {
           : ProgramModel(),
 
       //TODO: Change to NotificationModel
-      notifications: List<String>.from(json["notifications"].map((x) => x)),
+      // notifications: List<String>.from(json["notifications"].map((x) => x)),
     );
   }
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "token": token,
         "fullName": fullName,
         "ERP": erp,
         "email": email,
@@ -101,6 +95,6 @@ class UserModel {
         "CGPA": cgpa,
         "program": program != null ? program!.toJson() : null,
         //TODO: Change to NotificationModel
-        "notifications": List<dynamic>.from(notifications.map((x) => x)),
+        // "notifications": List<dynamic>.from(notifications.map((x) => x)),
       };
 }

@@ -34,20 +34,22 @@ class CourseModel {
         classes: classes ?? this.classes,
       );
 
-  factory CourseModel.fromJson(Map<String, dynamic> json) => CourseModel(
-        id: json["_id"] ?? "<!id>",
-        courseCode: json["courseCode"] ?? "<!courseCode>",
-        courseName: json["courseName"] ?? "<!courseName>",
-        creditHours: json["creditHours"] ?? -1,
-        courseDescription: json["courseDescription"] ?? "<!courseDescription>",
-        // classes: List<ClassModel>.from(
-        //     json["classes"].map((x) => ClassModel.fromJson(x))),
-        classes: json["classes"] != null
-            ? List<ClassModel>.from(
-                json["classes"].map((x) => ClassModel.fromJson(x)))
-            : [],
-      );
-
+  factory CourseModel.fromJson(Map<String, dynamic> json) {
+    // print('CourseModel.fromJson: $json');
+    return CourseModel(
+      id: json["_id"] ?? "<!id>",
+      courseCode: json["courseCode"] ?? "<!courseCode>",
+      courseName: json["courseName"] ?? "<!courseName>",
+      creditHours: json["creditHours"] ?? -1,
+      courseDescription: json["courseDescription"] ?? "<!courseDescription>",
+      // classes: List<ClassModel>.from(
+      //     json["classes"].map((x) => ClassModel.fromJson(x))),
+      classes: json["classes"] != null
+          ? List<ClassModel>.from(
+              json["classes"].map((x) => ClassModel.fromJson(x)))
+          : [],
+    );
+  }
   Map<String, dynamic> toJson() => {
         "_id": id,
         "courseCode": courseCode,
