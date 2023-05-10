@@ -1,80 +1,107 @@
+import 'package:front_end/models/class_model.dart';
+import 'package:front_end/models/question_model.dart';
+import 'package:front_end/models/quiz_submission_model.dart';
+
 class QuizModel {
-  late String title;
-  late String description;
-  late DateTime uploadDate;
-  late DateTime dueDate;
-  late DateTime startDate;
-  late String status;
-  late int resubmissionsAllowed;
-  DateTime? resubmissionDeadline;
-  late int marks;
-  List<Map<String, dynamic>>? attachments;
-  List<Map<String, dynamic>>? submissions;
-  late List<Map<String, dynamic>> questions;
+  String id;
+  String title;
+  String description;
+  DateTime? uploadDate;
+  DateTime? dueDate;
+  DateTime? startDate;
+  ClassModel? classId;
+  String status;
+  List<QuizSubmissionModel> submissions;
+  List<QuestionModel> questions;
+  int marks;
 
   QuizModel({
-    required this.title,
-    required this.description,
-    required this.uploadDate,
-    required this.dueDate,
-    required this.startDate,
-    required this.status,
-    required this.resubmissionsAllowed,
-    this.resubmissionDeadline,
-    required this.marks,
-    this.attachments,
-    this.submissions,
-    required this.questions,
+    this.id = "<!id>",
+    this.title = "<!title>",
+    this.description = "<!description>",
+    this.uploadDate,
+    this.dueDate,
+    this.startDate,
+    this.classId,
+    this.status = "<!status>",
+    this.submissions = const [],
+    this.questions = const [],
+    this.marks = -1,
   });
 
-  QuizModel.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    description = json['description'];
-    uploadDate = json['uploadDate'];
-    dueDate = json['dueDate'];
-    startDate = json['startDate'];
-    status = json['status'];
-    resubmissionsAllowed = json['resubmissionsAllowed'];
-    resubmissionDeadline = json['resubmissionDeadline'];
-    marks = json['marks'];
-    if (json['attachments'] != null) {
-      attachments = <Map<String, dynamic>>[];
-      json['attachments'].forEach((v) {
-        attachments?.add(v);
-      });
-    }
-    if (json['submissions'] != null) {
-      submissions = <Map<String, dynamic>>[];
-      json['submissions'].forEach((v) {
-        submissions?.add(v);
-      });
-    } 
-    if (json['questions'] != null) {
-      questions = <Map<String, dynamic>>[];
-      json['questions'].forEach((v) {
-        questions.add(v);
-      });
-    }
-  }
+  QuizModel copyWith({
+    String? id,
+    String? title,
+    String? description,
+    DateTime? uploadDate,
+    DateTime? dueDate,
+    DateTime? startDate,
+    ClassModel? classId,
+    String? status,
+    List<QuizSubmissionModel>? submissions,
+    List<QuestionModel>? questions,
+    int? marks,
+  }) =>
+      QuizModel(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        description: description ?? this.description,
+        uploadDate: uploadDate ??
+            this.uploadDate ??
+            DateTime(2000, 2, 15, 00, 00, 00, 00, 00),
+        dueDate: dueDate ??
+            this.dueDate ??
+            DateTime(2000, 2, 15, 00, 00, 00, 00, 00),
+        startDate: startDate ??
+            this.startDate ??
+            DateTime(2000, 2, 15, 00, 00, 00, 00, 00),
+        classId: classId ?? this.classId ?? ClassModel(),
+        status: status ?? this.status,
+        submissions: submissions ?? this.submissions,
+        questions: questions ?? this.questions,
+        marks: marks ?? this.marks,
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['title'] = title;
-    data['description'] = description;
-    data['uploadDate'] = uploadDate;
-    data['dueDate'] = dueDate;
-    data['startDate'] = startDate;
-    data['status'] = status;
-    data['resubmissionsAllowed'] = resubmissionsAllowed;
-    data['resubmissionDeadline'] = resubmissionDeadline;
-    data['marks'] = marks;
-    if (attachments != null) {
-      data['attachments'] = attachments?.map((v) => v).toList();
-    }
-    if (submissions != null) {
-      data['submissions'] = submissions?.map((v) => v).toList();
-    }
-    data['questions'] = questions.map((v) => v).toList();
-    return data;
-  }
+  factory QuizModel.fromJson(Map<String, dynamic> json) => QuizModel(
+        id: json["_id"] ?? "<!id>",
+        title: json["title"] ?? "<!title>",
+        description: json["description"] ?? "<!description>",
+        uploadDate: json["uploadDate"] == null
+            ? DateTime(2000, 2, 15, 00, 00, 00, 00, 00)
+            : DateTime.parse(json["uploadDate"]),
+        dueDate: json["dueDate"] == null
+            ? DateTime(2000, 2, 15, 00, 00, 00, 00, 00)
+            : DateTime.parse(json["dueDate"]),
+        startDate: json["startDate"] == null
+            ? DateTime(2000, 2, 15, 00, 00, 00, 00, 00)
+            : DateTime.parse(json["startDate"]),
+        // classId: ClassModel.fromJson(json["classId"]),
+        classId: json["classId"] == null
+            ? ClassModel()
+            : ClassModel.fromJson(json["classId"]),
+        status: json["status"],
+        submissions: json["submissions"] == null
+            ? []
+            : List<QuizSubmissionModel>.from(json["submissions"]
+                .map((x) => QuizSubmissionModel.fromJson(x))),
+        questions: json["questions"] == null
+            ? []
+            : List<QuestionModel>.from(
+                json["questions"].map((x) => QuestionModel.fromJson(x))),
+        marks: json["marks"] ?? -1,
+      );
+
+  Map<String, dynamic> toJson() => {
+        "_id": id,
+        "title": title,
+        "description": description,
+        "uploadDate": uploadDate == null ? null : uploadDate!.toIso8601String(),
+        "dueDate": dueDate == null ? null : dueDate!.toIso8601String(),
+        "startDate": startDate == null ? null : startDate!.toIso8601String(),
+        "classId": classId == null ? null : classId!.toJson(),
+        "status": status,
+        "submissions": List<dynamic>.from(submissions.map((x) => x.toJson())),
+        "questions": List<dynamic>.from(questions.map((x) => x.toJson())),
+        "marks": marks,
+      };
 }

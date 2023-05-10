@@ -3,14 +3,23 @@ import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/views/screens/login_page.dart';
 import 'package:provider/provider.dart';
 import '../constants/colors.dart';
+import '../../controllers/user_controller.dart';
+import 'controllers/home_controller.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ClassProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<HomeController>(
+            create: (_) => HomeController()),
+        ChangeNotifierProvider<UserController>(create: (_) => UserController()),
+        ChangeNotifierProvider<ClassController>(
+            create: (_) => ClassController()),
+      ],
       child: const MyApp(),
     ),
   );
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -18,7 +27,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ClassProvider>().loadClasses();
+    // context.read<ClassProvider>().loadClasses();
     return MaterialApp(
       title: 'MASH LMS',
       theme: ThemeData(primarySwatch: Palette.kToDark),

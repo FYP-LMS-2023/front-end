@@ -4,29 +4,45 @@ class MainTextField extends StatelessWidget {
   final String label;
   final TextEditingController? controller;
   final bool? obsureText;
+  final String? Function(String?)? validator;
+
   const MainTextField(
-      {super.key, required this.label, this.controller, this.obsureText});
+      {super.key,
+      required this.label,
+      this.controller,
+      this.obsureText,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       cursorColor: Colors.black,
       controller: controller,
+      validator: validator,
       obscureText: obsureText ?? false,
       decoration: InputDecoration(
-          focusColor: Colors.black,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 1, color: Colors.black),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 1, color: Colors.grey),
-          ),
-          fillColor: Colors.white,
-          filled: true,
-          labelText: label,
-          labelStyle: TextStyle(color: Colors.grey[700])),
+        focusColor: Colors.black,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: const BorderSide(width: 1, color: Colors.black),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: const BorderSide(width: 1, color: Colors.grey),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: const BorderSide(width: 1, color: Colors.redAccent),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: const BorderSide(width: 1, color: Colors.red),
+        ),
+        fillColor: Colors.white,
+        filled: true,
+        labelText: label,
+        labelStyle: TextStyle(color: Colors.grey[700]),
+      ),
     );
   }
 }
