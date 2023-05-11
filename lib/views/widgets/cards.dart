@@ -265,29 +265,38 @@ class CourseOverviewCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: Styles.headlineSmall,
-                      ),
-                      const SizedBox(height: 5.0),
-                      Text(
-                        type == "quiz"
-                            ? 'Time Left: ${time_left(date)}'
-                            : 'Posted by: $postedBy',
-                        style: Styles.labelLarge,
-                      ),
-                      const SizedBox(height: 5.0),
-                      Text(
-                        type == "assignment" || type == "quiz"
-                            ? 'Due: ${DateFormat('dd, MMMM yyyy @ hh:mm a').format(date)}'
-                            : DateFormat('dd, MMMM yyyy - hh:mm a')
-                                .format(date),
-                        style: Styles.labelLarge,
-                      ),
-                    ],
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          child: Text(
+                            title,
+                            style: Styles.headlineSmall,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(height: 5.0),
+                        Container(
+                          child: Text(
+                            type == "quiz"
+                                ? 'Time Left: ${time_left(date)}'
+                                : 'Posted by: $postedBy',
+                            style: Styles.labelLarge,
+                          ),
+                        ),
+                        const SizedBox(height: 5.0),
+                        Container(
+                          child: Text(
+                            type == "assignment" || type == "quiz"
+                                ? 'Due: ${DateFormat('dd, MMMM yyyy @ hh:mm a').format(date)}'
+                                : DateFormat('dd, MMMM yyyy - hh:mm a')
+                                    .format(date),
+                            style: Styles.labelLarge,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   status == null
                       ? const SizedBox()

@@ -50,10 +50,15 @@ class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
               ));
             },
             child: CircleAvatar(
-              backgroundColor: Palette.kToDark[50],
+              // backgroundColor: Palette.kToDark[50],
+              backgroundColor: Colors.primaries[name.isNotEmpty
+                  ? name[0].hashCode % Colors.primaries.length
+                  : 0],
               child: Text(
                 name.isNotEmpty ? name[0] : '',
-                style: Styles.titleMedium.copyWith(color: Colors.white),
+                style: Styles.titleMedium.copyWith(
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
