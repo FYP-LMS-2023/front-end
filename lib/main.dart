@@ -4,6 +4,7 @@ import 'package:front_end/views/screens/login_page.dart';
 import 'package:provider/provider.dart';
 import '../constants/colors.dart';
 import '../../controllers/user_controller.dart';
+import 'controllers/assignment_controller.dart';
 import 'controllers/home_controller.dart';
 
 void main() {
@@ -15,6 +16,8 @@ void main() {
         ChangeNotifierProvider<UserController>(create: (_) => UserController()),
         ChangeNotifierProvider<ClassController>(
             create: (_) => ClassController()),
+        ChangeNotifierProvider<AssignmentController>(
+            create: (_) => AssignmentController()),
       ],
       child: const MyApp(),
     ),

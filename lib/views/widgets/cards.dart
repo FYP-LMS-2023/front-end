@@ -435,7 +435,6 @@ class AssignmentDetailCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10.0),
                 Row(
                   children: <Widget>[
                     Text(
@@ -451,15 +450,17 @@ class AssignmentDetailCard extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     Text(
-                      "Resub Deadline: ",
+                      "Resubmission Deadline: ",
                       style: Styles.titleMedium,
                     ),
-                    Text(
-                      DateFormat('dd, MMMM yyyy @ hh:mm a')
-                          .format(resubmissionDueDate),
-                      style: Styles.bodyLarge,
-                    ),
+
                   ],
+                ),
+                Text(
+                  DateFormat('dd, MMMM yyyy @ hh:mm a')
+                      .format(resubmissionDueDate),
+                  style: Styles.bodyLarge,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),

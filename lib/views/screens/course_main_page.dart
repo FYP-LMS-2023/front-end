@@ -63,8 +63,8 @@ class _CourseMainPageState extends State<CourseMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return loading
-        ? Scaffold(
+    return loading ?
+        const Scaffold(
             body: Loading(),
           )
         : Scaffold(
@@ -105,7 +105,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
       case "Quizzes":
         return const QuizListPage();
       case "Assignments":
-        return const AssignmentListPage();
+        return AssignmentListPage(widget.id);
       case "Announcements":
         return const AnnouncementListPage();
       case "Resources":

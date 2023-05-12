@@ -90,7 +90,7 @@ class AssignmentModel {
         classId: json["classId"] != null
             ? ClassModel.fromJson(json["classId"])
             : ClassModel(),
-        resubmissionsAllowed: json["resubmissionsAllowed"],
+        resubmissionsAllowed: json["resubmissionsAllowed"] ?? -1,
         status: json["status"] ?? "<!status>",
         resubmissionDeadline: json["resubmissionDeadline"] != null
             ? DateTime.parse(json["resubmissionDeadline"])
