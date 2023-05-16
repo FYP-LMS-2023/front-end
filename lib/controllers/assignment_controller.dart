@@ -11,9 +11,67 @@ import '../models/assignment_model.dart';
 class AssignmentController extends ChangeNotifier {
   final secureStorage = SecureStorage();
 
+  AssignmentModel? assignmentObject;
+
+  AssignmentModel? get getAssignmentObject => assignmentObject;
+
   List<AssignmentModel>? assignments;
 
   List<AssignmentModel>? get getAssignments=> assignments;
+
+
+  Future<void> getAssignmentDetails(String id) async {
+    try{
+      final token = await secureStorage.getToken();
+      final response = await http.get(
+        Uri.parse('${Environment.baseURL}assignmentTwo/getAssignmentById/$id'),
+        headers: <String, String>{'Authorization': token ?? ""},
+      );
+
+      Log.d("Response Status Code: ${response.statusCode}");
+
+      if(response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        final assignmentData = responseData["assignment"];
+        Log.d("Assignment Data: $assignmentData");
+        Log.d("Assignment Data is not Empty: ${assignmentData.isNotEmpty}");
+       
+        if (assignmentData.isNotEmpty) {
+
+          Log.d("Data: $assignmentData");
+          var id = assignmentData["_id"];
+          var uploadDate = assignmentData["uploadDate"];
+          var dueDate = assignmentData["dueDate"];
+          var title = assignmentData["title"];
+          var status = assignmentData["status"];
+          var description = assignmentData["description"];
+          var marks = assignmentData["marks"];
+          var files = assignmentData["files"];
+          var submissions = assignmentData["submissions"];
+
+
+          final filteredData = {
+            "_id": id,
+            "uploadDate": uploadDate,
+            "dueDate": dueDate,
+            "title": title,
+            "status": status,
+            "description": description,
+            "marks" : marks,
+            "files" : files,
+            "submissions" : submissions,
+          };
+          Log.d("filteredData: $filteredData");
+          Log.d("filteredData type: ${filteredData.runtimeType}");
+
+          assignmentObject = AssignmentModel.fromJson(filteredData);
+        }
+        notifyListeners();
+      }
+    } catch(e) {
+      print("Error coming: $e");
+    }
+  }
 
   Future<void> getAllAssignments(String id) async {
     try{ 

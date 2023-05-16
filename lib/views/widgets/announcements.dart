@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/models/announcement_model.dart';
-import 'package:front_end/views/screens/announcment_page.dart';
+import 'package:front_end/views/screens/announcement_page.dart';
 
 class Announcements extends StatelessWidget {
   final List<AnnouncementModel>? announcementList;
@@ -20,7 +20,7 @@ class Announcements extends StatelessWidget {
             InkWell(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AnnouncementPage()));
+                    builder: (context) => AnnouncementPage()));
               },
               child: CircleAvatar(
                 radius: (MediaQuery.of(context).size.width / 5) * 0.35,

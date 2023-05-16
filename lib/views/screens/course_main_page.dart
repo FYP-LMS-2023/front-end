@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import '../screens/course_outline_page.dart';
 import '../screens/course_overview_page.dart';
 import '../screens/assignment_list_page.dart';
-import '../screens/announcment_list_page.dart';
+import 'announcement_list_page.dart';
 import '../screens/quiz_list_page.dart';
 import '../screens/resource_list_page.dart';
 import '../widgets/headers.dart';
@@ -107,7 +107,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
       case "Assignments":
         return AssignmentListPage(widget.id);
       case "Announcements":
-        return const AnnouncementListPage();
+        return AnnouncementListPage(widget.id);
       case "Resources":
         return const ResourceListPage();
       case "Channel":

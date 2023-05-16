@@ -2,20 +2,58 @@ import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../../constants/fonts.dart';
+import '../../constants/log.dart';
+import '../../controllers/announcement_controller.dart';
+import '../../models/announcement_model.dart';
 import '../../utils/functions/status_color.dart';
 import '../widgets/headers.dart';
 
-class AnnouncementPage extends StatelessWidget {
-  const AnnouncementPage({super.key});
+class AnnouncementPage extends StatefulWidget {
+  String? id;
+  AnnouncementPage({super.key, this.id});
+
+  @override
+  State<AnnouncementPage> createState() => _AnnouncementPageState();
+}
+
+class _AnnouncementPageState extends State<AnnouncementPage> {
+
+  AnnouncementModel? announcement;
+
+  Future<void> fetchAnnouncementDetails() async {
+    Log.i("fetching announcement details");
+    try {
+      await context
+          .read<AnnouncementController>()
+          .getAnnouncementDetails(widget.id != null ? widget.id! : "1")
+          .then((value) {
+        setState(() {
+          announcement = context.read<AnnouncementController>().getAnnouncementObject;
+        });
+      });
+
+      Log.d("announcement details: ${announcement!.title}");
+    } catch (e) {
+      Log.e("error araha fetch announcement details me $e");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAnnouncementDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Colors.white,
         appBar: CourseHeader(
-          title: "Announcment 1",
-          subtitle: "CS150 - Final Year Project",
+          title: "Announcement",
+          subtitle: announcement != null ? announcement!.title : "Announcement 1",
           onMenuPressed: () {},
         ),
         body: SingleChildScrollView(
@@ -31,9 +69,9 @@ class AnnouncementPage extends StatelessWidget {
                     decoration: BoxDecoration(
                         // border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(10.0),
-                        color: status_color("Exam")),
+                        color: status_color(announcement != null ? announcement!.announcementType : "Exam")),
                     child: Text(
-                      "Exam",
+                      announcement != null ? announcement!.announcementType : "Exam",
                       style: Styles.bodySmall.copyWith(color: Colors.white),
                     ),
                   ),
@@ -51,15 +89,17 @@ class AnnouncementPage extends StatelessWidget {
                               Text(
                                 "Date Posted: ",
                                 style: Styles.titleMedium,
-                              ),
-                              Text(
-                                DateFormat('dd, MMMM yyyy @ hh:mm a')
-                                    .format(DateTime.now()),
-                                style: Styles.bodyLarge,
+                                
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10.0),
+                          Text(
+                                DateFormat('dd, MMMM yyyy @ hh:mm a')
+                                    .format(DateTime.now()),
+                                style: Styles.bodyLarge,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
                           Row(
                             children: <Widget>[
                               Text(
@@ -83,12 +123,12 @@ class AnnouncementPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "New Learning Management System (LMS)",
+                          announcement != null ? announcement!.title : "Announcement Title Not Coming",
                           style: Styles.titleLarge,
                         ),
                         const VerticalSpacer(),
                         Text(
-                          "Dear students,\n\nWe are excited to announce the launch of our new Learning Management System (LMS)! Our LMS is designed to provide a more interactive and engaging learning experience for you, with a user-friendly interface and a variety of features that will make your learning journey more enjoyable. With our LMS, you can easily access your course materials, participate in discussions, take quizzes and exams, and collaborate with your peers. You can also track your progress and receive personalized feedback from your instructors to help you stay on track. We are committed to providing you with the best possible learning experience, and we believe that our new LMS will help us achieve that goal. We encourage you to explore the system and take advantage of all the resources available to you. Thank you for choosing our institution for your educational needs, and we look forward to supporting you in your academic pursuits. \n\nBest regards,\nIBA",
+                          announcement != null ? announcement!.description : "Announcement Description Not Coming",
                           style: Styles.bodyMedium,
                         )
                       ],
