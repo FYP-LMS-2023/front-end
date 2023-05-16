@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/models/class_model.dart';
+import 'package:front_end/models/resource_model.dart';
 // import 'package:front_end/entities/class_entity.dart';
 import 'package:front_end/views/screens/threads_list.dart';
 import 'package:front_end/views/screens/view_attendance.dart';
@@ -35,6 +36,7 @@ class CourseMainPage extends StatefulWidget {
 class _CourseMainPageState extends State<CourseMainPage> {
   bool loading = true;
   ClassModel? classData;
+  ResourceModel? resourcesData;
 
   loadClass() async {
     // print(widget.id ?? "1");
@@ -95,7 +97,8 @@ class _CourseMainPageState extends State<CourseMainPage> {
   createPage(String currentTab) {
     switch (currentTab) {
       case "Overview":
-        return CousrseOverviewPage(classData: classData != null ? classData! : ClassModel());
+        return CousrseOverviewPage(
+            classData: classData != null ? classData! : ClassModel());
       case "Outline":
         return const CourseOutlinePage();
       case "Attendance":
@@ -109,7 +112,8 @@ class _CourseMainPageState extends State<CourseMainPage> {
       case "Announcements":
         return const AnnouncementListPage();
       case "Resources":
-        return const ResourceListPage();
+        return ResourceListPage(
+            id: "644548e6b590a461802efa08"); //classData != null ? classData!.id : "1"
       case "Channel":
         return ThreadsList();
     }

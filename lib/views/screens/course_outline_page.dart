@@ -19,7 +19,7 @@ class CourseOutlinePage extends StatelessWidget {
           ),
           const VerticalSpacer(),
           Text(
-            "This is the course outline page. It will contain the course outline of the course. It will be a list of topics and subtopics. The topics will be clickable and will lead to the topic page. The subtopics will be clickable and will lead to the subtopic page. The subtopic page will contain the subtopic content. The topic page will contain the subtopics of the topic. ",
+            "This is the course outline page. It will contain the course outline of the course. It will be a list of topics and subtopics. The topics will be clickable and will lead to the topic page. The subtopics will be clickable and will lead to the subtopic page. The subtopic page will contain the subtopic content. The topic page will contain the subtopics of the topic.",
             style: Styles.bodyLarge,
           ),
         ],
