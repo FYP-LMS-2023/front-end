@@ -112,8 +112,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
       case "Announcements":
         return const AnnouncementListPage();
       case "Resources":
-        return ResourceListPage(
-            id: "644548e6b590a461802efa08"); //classData != null ? classData!.id : "1"
+        return ResourceListPage(id: widget.id != null? widget.id! : "1");
       case "Channel":
         return ThreadsList();
     }

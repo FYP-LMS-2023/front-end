@@ -24,55 +24,18 @@ class ResourceController extends ChangeNotifier {
         headers: <String, String>{'Authorization': token ?? ''},
       );
 
-      //Log.e(response);
+      Log.e(jsonDecode(response.body));
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body) as List<dynamic>;
-        // final resourcesData = Json.decoderesponseData['resources'] as List<dynamic>;
 
-        List<ResourceModel> tempResources = [];
+        // Log.v(responseData);
 
-        // resources = responseData
-        //     .map((resourceData) => ResourceModel(
-        //         title: resourceData["title"],
-        //         //dateUploaded: resourceData["uploadDate"],
-        //         files: resourceData["files"]
-        //             .map((filesData) => File(url: filesData["url"]))
-        //             .toList()))
-        //     .toList();
+        resources = responseData.map((e) => ResourceModel.fromJson(e)).toList();
 
-        // resources = responseData.map((e) {
-          
-        // })
+        Log.w(resources!.length);
 
-        Log.e(resources![0].title);
-
-        // if (resourcesData.isNotEmpty) {
-        //   for (var data in resourcesData) {
-        //     var id = data['_id'];
-        //     var uploadedBy = data['uploadedBy'];
-        //     var dateUploaded = data['dateUploaded'];
-        //     var fileSize = data['fileSize'];
-        //     var fileType = data['fileType'];
-        //     var fileLink = data['fileLink'];
-        //     var fileName = data['fileName'];
-
-        //     final filteredData = {
-        //       '_id': id,
-        //       'uploadedBy': uploadedBy,
-        //       'dateUploaded': dateUploaded,
-        //       'fileSize': fileSize,
-        //       'fileType': fileType,
-        //       'fileLink': fileLink,
-        //       'fileName': fileName,
-        //     };
-
-        //   tempResources.add(ResourceModel.fromJson(filteredData));
-        // }
-
-        // resources = tempResources;
         notifyListeners();
-        //}
       }
     } catch (e) {
       print('Widget ID: $id');

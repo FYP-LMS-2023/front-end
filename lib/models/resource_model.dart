@@ -57,9 +57,9 @@ class ResourceModel {
       uploadedBy: json["uploadedBy"] == null
           ? null
           : UserModel.fromJson(json["uploadedBy"]),
-      dateUploaded: json["dateUploaded"] == null
+      dateUploaded: json["uploadDate"] == null
           ? DateTime(2000, 02, 15, 00, 00, 00, 00, 00)
-          : DateTime.parse(json["dateUploaded"]),
+          : DateTime.parse(json["uploadDate"]),
       title: json["title"] ?? "<!title>",
       description: json["description"] ?? "<!description>",
       files: json["files"] == null ? [] : List<File>.from(json["files"].map((x) => File.fromJson(x))),
@@ -72,7 +72,7 @@ class ResourceModel {
   Map<String, dynamic> toJson() => {
         "_id": id,
         "uploadedBy": uploadedBy == null ? null : uploadedBy!.toJson(),
-        "dateUploaded": dateUploaded == null
+        "uploadDate": dateUploaded == null
             ? DateTime(2000, 02, 15, 00, 00, 00, 00, 00).toIso8601String()
             : dateUploaded!.toIso8601String(),
         "title": title,
