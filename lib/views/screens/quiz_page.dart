@@ -3,9 +3,15 @@ import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/views/widgets/buttons.dart';
 import 'package:front_end/views/widgets/headers.dart';
+import 'package:provider/provider.dart';
+
+import '../../controllers/quiz_controller.dart';
+import '../../models/quiz_model.dart';
 
 class QuizPage extends StatefulWidget {
-  const QuizPage({super.key});
+   QuizPage({this.id, super.key});
+
+  String? id;
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -17,6 +23,25 @@ class _QuizPageState extends State<QuizPage> {
   Map<int, dynamic> answerIDs = {};
   Map<int, dynamic> questionIDs = {};
   String quizID = "";
+  List<QuizModel>? quizList = [];
+
+  Future<void> fetchQuizList() async {
+      await context.read<QuizController>().getAllQuizzes(widget.id != null ? widget.id! : "1")
+        .then(
+          (value) {
+            setState(() {
+              quizList = context.read<QuizController>().getQuizzes;
+            });
+          }
+        );
+  }
+
+  @override
+  void initState() {
+    fetchQuizList();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> quizDetails = {
