@@ -14,7 +14,7 @@ class Log {
     Exception? error,
     StackTrace? stackTrace,
   ]) {
-    Logger(printer: SimplePrinter(colors: true)).d(message, error, stackTrace);
+    Logger(printer: PrettyPrinter(colors: true)).d(message, error, stackTrace);
   }
 
   static void i(
@@ -22,7 +22,7 @@ class Log {
     Exception? error,
     StackTrace? stackTrace,
   ]) {
-    Logger(printer: SimplePrinter(colors: true)).i(message, error, stackTrace);
+    Logger(printer: PrettyPrinter(colors: true)).i(message, error, stackTrace);
   }
 
   static void v(
@@ -30,7 +30,7 @@ class Log {
     Exception? error,
     StackTrace? stackTrace,
   ]) {
-    Logger(printer: SimplePrinter(colors: true)).v(message, error, stackTrace);
+    Logger(printer: PrettyPrinter(colors: true)).v(message, error, stackTrace);
   }
 
   static void w(
@@ -38,6 +38,6 @@ class Log {
     Exception? error,
     StackTrace? stackTrace,
   ]) {
-    Logger(printer: SimplePrinter(colors: true)).w(message, error, stackTrace);
+    Logger(printer: PrettyPrinter(colors: true)).w(message, error, stackTrace);
   }
 }
