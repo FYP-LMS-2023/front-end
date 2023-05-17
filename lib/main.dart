@@ -6,6 +6,7 @@ import '../constants/colors.dart';
 import '../../controllers/user_controller.dart';
 import 'controllers/announcement_controller.dart';
 import 'controllers/assignment_controller.dart';
+import 'controllers/channel_controller.dart';
 import 'controllers/home_controller.dart';
 
 void main() {
@@ -21,6 +22,8 @@ void main() {
             create: (_) => AssignmentController()),
         ChangeNotifierProvider<AnnouncementController>(
             create: (_) => AnnouncementController()),
+        ChangeNotifierProvider<ChannelController>(
+            create: (_) => ChannelController()),
       ],
       child: const MyApp(),
     ),

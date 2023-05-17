@@ -2,12 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
+import 'package:provider/provider.dart';
 import 'dart:math';
 
+import '../../constants/log.dart';
+import '../../controllers/channel_controller.dart';
+import '../../models/channel_model.dart';
+import '../../models/thread_model.dart';
 import 'thread_page.dart';
 
-class ThreadsList extends StatelessWidget {
-  ThreadsList({super.key});
+class ThreadsList extends StatefulWidget {
+  String ? id;
+  ThreadsList({super.key, this.id});
+
+  @override
+  State<ThreadsList> createState() => _ThreadsListState();
+}
+
+class _ThreadsListState extends State<ThreadsList> {
+
+  List<ThreadModel>? threads;
 
   final List<String> userNames = [
     'John Doe',
@@ -16,6 +30,7 @@ class ThreadsList extends StatelessWidget {
     'Emily Davis',
     'Chris Lee'
   ];
+
   final List<String> threadTitles = [
     'What is the best way to learn Flutter?',
     'How can I improve my UI design skills?',
@@ -28,6 +43,7 @@ class ThreadsList extends StatelessWidget {
     'What is the best way to get started with machine learning?',
     'How can I become a better public speaker?',
   ];
+
   final List<String> tags = [
     'General',
     'Homework',
@@ -36,6 +52,31 @@ class ThreadsList extends StatelessWidget {
     'Question',
     'Other'
   ];
+
+  Future<void> fetchThreads() async {
+    try {
+      await context.read<ChannelController>().getAllThreads(widget.id != null ? widget.id! : "1")
+        .then(
+          (value) {
+            setState(() {
+              threads = context.read<ChannelController>().getThreads;
+              print("Threads length: ${threads?.length}");
+            });
+          }
+        );
+    } catch (e) {
+      Log.e("error araha fetch threads me $e");
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Log.d("Channel Id arahi hai: ${widget.id}");
+    fetchThreads();
+  }
+
 
   @override
   Widget build(BuildContext context) {

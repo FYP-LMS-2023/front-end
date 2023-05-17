@@ -32,15 +32,16 @@ class ClassController extends ChangeNotifier {
         final teacherDetails = responseData['classDetails']['teacher'];
         final classDetails = responseData['classDetails']['class'];
         final channelDetails = responseData['channel'];
-        //final assignmentDetails = responseData['latestAssignment'];
-        //final announcementDetails = responseData["latestAnnouncement"];
+        final assignmentDetails = responseData['latestAssignment'];
+        final announcementDetails = responseData["latestAnnouncement"];
         
 
         final filteredData = {
           "course": courseDetails,
           "teacher": teacherDetails,
-          //"latestAnnouncement": announcementDetails,
-          //"latestAssignment": assignmentDetails,
+          "latestAnnouncement": announcementDetails,
+          "latestAssignment": assignmentDetails,
+          "channel": channelDetails,
         };
 
         filteredData.addAll(classDetails);
@@ -49,7 +50,6 @@ class ClassController extends ChangeNotifier {
         // print('classDetails: $filteredData');
         // log('classDetails: $filteredData');
 
-        Log.d('Class Details: $filteredData');
         myClass = ClassModel.fromJson(filteredData);
         notifyListeners();
         //print("Assignment Details: " + assignmentDetails);
@@ -58,7 +58,7 @@ class ClassController extends ChangeNotifier {
 
       // print('response: ${response.statusCode}: ${response.body}');
     } catch (e) {
-      print(e.toString());
+      print("Class details fetch me masla: $e");
     }
   }
 

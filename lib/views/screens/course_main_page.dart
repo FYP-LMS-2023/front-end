@@ -105,13 +105,13 @@ class _CourseMainPageState extends State<CourseMainPage> {
       case "Quizzes":
         return const QuizListPage();
       case "Assignments":
-        return AssignmentListPage(widget.id);
+        return AssignmentListPage(widget.id,fullname: classData!.teacher!.fullName);
       case "Announcements":
-        return AnnouncementListPage(widget.id);
+        return AnnouncementListPage(widget.id,fullname: classData!.teacher!.fullName);
       case "Resources":
         return const ResourceListPage();
       case "Channel":
-        return ThreadsList();
+        return ThreadsList(id: classData!.channel!.channelId);
     }
   }
 }

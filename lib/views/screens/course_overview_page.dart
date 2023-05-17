@@ -64,58 +64,58 @@ class CousrseOverviewPage extends StatelessWidget {
               const VerticalSpacer(),
               const Subheading(text: "Latest Assignment"),
               
-              // classData.latestAssignment == null
-              //     ? Container(
-              //         height: size.height * 0.05,
-              //         alignment: Alignment.center,
-              //         child: Text("No assignments yet",
-              //             style: Styles.bodySmall.copyWith(color: Colors.grey),
-              //             textAlign: TextAlign.center),
-              //       )
-              //     : CourseOverviewCard(
-              //         type: "assignment",
-              //         title: classData.latestAssignment == null
-              //             ? "No assignments yet"
-              //             : classData.latestAssignment!.title,
-              //         date: classData.latestAssignment == null
-              //             ? DateTime.now()
-              //             : classData.latestAssignment!.dueDate!,
-              //         // postedBy: classData.latestAssignment == null
-              //         //     ? "N/A"
-              //         //     : classData.latestAssignment?.postedBy!.fullName,
-              //         description: classData.latestAssignment == null
-              //             ? "N/A"
-              //             : classData.latestAssignment!.description,
-              //         status: classData.latestAssignment == null
-              //             ? "N/A"
-              //             : classData.latestAssignment!.status,
-              //       ),
+              classData.latestAssignment == null
+                  ? Container(
+                      height: size.height * 0.05,
+                      alignment: Alignment.center,
+                      child: Text("No assignments yet",
+                          style: Styles.bodySmall.copyWith(color: Colors.grey),
+                          textAlign: TextAlign.center),
+                    )
+                  : CourseOverviewCard(
+                      type: "assignment",
+                      title: classData.latestAssignment == null
+                          ? "No assignments yet"
+                          : classData.latestAssignment!.title,
+                      date: classData.latestAssignment == null
+                          ? DateTime.now()
+                          : classData.latestAssignment!.dueDate!,
+                      postedBy: classData.latestAssignment == null
+                          ? "N/A"
+                          : classData.teacher!.fullName,
+                      description: classData.latestAssignment == null
+                          ? "N/A"
+                          : classData.latestAssignment!.description,
+                      status: classData.latestAssignment == null
+                          ? "N/A"
+                          : classData.latestAssignment!.status,
+                    ),
               const VerticalSpacer(),
               const Subheading(text: "Latest Announcement"),
 
-              // classData.latestAnnouncement == null
-              //     ? Container(
-              //         height: size.height * 0.05,
-              //         alignment: Alignment.center,
-              //         child: Text("No announcements yet",
-              //             style: Styles.bodySmall.copyWith(color: Color.fromARGB(255, 97, 65, 65)),
-              //             textAlign: TextAlign.center),
-              //       )
-              //     : CourseOverviewCard(
-              //         type: "announcement",
-              //         title: classData.latestAnnouncement == null
-              //             ? "No announcements yet"
-              //             : classData.latestAnnouncement!.title,
-              //         date: classData.latestAnnouncement == null
-              //             ? DateTime.now()
-              //             : classData.latestAnnouncement!.datePosted!,
-              //         postedBy: classData.latestAnnouncement == null
-              //             ? "N/A"
-              //             : classData.latestAnnouncement?.postedBy!.fullName,
-              //         description: classData.latestAnnouncement == null
-              //             ? "N/A"
-              //             : classData.latestAnnouncement!.description,
-              //       ),
+              classData.latestAnnouncement == null
+                  ? Container(
+                      height: size.height * 0.05,
+                      alignment: Alignment.center,
+                      child: Text("No announcements yet",
+                          style: Styles.bodySmall.copyWith(color: Color.fromARGB(255, 97, 65, 65)),
+                          textAlign: TextAlign.center),
+                    )
+                  : CourseOverviewCard(
+                      type: "announcement",
+                      title: classData.latestAnnouncement == null
+                          ? "No announcements yet"
+                          : classData.latestAnnouncement!.title,
+                      date: classData.latestAnnouncement == null
+                          ? DateTime.now()
+                          : classData.latestAnnouncement!.datePosted!,
+                      postedBy: classData.latestAnnouncement == null
+                          ? "N/A"
+                          : classData.teacher!.fullName,
+                      description: classData.latestAnnouncement == null
+                          ? "N/A"
+                          : classData.latestAnnouncement!.description,
+                    ),
             ],
           ),
         ),

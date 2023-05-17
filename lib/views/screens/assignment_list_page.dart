@@ -181,8 +181,9 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 class AssignmentListPage extends StatefulWidget {
-  AssignmentListPage(this.id, {super.key});
+  AssignmentListPage(this.id, {super.key, this.fullname});
   String? id;
+  String? fullname;
   @override
   State<AssignmentListPage> createState() => _AssignmentListPageState();
 }
@@ -259,6 +260,7 @@ class _AssignmentListPageState extends State<AssignmentListPage> {
                         date: DateTime.now(),
                         description: assignment.description,
                         status: assignment.status,
+                        postedBy: widget.fullname,
                         onClick: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(

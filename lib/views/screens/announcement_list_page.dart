@@ -10,8 +10,9 @@ import '../widgets/cards.dart';
 import 'announcement_page.dart';
 
 class AnnouncementListPage extends StatefulWidget {
-  AnnouncementListPage(this.id, {super.key});
+  AnnouncementListPage(this.id, {super.key,this.fullname});
   String? id;
+  String? fullname;
 
   @override
   State<AnnouncementListPage> createState() => _AnnouncementListPageState();
@@ -130,8 +131,8 @@ class _AnnouncementListPageState extends State<AnnouncementListPage> {
                             type: announcement.announcementType,
                             title: announcement.title,
                             date: announcement.datePosted ?? DateTime.now(),
-                            postedBy: announcement.postedBy != null
-                                ? announcement.postedBy!.fullName
+                            postedBy: widget.fullname != null
+                                    ? widget.fullname!
                                 : "<fullname!>",
                             description: announcement.description,
                             onClick: () {
