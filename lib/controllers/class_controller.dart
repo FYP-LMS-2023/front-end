@@ -11,8 +11,10 @@ import '../constants/log.dart';
 class ClassController extends ChangeNotifier {
   final secureStorage = SecureStorage();
   ClassModel? myClass;
+  ClassModel? mySyllabus;
 
   ClassModel? get getMyClass => myClass;
+  ClassModel? get getSyllabus => mySyllabus;
 
   Future<void> getClassDetails(String id) async {
     try {
@@ -20,7 +22,7 @@ class ClassController extends ChangeNotifier {
       final token = await secureStorage.getToken();
       // print('testing: $test');
       final response = await http.post(
-        Uri.parse('${Environment.baseURL}class/getclassDetailsShaheer'),
+        Uri.parse('${Environment.baseURL}class/getClassDetailsShaheer'),
         headers: <String, String>{'Authorization': token ?? ""},
         body: <String, String>{"classID": id},
       );
@@ -33,13 +35,17 @@ class ClassController extends ChangeNotifier {
         final classDetails = responseData['classDetails']['class'];
         final channelDetails = responseData['channel'];
         final annoucementDetails = responseData['announcement'];
+        // final syllabus = responseData['syllabus'];
+
+        Log.v(responseData);
 
         final filteredData = {
           "course": courseDetails,
           "teacher": teacherDetails,
           // "classDetails": classDetails,
           // "channel": channelDetails,
-          "announcements": annoucementDetails
+          "announcements": annoucementDetails,
+          //"syllabus": syllabus
         };
 
         filteredData.addAll(classDetails);
@@ -47,7 +53,6 @@ class ClassController extends ChangeNotifier {
         // print('courseDetails: $courseDetails');
         // print('classDetails: $filteredData');
         // log('classDetails: $filteredData');
-
         Log.d('classDetails: $filteredData');
         myClass = ClassModel.fromJson(filteredData);
 
@@ -77,4 +82,23 @@ class ClassController extends ChangeNotifier {
       print(e.toString());
     }
   }
+
+  //   Future<void> getMySyllabus(String id) async {
+  //   try {
+  //     final token = await secureStorage.getToken();
+  //     final response = http.get(
+  //       Uri.parse(
+  //           '${Environment.baseURL}class/getClassDetails/$id'),
+  //       headers: <String, String>{'Authorization': token ?? ""},
+  //     );
+
+  //     if(response.statusCode == 200){
+  //       final responseData = jsonDecode(response.body);
+  //       print(responseData);
+  //     }
+
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
 }

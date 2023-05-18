@@ -100,11 +100,11 @@ class _CourseMainPageState extends State<CourseMainPage> {
         return CousrseOverviewPage(
             classData: classData != null ? classData! : ClassModel());
       case "Outline":
-        return const CourseOutlinePage();
+        return CourseOutlinePage(
+            syllabus:
+                classData != null ? classData!.syllabus : "No Syllabus Yet");
       case "Attendance":
-        return const ViewAttendanceScreen(
-          courseName: "Math",
-        );
+        return ViewAttendanceScreen(id: widget.id != null ? widget.id! : "1");
       case "Quizzes":
         return const QuizListPage();
       case "Assignments":
@@ -112,7 +112,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
       case "Announcements":
         return const AnnouncementListPage();
       case "Resources":
-        return ResourceListPage(id: widget.id != null? widget.id! : "1");
+        return ResourceListPage(id: widget.id != null ? widget.id! : "1");
       case "Channel":
         return ThreadsList();
     }
