@@ -4,6 +4,7 @@ import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/user_controller.dart';
 import 'package:front_end/views/screens/dummy_faculty_screen.dart';
+import 'package:front_end/views/screens/faculty/faculty_home_page.dart';
 import 'package:front_end/views/widgets/loading.dart';
 import 'package:provider/provider.dart';
 import '../../constants/log.dart';
@@ -55,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
           } else if (userType == "Faculty") {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const Dummy(),
+                builder: (context) => const FacHome(),
               ),
             );
           }
