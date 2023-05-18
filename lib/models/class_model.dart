@@ -24,6 +24,8 @@ class ClassModel {
   List<AssignmentModel> assignments;
   List<AttendanceModel> attendance;
   DateTime? startDate;
+  AssignmentModel? latestAssignment;
+  AnnouncementModel? latestAnnouncement;
 
   ClassModel({
     this.id = "<!id>",
@@ -41,6 +43,8 @@ class ClassModel {
     this.assignments = const [],
     this.attendance = const [],
     this.startDate,
+    this.latestAssignment,
+    this.latestAnnouncement,
   });
 
   ClassModel copyWith({
@@ -130,6 +134,12 @@ class ClassModel {
         startDate: json["startDate"] == null
             ? DateTime(2000, 2, 15, 00, 00, 00, 00, 00)
             : DateTime.parse(json["startDate"]),
+        latestAssignment: json["latestAssignment"] == null
+            ? AssignmentModel()
+            : AssignmentModel.fromJson(json["latestAssignment"]),
+        latestAnnouncement: json["latestAnnouncement"] == null
+            ? AnnouncementModel()
+            : AnnouncementModel.fromJson(json["latestAnnouncement"]),
       );
 
   //TODO: NULL CHECKS

@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import '../screens/course_outline_page.dart';
 import '../screens/course_overview_page.dart';
 import '../screens/assignment_list_page.dart';
-import '../screens/announcment_list_page.dart';
+import 'announcement_list_page.dart';
 import '../screens/quiz_list_page.dart';
 import '../screens/resource_list_page.dart';
 import '../widgets/headers.dart';
@@ -63,8 +63,8 @@ class _CourseMainPageState extends State<CourseMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return loading
-        ? Scaffold(
+    return loading ?
+        const Scaffold(
             body: Loading(),
           )
         : Scaffold(
@@ -105,13 +105,13 @@ class _CourseMainPageState extends State<CourseMainPage> {
       case "Quizzes":
         return const QuizListPage();
       case "Assignments":
-        return const AssignmentListPage();
+        return AssignmentListPage(widget.id,fullname: classData!.teacher!.fullName);
       case "Announcements":
-        return const AnnouncementListPage();
+        return AnnouncementListPage(widget.id,fullname: classData!.teacher!.fullName);
       case "Resources":
         return const ResourceListPage();
       case "Channel":
-        return ThreadsList();
+        return ThreadsList(id: classData!.channel!.channelId);
     }
   }
 }

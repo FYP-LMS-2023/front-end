@@ -6,19 +6,55 @@ import 'package:front_end/views/widgets/buttons.dart';
 import 'package:front_end/views/widgets/cards.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
 import 'package:front_end/views/widgets/submissions.dart';
+import 'package:provider/provider.dart';
+import '../../constants/log.dart';
+import '../../controllers/assignment_controller.dart';
+import '../../models/assignment_model.dart';
 import '../widgets/headers.dart';
 
-class AssignmentPage extends StatelessWidget {
+class AssignmentPage extends StatefulWidget {
   final bool graded;
-  const AssignmentPage({super.key, this.graded = false});
+  String? id;
+  AssignmentPage({super.key, this.graded = false, this.id});
+
+  @override
+  State<AssignmentPage> createState() => _AssignmentPageState();
+}
+
+class _AssignmentPageState extends State<AssignmentPage> {
+  AssignmentModel? assignment;
+
+  Future<void> fetchAssignmentDetails() async {
+    Log.i("fetching assignment details");
+    try {
+      await context
+          .read<AssignmentController>()
+          .getAssignmentDetails(widget.id != null ? widget.id! : "1")
+          .then((value) {
+        setState(() {
+          assignment = context.read<AssignmentController>().getAssignmentObject;
+        });
+      });
+
+      Log.d("assignment details: ${assignment!.title}");
+    } catch (e) {
+      Log.e("error araha fetch assignment details me $e");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAssignmentDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CourseHeader(
-        title: "Assignment 1",
-        subtitle: "CS150 - Final Year Project",
+        title: "Assignment",
+        subtitle: assignment != null ? assignment!.title : "Assignment 1",
         onMenuPressed: () {},
       ),
       body: SingleChildScrollView(
@@ -28,14 +64,17 @@ class AssignmentPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 AssignmentDetailCard(
-                  dueDate: DateTime.now(),
+                  dueDate:
+                      assignment?.dueDate ?? DateTime(2021, 05, 04, 20, 20),
                   numResubmissions: 4,
                   resubmissionDueDate: DateTime(2023, 05, 04, 20, 20),
-                  status: "Open",
+                  status: assignment != null ? assignment!.status : "<status!>",
                 ),
                 const VerticalSpacer(),
-                graded ? const Subheading(text: "Feedback") : const SizedBox(),
-                graded
+                widget.graded
+                    ? const Subheading(text: "Feedback")
+                    : const SizedBox(),
+                widget.graded
                     ? Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -44,17 +83,64 @@ class AssignmentPage extends StatelessWidget {
                         ),
                       )
                     : const SizedBox(),
-                graded ? const VerticalSpacer() : const SizedBox(),
+                widget.graded ? const VerticalSpacer() : const SizedBox(),
                 const Subheading(text: "Instructions"),
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.all(16.0),
                   decoration: boxDecoration,
                   child: Text(
-                    "Join the following repo to start your quiz. \n\nhttps://classroom.github.com/a/9UvwPMC9 \n\nafter joining by your ERP id, clone your repo link to VScode.\nRun these 2 commands first: \n\n - npm init \n - npm install axios bcrypt body-parser dotenv express http-errors jsonwebtoken mongoose morgan nodemon \n - create App.js file and start working as your usual.\n\nYou can use your project database to connect to mongodb.",
+                    assignment != null
+                        ? assignment!.description
+                        : "This means description is not coming",
                     style: Styles.bodyMedium,
                   ),
                 ),
+                const VerticalSpacer(),
+                const Subheading(text: "Files"),
+                assignment?.files == null ? 
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "No files to download",
+                    style: Styles.bodyMedium,
+                  ),
+                ) :
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Please download the following files to complete the assignment.",
+                    style: Styles.bodyMedium,
+                  ),
+                ),
+                const VerticalSpacer(),
+                if (assignment?.files != null && assignment!.files!.isNotEmpty)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: assignment!.files
+                        !.map((file) => InkWell(
+                              onTap: () async {
+                               
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 8.0),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.file_download),
+                                    const SizedBox(width: 8.0),
+                                    Expanded(
+                                      child: Text(
+                                        file.url,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ))
+                        .toList(),
+                  ),
                 const VerticalSpacer(),
                 const Subheading(text: "Submissions"),
                 Container(
@@ -76,7 +162,7 @@ class AssignmentPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: !graded
+      bottomNavigationBar: !widget.graded
           ? Container(
               padding: const EdgeInsets.all(16),
               child: MainButton(
