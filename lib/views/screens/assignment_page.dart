@@ -11,6 +11,7 @@ import '../../constants/log.dart';
 import '../../controllers/assignment_controller.dart';
 import '../../models/assignment_model.dart';
 import '../widgets/headers.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AssignmentPage extends StatefulWidget {
   final bool graded;
@@ -48,6 +49,17 @@ class _AssignmentPageState extends State<AssignmentPage> {
     fetchAssignmentDetails();
   }
 
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,33 +126,78 @@ class _AssignmentPageState extends State<AssignmentPage> {
                   ),
                 ),
                 const VerticalSpacer(),
-                if (assignment?.files != null && assignment!.files!.isNotEmpty)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: assignment!.files
-                        !.map((file) => InkWell(
-                              onTap: () async {
+              ListView.separated(
+                shrinkWrap: true,
+                itemCount: assignment != null ? assignment!.files!.length : 0,
+                separatorBuilder: (context, index) => SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      _launchInBrowser(
+                          Uri.parse(assignment!.files![index].url));
+                    },
+                    child: Ink(
+                      decoration: boxDecoration,
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.13,
+                              height: MediaQuery.of(context).size.width * 0.13,
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: createIcon(assignment!.files![index].url
+                                  .split("-")[1]
+                                  .split(".")[1]),
+                            ),
+                            const HorizontalSpacer(),
+                            Expanded(
+                              child: 
+                                Text(assignment!.files![index].url
+                                    .split("/")[8]
+                                    .split("-")[1].replaceAll('%20', ' '),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                )
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+                // if (assignment?.files != null && assignment!.files!.isNotEmpty)
+                //   Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: assignment!.files
+                //         !.map((file) => InkWell(
+                //               onTap: () async {
                                
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 8.0),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.file_download),
-                                    const SizedBox(width: 8.0),
-                                    Expanded(
-                                      child: Text(
-                                        file.url,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 3,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ))
-                        .toList(),
-                  ),
+                //               },
+                //               child: Container(
+                //                 margin: const EdgeInsets.only(bottom: 8.0),
+                //                 child: Row(
+                //                   children: [
+                //                     Icon(Icons.file_download),
+                //                     const SizedBox(width: 8.0),
+                //                     Expanded(
+                //                       child: Text(
+                //                         file.url,
+                //                         overflow: TextOverflow.ellipsis,
+                //                         maxLines: 4,
+                //                       ),
+                //                     ),
+                //                   ],
+                //                 ),
+                //               ),
+                //             ))
+                //         .toList(),
+                //   ),
                 const VerticalSpacer(),
                 const Subheading(text: "Submissions"),
                 Container(
@@ -174,6 +231,30 @@ class _AssignmentPageState extends State<AssignmentPage> {
               ),
             )
           : const SizedBox(),
+    );
+  }
+  
+  Icon createIcon(String ext) {
+    // print(ext);
+    if (ext == "pdf") {
+      return const Icon(
+        Icons.picture_as_pdf_rounded,
+        color: Colors.white,
+      );
+    } else if (ext == "png") {
+      return const Icon(Icons.image, color: Colors.white);
+    } else if (ext == "mp4") {
+      return const Icon(Icons.video_library, color: Colors.white);
+    } else if (ext == "mp3") {
+      return const Icon(Icons.audio_file, color: Colors.white);
+    } else if (ext == "txt") {
+      return const Icon(Icons.text_snippet_rounded, color: Colors.white);
+    } else if (ext == "docx") {
+      return const Icon(Icons.edit_document, color: Colors.white);
+    }
+    return const Icon(
+      Icons.file_copy_rounded,
+      color: Colors.white,
     );
   }
 }

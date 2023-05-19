@@ -224,17 +224,19 @@ class _AssignmentListPageState extends State<AssignmentListPage> {
       padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          
           children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.25,
-              child: Column(
-                children: [
-                  buildStats(context),
-                  const VerticalSpacer(),
-                  const Subheading(text: "Assignments"),
-                ],
-              ),
-            ),
+            // Container(
+            //   height: MediaQuery.of(context).size.height * 0.25,
+            //   child: Column(
+            //     children: [
+    
+            //     ],
+            //   ),
+            // ),
+            buildStats(context),
+            const VerticalSpacer(),
+            const Subheading(text: "Assignments"),
             assignments == null ?
              Container(
                 height: size.height * 0.05,
@@ -246,9 +248,10 @@ class _AssignmentListPageState extends State<AssignmentListPage> {
             :
             Expanded(
               child: ListView.builder(
+                // physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-                clipBehavior: Clip.none,
+                // clipBehavior: Clip.none,
                 itemCount: assignments !=null ? assignments!.length : 0,
                 itemBuilder: (context, index) {
                   AssignmentModel assignment = assignments![index];

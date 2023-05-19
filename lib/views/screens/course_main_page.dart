@@ -84,8 +84,8 @@ class _CourseMainPageState extends State<CourseMainPage> {
                   ),
             appBar: CourseHeader(
               title: widget.currentTab,
-              subtitle:
-                  "${classData!.course!.courseCode} - ${classData!.course!.courseName}",
+              subtitle: classData != null ? 
+                  "${classData!.course!.courseCode} - ${classData!.course!.courseName}" : "Course Name - Course Code",
               onMenuPressed: () {},
             ),
             body: createPage(widget.currentTab),

@@ -16,6 +16,39 @@ class ChannelController extends ChangeNotifier {
 
   List<ThreadModel>? get getThreads => threads;
 
+
+  Future<void> createThread(String id, String title, String description, List<String> tags) async {
+    try {
+      final token = await secureStorage.getToken();
+      final response = await http.post(
+        Uri.parse('${Environment.baseURL}channel/createThread/$id'),
+        headers: <String, String>{'Authorization': token ?? ""},
+        body: jsonEncode({
+        'title': title,
+        'description': description,
+        'tags': tags,
+        })
+      );
+
+      Log.d("Response Status Code: ${response.statusCode}");
+
+      if(response.statusCode == 200) { 
+        final responseData = jsonDecode(response.body);
+        final threadsData = responseData["result"];
+        Log.d("Threads Data: $threadsData");
+        Log.d("Threads Data is not Empty: ${threadsData.isNotEmpty}");
+        List<ThreadModel> tempThreads = [];
+        
+        await getAllThreads(id);
+
+        notifyListeners();
+      }
+
+    } catch (e) {
+      Log.e('Error: $e');
+    }
+  }
+
   Future<void> getAllThreads(String id) async {
     try {
       final token = await secureStorage.getToken();
@@ -40,28 +73,32 @@ class ChannelController extends ChangeNotifier {
             var postedBy = data["postedBy"];
             var title = data["title"];
             var description = data["description"];
-            var comments = data["comments"];
+            var commentsCount = data["comments"].length;
             var tags = data["tags"];
             var upVotes = data["upVotes"];
             var downVotes = data["downVotes"];
             var datePosted = data["datePosted"];
+            var upVoteCount = data["upvoteCount"];
+            var downVoteCount = data["downvoteCount"];
 
             final filteredData = {
               "_id": id,
               "title": title,
               "description": description,
               "postedBy": postedBy,
-              "comments": comments,
+              "commentsCount": commentsCount,
               "tags": tags,
               "upVotes": upVotes,
               "downVotes": downVotes,
               "datePosted": datePosted,
+              "upvoteCount": upVoteCount,
+              "downvoteCount": downVoteCount,
             };
             Log.d("filteredData: $filteredData");
+            Log.d("Comments Count: $commentsCount");
             Log.d("filteredData type: ${filteredData.runtimeType}");
             tempThreads.add(ThreadModel.fromJson(filteredData));
           }
-
           Log.d("Temp Assignments: $tempThreads");
           threads = tempThreads;
           notifyListeners();

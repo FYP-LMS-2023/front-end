@@ -12,7 +12,7 @@ import '../../models/thread_model.dart';
 import 'thread_page.dart';
 
 class ThreadsList extends StatefulWidget {
-  String ? id;
+  String? id;
   ThreadsList({super.key, this.id});
 
   @override
@@ -20,8 +20,17 @@ class ThreadsList extends StatefulWidget {
 }
 
 class _ThreadsListState extends State<ThreadsList> {
-
   List<ThreadModel>? threads;
+  List<String> tags = [
+    "General",
+    "Homework",
+    "Project",
+    "Exam",
+    "Question",
+    "Other"
+  ];
+
+  List<String> addedTags = [];
 
   final List<String> userNames = [
     'John Doe',
@@ -44,26 +53,17 @@ class _ThreadsListState extends State<ThreadsList> {
     'How can I become a better public speaker?',
   ];
 
-  final List<String> tags = [
-    'General',
-    'Homework',
-    'Project',
-    'Exam',
-    'Question',
-    'Other'
-  ];
-
   Future<void> fetchThreads() async {
     try {
-      await context.read<ChannelController>().getAllThreads(widget.id != null ? widget.id! : "1")
-        .then(
-          (value) {
-            setState(() {
-              threads = context.read<ChannelController>().getThreads;
-              print("Threads length: ${threads?.length}");
-            });
-          }
-        );
+      await context
+          .read<ChannelController>()
+          .getAllThreads(widget.id != null ? widget.id! : "1")
+          .then((value) {
+        setState(() {
+          threads = context.read<ChannelController>().getThreads;
+          print("Threads length: ${threads?.length}");
+        });
+      });
     } catch (e) {
       Log.e("error araha fetch threads me $e");
     }
@@ -71,54 +71,200 @@ class _ThreadsListState extends State<ThreadsList> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Log.d("Channel Id arahi hai: ${widget.id}");
     fetchThreads();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
-        child: ListView(
-          children: List.generate(
-            5,
-            (index) {
-              final String userFullName =
-                  userNames[Random().nextInt(userNames.length)];
-              final String userInitials =
-                  userFullName.split(' ').map((name) => name[0]).join();
-              final String timeSincePosted = '${Random().nextInt(24)}h';
-              final String threadTitle =
-                  threadTitles[Random().nextInt(threadTitles.length)];
-              final int upVoteCount = Random().nextInt(1000);
-              final int downVoteCount = Random().nextInt(100);
-              final int commentsCount = Random().nextInt(1000);
-              final String tag = tags[Random().nextInt(6)];
-
-              return Column(
-                children: [
-                  ThreadTile(
-                    userInitials: userInitials,
-                    userFullName: userFullName,
-                    timeSincePosted: timeSincePosted,
-                    threadTitle: threadTitle,
-                    upVoteCount: upVoteCount,
-                    downVoteCount: downVoteCount,
-                    commentsCount: commentsCount,
-                    tag: tag,
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                ],
-              );
-            },
-          ),
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          create_thread(context, size);
+        },
+        child: const Icon(Icons.add),
+      ),
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
+          child: threads == null
+              ? Container(
+                  height: size.height * 0.05,
+                  alignment: Alignment.center,
+                  child: Text("No threads yet",
+                      style: Styles.bodySmall.copyWith(
+                          color: const Color.fromARGB(255, 97, 65, 65)),
+                      textAlign: TextAlign.center))
+              : ListView.builder(
+                  itemCount: threads != null ? threads!.length : 0,
+                  itemBuilder: (context, index) {
+                    ThreadModel thread = threads![index];
+                    String timeDifference =
+                        calculateTimeDifference(thread.datePosted!);
+                    return Column(
+                      children: [
+                        ThreadTile(
+                          userInitials: thread.postedBy!.fullName
+                              .split(' ')
+                              .map((name) => name[0])
+                              .join(),
+                          userFullName: thread.postedBy!.fullName,
+                          timeSincePosted: timeDifference,
+                          threadTitle: thread.title,
+                          upVoteCount: thread.upVoteCount,
+                          downVoteCount: thread.downVoteCount,
+                          commentsCount: thread.commentsCount,
+                          tag: thread.tags.first,
+                        ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02),
+                      ],
+                    );
+                  }),
         ),
       ),
     );
+  }
+
+  Future<dynamic> create_thread(BuildContext context, Size size) {
+    return showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          builder: (BuildContext context) {
+            return SingleChildScrollView(
+              child: Container(
+                height: size.height, // Set a fixed height
+                padding: EdgeInsets.only(
+                  top: size.height * 0.05,
+                  left: 16.0,
+                  right: 16.0,
+                  bottom: 16.0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          color: Colors.black,
+                          icon: const Icon(Icons.arrow_back_ios),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        Text(
+                          "Create Thread",
+                          style: Styles.name.copyWith(
+                            color: Colors.black,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            // Handle thread creation
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Post'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16.0),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.primaries[
+                              Random().nextInt(Colors.primaries.length)],
+                          radius: 28.0,
+                          child: Text(
+                            "HK",
+                            style: Styles.labelLarge
+                                .copyWith(color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(width: 16.0),
+                        Text(
+                          "Huzaifa Karbalai",
+                          style: Styles.labelLarge,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16.0),
+                    const Flexible(
+                      // Replace Expanded with Flexible
+                      child: TextField(
+                        maxLines: null, // Allow multiple lines
+                        decoration: InputDecoration(
+                          labelText: 'Title',
+                          labelStyle: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16.0),
+                    const Flexible(
+                      // Replace Expanded with Flexible
+                      child: TextField(
+                        maxLines: null, // Allow multiple lines
+                        decoration: InputDecoration(
+                          labelText: 'Description',
+                          labelStyle: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 25.0),
+                    Text(
+                      "Tags",
+                      style: Styles.labelLarge,
+                    ),
+                    Wrap(
+                      spacing: 8.0, // Set the spacing between buttons
+                      runSpacing: 8.0, // Set the spacing between lines
+                      children: List<Widget>.generate(
+                        tags.length,
+                        (index) => ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              addedTags.contains(tags[index]) ? 
+                              addedTags.remove(tags[index]) : addedTags.add(tags[index]); 
+                              Log.d("Added tags: $addedTags");
+                            });
+                          },
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
+                                  if (states.contains(MaterialState.pressed)) {
+                                    return Colors.blue; // Set the color when pressed
+                                  }
+                                  return addedTags.contains(tags[index])
+                                      ? Colors.blue // Set the color when selected
+                                      : Colors.white; // Set the default color
+                                },
+                              ),
+                            ),
+                          child: Text(tags[index]),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+  }
+
+  String calculateTimeDifference(DateTime postedDate) {
+    Duration difference = DateTime.now().difference(postedDate);
+    String timeDifference;
+
+    if (difference.inDays > 0) {
+      timeDifference = "${difference.inDays}d";
+    } else {
+      timeDifference = "${difference.inHours}h";
+    }
+
+    return timeDifference;
   }
 }
 
@@ -154,7 +300,7 @@ class _ThreadTileState extends State<ThreadTile> {
       onTap: () {
         setState(() {
           Navigator.push(
-              context, MaterialPageRoute(builder: (_) => ThreadPage()));
+              context, MaterialPageRoute(builder: (_) => const ThreadPage()));
         });
       },
       child: Ink(
@@ -206,6 +352,12 @@ class _ThreadTileState extends State<ThreadTile> {
                       const Icon(Icons.arrow_upward, size: 16.0),
                       Text(
                         widget.upVoteCount.toString(),
+                        style: Styles.labelMedium,
+                      ),
+                      const SizedBox(width: 8.0),
+                      const Icon(Icons.arrow_downward, size: 16.0),
+                      Text(
+                        widget.downVoteCount.toString(),
                         style: Styles.labelMedium,
                       ),
                       const SizedBox(width: 8.0),

@@ -11,6 +11,9 @@ class ThreadModel {
   List<String> tags;
   List<UserModel> upvotes;
   List<UserModel> downvotes;
+  int upVoteCount;
+  int downVoteCount;
+  int commentsCount;
 
   ThreadModel({
     this.id = "<!id>",
@@ -22,6 +25,9 @@ class ThreadModel {
     this.tags = const [],
     this.upvotes = const [],
     this.downvotes = const [],
+    this.upVoteCount = 0,
+    this.downVoteCount = 0,
+    this.commentsCount = 0,
   });
 
   ThreadModel copyWith({
@@ -59,7 +65,9 @@ class ThreadModel {
         datePosted: json["datePosted"] == null
             ? DateTime(2000, 2, 15, 00, 00, 00, 00, 00)
             : DateTime.parse(json["datePosted"]),
-        comments: List<CommentModel>.from(json["comments"].map((x) => x)),
+        comments: json["comments"] == null 
+            ? []
+            : List<CommentModel>.from(json["comments"].map((x) => x)),
         tags: List<String>.from(json["tags"].map((x) => x)),
         upvotes: json["upvotes"] == null
             ? []
@@ -67,6 +75,9 @@ class ThreadModel {
         downvotes: json["downvotes"] == null
             ? []
             : List<UserModel>.from(json["downvotes"].map((x) => x)),
+        upVoteCount: json["upvoteCount"] ?? -1,
+        downVoteCount: json["downvoteCount"] ?? -1,
+        commentsCount: json["commentsCount"] ?? -1,
       );
 
   Map<String, dynamic> toJson() => {
