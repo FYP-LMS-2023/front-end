@@ -11,10 +11,8 @@ import '../constants/log.dart';
 class ClassController extends ChangeNotifier {
   final secureStorage = SecureStorage();
   ClassModel? myClass;
-  ClassModel? mySyllabus;
 
   ClassModel? get getMyClass => myClass;
-  ClassModel? get getSyllabus => mySyllabus;
 
   Future<void> getClassDetails(String id) async {
     try {

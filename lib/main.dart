@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/controllers/attendance_controller.dart';
 import 'package:front_end/controllers/class_controller.dart';
+import 'package:front_end/controllers/quiz_controller.dart';
 import 'package:front_end/controllers/resource_controller.dart';
 // import 'controllers/quiz_controller.dart';
 import 'package:front_end/views/screens/login_page.dart';
@@ -19,6 +21,11 @@ void main() async {
             create: (_) => ClassController()),
         ChangeNotifierProvider<ResourceController>(
             create: (_) => ResourceController()),
+        ChangeNotifierProvider<AttendanceController>(
+            create: (_) => AttendanceController()),
+        ChangeNotifierProvider<QuizController>(
+            create: (_) => QuizController())
+        
       ],
       child: const MyApp(),
     ),

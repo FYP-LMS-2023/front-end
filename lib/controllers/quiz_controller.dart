@@ -12,70 +12,79 @@ class QuizController extends ChangeNotifier {
   final secureStorage = SecureStorage();
 
   List<QuizModel>? quizzes;
+  QuizModel? quiz;
+  QuizModel? get getCurrentQuiz => quiz;
 
   List<QuizModel>? get getQuizzes => quizzes;
 
   Future<void> getAllQuizzes(String id) async {
     try {
       final token = await secureStorage.getToken();
-      // print('testing: $test');
       final response = await http.get(
-        Uri.parse('${Environment.baseURL}quiz/getQuiz/$id'),
+        Uri.parse('${Environment.baseURL}quiz/getQuizByClassID/$id'),
         headers: <String, String>{'Authorization': token ?? ""},
-        // body: <String, String>{"classID": id},
       );
 
-      // Log.d("Response Status Code: ${response.statusCode}");
-
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.body);
-        final quizzesData = responseData["quizzes"] as List<dynamic>;
-        Log.d("Quizzes Data: $quizzesData");
-        Log.d("Quizzes Data is not Empty: ${quizzesData.isNotEmpty}");
-        List<QuizModel> tempQuizzes = [];
+        final data = jsonDecode(response.body) as List<dynamic>;
+        quizzes = data
+            .map((quiz) => QuizModel(
+                id: quiz['_id'],
+                title: quiz['title'],
+                dueDate: DateTime.parse(quiz['dueDate'])))
+            .toList();
+        Log.e(quizzes);
 
-        if (quizzesData.isNotEmpty) {
-          tempQuizzes = [];
-          for (var data in quizzesData) {
-            Log.d("Data: $data");
-            var id = data["_id"];
-            var title = data["title"];
-            var description = data["description"];
-            var uploadDate = data["uploadDate"];
-            var dueDate = data["dueDate"];
-            var startDate = data["startDate"];
-            var classId = data["classId"];
-            var status = data["status"];
-            var submissions = data["submissions"];
-            var questions = data["questions"];
-            var marks = data["marks"];
-
-            final filteredData = {
-              "_id": id,
-              "title": title,
-              "description": description,
-              "uploadDate": uploadDate,
-              "dueDate": dueDate,
-              "startDate": startDate,
-              "classId": classId,
-              "status": status,
-              "submissions": submissions,
-              "questions": questions,
-              "marks": marks,
-            };
-            Log.d("filteredData: $filteredData");
-            Log.d("filteredData type: ${filteredData.runtimeType}");
-            tempQuizzes.add(QuizModel.fromJson(filteredData));
-          }
-
-          Log.d("Temp Assignments: $tempQuizzes");
-          quizzes = tempQuizzes;
-          notifyListeners();
-        }
+        notifyListeners();
       }
     } catch (e) {
       print("Widget ID: $id");
-      print("Error agaya: $e");
+      Log.e("Error: $e");
+    }
+  }
+
+  Future<void> getCurrentQuizzes(String id) async {
+    try {
+      final token = await secureStorage.getToken();
+      final response = await http.get(
+        Uri.parse('${Environment.baseURL}quiz/getQuiz/$id'),
+        headers: <String, String>{'Authorization': token ?? ""},
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        Log.d(data);
+        data.remove('classId');
+        quiz = QuizModel.fromJson(data);
+        Log.e(quiz!.title);
+
+        notifyListeners();
+      }
+    } catch (e) {
+      print("Widget ID: $id");
+      Log.e("Error: $e");
+    }
+  }
+
+  Future<void> submitQuiz(Map<String, dynamic> data) async {
+    try {
+      final token = await secureStorage.getToken();
+      final encodedData = jsonEncode(data);
+      Log.e(encodedData);
+      final response = await http.post(
+          Uri.parse('${Environment.baseURL}quiz/submitQuiz'),
+          headers: <String, String>{'Authorization': token ?? ""},
+          body: encodedData);
+
+      Log.d(response.statusCode);
+      Log.d(response.body);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        notifyListeners();
+      }
+    } catch (e) {
+      Log.e("Error: $e");
     }
   }
 }

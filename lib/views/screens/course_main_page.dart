@@ -25,7 +25,7 @@ class CourseMainPage extends StatefulWidget {
   CourseMainPage({
     super.key,
     // required this.myclass,
-    this.currentTab = "Overview",
+    this.currentTab = "Quizzes",
     this.id,
   });
 
@@ -106,7 +106,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
       case "Attendance":
         return ViewAttendanceScreen(id: widget.id != null ? widget.id! : "1");
       case "Quizzes":
-        return const QuizListPage();
+        return QuizListPage(id: widget.id != null ? widget.id! : "1");
       case "Assignments":
         return const AssignmentListPage();
       case "Announcements":
