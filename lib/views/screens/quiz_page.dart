@@ -26,7 +26,6 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   int index = 0;
   bool loading = true;
-  // Map<int, String> answers = {}; // store the selected answers for each question
   Map<int, dynamic> answerIDs = {};
   Map<int, dynamic> questionIDs = {};
   String quizID = "";
@@ -36,7 +35,7 @@ class _QuizPageState extends State<QuizPage> {
   Future<void> fetchQuizList() async {
     await context
         .read<QuizController>()
-        .getAllQuizzes(widget.id != null ? widget.id! : "1")
+        .getCurrentQuizzes(widget.id != null ? widget.id! : "1")
         .then((value) {
       setState(() {
         loading = false;
@@ -166,8 +165,7 @@ class _QuizPageState extends State<QuizPage> {
       "submittedFor": quizID,
       "submission": submissions,
     };
-    context.read<QuizController>().submitQuiz(response);    
+    context.read<QuizController>().submitQuiz(response);
     Log.w(response);
   }
 }
- 
