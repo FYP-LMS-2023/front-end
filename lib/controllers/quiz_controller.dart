@@ -71,15 +71,36 @@ class QuizController extends ChangeNotifier {
       final token = await secureStorage.getToken();
       final encodedData = jsonEncode(data);
       Log.e(encodedData);
-      final response = await http.post(
-          Uri.parse('${Environment.baseURL}quiz/submitQuiz'),
-          headers: <String, String>{'Authorization': token ?? ""},
-          body: encodedData);
+      var headers = {
+        "Authorization": token ?? "",
+        "Content-Type": "application/json"
+      };
+      var request = http.Request(
+          "POST", Uri.parse('${Environment.baseURL}quiz/submitQuiz'));
 
-      Log.d(response.statusCode);
-      Log.d(response.body);
+      request.body = jsonEncode({
+        "submittedFor": data['submittedFor'],
+        "submission": data['submission'],
+      });
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+      // final response = await http.post(
+      //   Uri.parse('${Environment.baseURL}quiz/submitQuiz'),
+      //   headers: <String, String>{
+      //     'Authorization': token ?? "",
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: encodedData,
+      // );
+
+      // Log.e(encodedData);
+      // Log.d(response.statusCode);
+      // Log.d(response.body);
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+        // final data = jsonDecode(response.body);
+        print(await response.stream.bytesToString());
 
         notifyListeners();
       }

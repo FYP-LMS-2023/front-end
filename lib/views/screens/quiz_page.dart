@@ -54,8 +54,11 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<QuestionModel> quizQuestions = quizList!.questions;
-    quizID = quizList!.id;
+    List<QuestionModel> quizQuestions = [];
+    if (!loading) {
+      quizQuestions = quizList!.questions;
+      quizID = quizList!.id;
+    }
 
     return loading
         ? const Scaffold(body: Loading())
@@ -153,21 +156,29 @@ class _QuizPageState extends State<QuizPage> {
 
   void formatResponse(
       Map<int, dynamic> answerIDs, Map<int, dynamic> questionIDs) {
+    
     List<Map<String, dynamic>> submissions = [];
+    Map<String, dynamic> responseEntry = {};
     for (int i = 0; i < answerIDs.length; i++) {
-      Map<String, dynamic> responseEntry = {
-        "question": questionIDs[i],
-        "answer": answerIDs[i],
-      };
+      responseEntry["questionID"] = questionIDs[i];
+      responseEntry["answerID"] = answerIDs[i];
       submissions.add(responseEntry);
     }
 
-    Map<String, dynamic> response = {
-      "submittedFor": quizID,
-      "submission": submissions,
-    };
-    context.read<QuizController>().submitQuiz(response);    
+    Log.i(submissions);
+    Log.i('ye le bhai quiz ID: $quizID');
+
+    // Map<String, dynamic> response = {
+    //   "submittedFor": quizID,
+    //   "submission": submissions,
+    // };
+
+    Map<String, dynamic> response = {};
+    response["submittedFor"] = quizID;
+    response["submission"] = submissions;
+
+    Log.i(response);
+    context.read<QuizController>().submitQuiz(response);
     Log.w(response);
   }
 }
- 
