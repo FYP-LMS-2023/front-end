@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/env.dart';
@@ -28,6 +29,8 @@ class ClassController extends ChangeNotifier {
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
 
+        Log.i('Response: ${response.statusCode}: ${response.body}');
+
         final courseDetails = responseData['classDetails']['course'];
         final teacherDetails = responseData['classDetails']['teacher'];
         final classDetails = responseData['classDetails']['class'];
@@ -39,7 +42,6 @@ class ClassController extends ChangeNotifier {
         Log.d("Assignment Details: $assignmentDetails");
 
         final announcementDetails = responseData["latestAnnouncement"];
-        
 
         final filteredData = {
           "course": courseDetails,
@@ -56,9 +58,9 @@ class ClassController extends ChangeNotifier {
         // log('classDetails: $filteredData');
 
         myClass = ClassModel.fromJson(filteredData);
+        myClass!.id = id;
         notifyListeners();
         //print("Assignment Details: " + assignmentDetails);
-        
       }
 
       // print('response: ${response.statusCode}: ${response.body}');
@@ -81,6 +83,29 @@ class ClassController extends ChangeNotifier {
       // }
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  Future<void> updateSyllabus(String text) async {
+    try {
+      final token = await secureStorage.getToken();
+      final response = await http.post(
+        Uri.parse('${Environment.baseURL}class/uploadSyllabus'),
+        headers: <String, String>{
+          'Authorization': token ?? "",
+          // "Content-Type": "application/json"
+        },
+        body: <String, String>{"classID": myClass!.id, "syllabus": text},
+      );
+      Log.e("classID: ${myClass!.id}, syllabus: $text");
+      Log.e("Response: ${response.statusCode}: ${response.body}");
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        print(responseData);
+      }
+    } catch (e) {
+      // print(e.toString());
+      Log.e(e.toString());
     }
   }
 }

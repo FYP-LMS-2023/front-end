@@ -8,8 +8,13 @@ import 'package:front_end/views/screens/profile_page.dart';
 class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
   final String name;
   final String id;
+  final String profilePicture;
 
-  const ProfileHeader({super.key, required this.name, required this.id});
+  const ProfileHeader(
+      {super.key,
+      required this.name,
+      required this.id,
+      required this.profilePicture});
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +59,17 @@ class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
               backgroundColor: Colors.primaries[name.isNotEmpty
                   ? name[0].hashCode % Colors.primaries.length
                   : 0],
-              child: Text(
-                name.isNotEmpty ? name[0] : '',
-                style: Styles.titleMedium.copyWith(
-                  color: Colors.white,
-                ),
-              ),
+              // child: ,
+              backgroundImage: Image.network(
+                profilePicture,
+                height: 20,
+                fit: BoxFit.scaleDown,
+              ).image,
+              // child: Text(
+              //   name.isNotEmpty ? name[0] : '',
+              //   style: Styles.titleMedium.copyWith(
+              //     color: Colors.white,
+              //   ),
             ),
           ),
         ),

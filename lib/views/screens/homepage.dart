@@ -55,7 +55,9 @@ class _HomePageState extends State<HomePage> {
           ? null
           : ProfileHeader(
               name: user != null ? user!.fullName : "<!username>",
-              id: user != null ? user!.erp : "<!erp>"),
+              id: user != null ? user!.erp : "<!erp>",
+              profilePicture: user != null ? user!.profilePic : "<!profilePic>",
+            ),
       body: loading
           ? Loading()
           : SingleChildScrollView(

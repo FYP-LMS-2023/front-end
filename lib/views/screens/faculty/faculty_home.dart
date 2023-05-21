@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/log.dart';
 import 'package:front_end/controllers/home_controller.dart';
 import 'package:front_end/controllers/user_controller.dart';
 import 'package:front_end/models/class_model.dart';
@@ -41,7 +42,11 @@ class _FacHomeState extends State<FacHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: ProfileHeader(name: "Dr Shaheer", id: "18635"),
+      appBar: ProfileHeader(
+        name: "Dr Shaheer",
+        id: "18635",
+        profilePicture: user != null ? user!.profilePic : "<!profilePic>",
+      ),
       body: loading
           ? Loading()
           : SingleChildScrollView(
@@ -68,11 +73,15 @@ class _FacHomeState extends State<FacHome> {
                                 // title: 'CS 101 - Introduction to Programming',
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => FacCourseMainPage(
-                                      id: activeClasses != null
-                                          ? activeClasses![index].id
-                                          : "1",
-                                    ),
+                                    builder: (context) {
+                                      Log.e(
+                                          'step 1: ${activeClasses![index].id}');
+                                      return FacCourseMainPage(
+                                        id: activeClasses != null
+                                            ? activeClasses![index].id
+                                            : "1",
+                                      );
+                                    },
                                   ));
                                 },
                               ),

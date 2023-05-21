@@ -151,7 +151,7 @@ class _AssignmentPageState extends State<AssignmentPage> {
                                   color: Colors.black,
                                   borderRadius: BorderRadius.circular(10)),
                               child: createIcon(assignment!.files![index].url
-                                  .split("-")[1]
+                                  .split("-").last
                                   .split(".")[1]),
                             ),
                             const HorizontalSpacer(),

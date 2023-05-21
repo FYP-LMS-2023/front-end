@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/log.dart';
 import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/models/class_model.dart';
 import 'package:front_end/views/screens/announcement_list_page.dart';
 import 'package:front_end/views/screens/assignment_list_page.dart';
 import 'package:front_end/views/screens/course_outline_page.dart';
 import 'package:front_end/views/screens/course_overview_page.dart';
+import 'package:front_end/views/screens/faculty/faculty_assignment_list.dart';
+import 'package:front_end/views/screens/faculty/faculty_course_outline.dart';
+import 'package:front_end/views/screens/faculty/faculty_course_overview.dart';
 import 'package:front_end/views/screens/quiz_list_page.dart';
 import 'package:front_end/views/screens/resource_list_page.dart';
 import 'package:front_end/views/screens/threads_list.dart';
@@ -19,7 +23,7 @@ class FacCourseMainPage extends StatefulWidget {
   String currentTab;
   FacCourseMainPage({
     super.key,
-    this.currentTab = "Overview",
+    this.currentTab = "Assignments",
     this.id,
   });
 
@@ -28,7 +32,7 @@ class FacCourseMainPage extends StatefulWidget {
 }
 
 class _FacCourseMainPageState extends State<FacCourseMainPage> {
-  bool loading = false;
+  bool loading = true;
   ClassModel? classData;
 
   loadClass() async {
@@ -47,6 +51,7 @@ class _FacCourseMainPageState extends State<FacCourseMainPage> {
   void initState() {
     super.initState();
     loadClass();
+    Log.e('step 2: ${widget.id}');
   }
 
   @override
@@ -83,10 +88,13 @@ class _FacCourseMainPageState extends State<FacCourseMainPage> {
   createPage(String currentTab) {
     switch (currentTab) {
       case "Overview":
-        return CousrseOverviewPage(
+        return FacCourseOverviewPage(
             classData: classData != null ? classData! : ClassModel());
       case "Outline":
-        return const CourseOutlinePage();
+        return FacCourseOutlinePage(
+          courseOutline:
+              classData != null ? classData!.syllabus : "No Outline Uploaded",
+        );
       case "Attendance":
         return const ViewAttendanceScreen(
           courseName: "Math",
@@ -94,8 +102,8 @@ class _FacCourseMainPageState extends State<FacCourseMainPage> {
       case "Quizzes":
         return const QuizListPage();
       case "Assignments":
-        return AssignmentListPage(widget.id,
-            fullname: classData!.teacher!.fullName);
+        return FacAssignmentListPage(
+            id: widget.id, fullName: classData!.teacher!.fullName);
       case "Announcements":
         return AnnouncementListPage(widget.id,
             fullname: classData!.teacher!.fullName);
