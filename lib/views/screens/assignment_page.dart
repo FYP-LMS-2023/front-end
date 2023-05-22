@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
 import 'package:front_end/constants/fonts.dart';
@@ -24,6 +27,7 @@ class AssignmentPage extends StatefulWidget {
 }
 
 class _AssignmentPageState extends State<AssignmentPage> {
+  List<File>? filesToUpload;
   AssignmentModel? assignment;
 
   Future<void> fetchAssignmentDetails() async {
@@ -154,7 +158,7 @@ class _AssignmentPageState extends State<AssignmentPage> {
                                   color: Colors.black,
                                   borderRadius: BorderRadius.circular(10)),
                               child: createIcon(assignment!.files![index].url
-                                  .split("-")[1]
+                                  .split("-").last
                                   .split(".")[1]),
                             ),
                             const HorizontalSpacer(),
@@ -174,33 +178,6 @@ class _AssignmentPageState extends State<AssignmentPage> {
                   );
                 },
               ),
-                // if (assignment?.files != null && assignment!.files!.isNotEmpty)
-                //   Column(
-                //     crossAxisAlignment: CrossAxisAlignment.start,
-                //     children: assignment!.files
-                //         !.map((file) => InkWell(
-                //               onTap: () async {
-                               
-                //               },
-                //               child: Container(
-                //                 margin: const EdgeInsets.only(bottom: 8.0),
-                //                 child: Row(
-                //                   children: [
-                //                     Icon(Icons.file_download),
-                //                     const SizedBox(width: 8.0),
-                //                     Expanded(
-                //                       child: Text(
-                //                         file.url,
-                //                         overflow: TextOverflow.ellipsis,
-                //                         maxLines: 4,
-                //                       ),
-                //                     ),
-                //                   ],
-                //                 ),
-                //               ),
-                //             ))
-                //         .toList(),
-                //   ),
                 const VerticalSpacer(),
                 const Subheading(text: "Submissions"),
                 Container(
@@ -213,10 +190,29 @@ class _AssignmentPageState extends State<AssignmentPage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.01,
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: const Submissions(),
-                )
+                // SizedBox(
+                //   width: MediaQuery.of(context).size.width,
+                //   child: const Submissions(),
+                // )
+                MainButton(
+                      onPressed: () async {
+                        FilePickerResult? result = await FilePicker.platform
+                            .pickFiles(allowMultiple: true);
+                        if (result != null) {
+                          setState(() {
+                            filesToUpload!.addAll(result.paths
+                                .map((path) => File(path!))
+                                .toList());
+                          });
+                        }
+                      },
+                      text: "Upload File",
+                      color: Colors.black,
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                    ),
               ],
             ),
           ),
