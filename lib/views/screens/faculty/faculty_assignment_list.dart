@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:front_end/constants/box_decoration.dart';
 import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/drop_shadow.dart';
 import 'package:front_end/constants/fonts.dart';
@@ -63,8 +60,8 @@ class _FacAssignmentListPageState extends State<FacAssignmentListPage> {
               padding: EdgeInsets.all(size.width * 0.05),
               child: Column(
                 children: [
-                  buildStats(context),
-                  const VerticalSpacer(),
+                  // buildStats(context),
+                  // const VerticalSpacer(),
                   const Subheading(text: "Assignments"),
                   InkWell(
                     onTap: () {

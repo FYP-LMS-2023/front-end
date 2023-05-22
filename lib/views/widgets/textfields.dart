@@ -6,21 +6,27 @@ class MainTextField extends StatelessWidget {
   final bool? obsureText;
   final String? Function(String?)? validator;
   final int? maxLines;
+  final int? minLines;
   final Function? onChange;
+  final String? helperText;
 
-  const MainTextField(
-      {super.key,
-      required this.label,
-      this.controller,
-      this.obsureText,
-      this.validator,
-      this.maxLines = 1,
-      this.onChange});
+  const MainTextField({
+    super.key,
+    required this.label,
+    this.controller,
+    this.obsureText,
+    this.validator,
+    this.maxLines = 1,
+    this.minLines = 1,
+    this.onChange,
+    this.helperText,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       maxLines: maxLines,
+      minLines: minLines,
       onChanged: (value) {
         onChange != null ? onChange!(value) : null;
       },
@@ -29,6 +35,7 @@ class MainTextField extends StatelessWidget {
       validator: validator,
       obscureText: obsureText ?? false,
       decoration: InputDecoration(
+        helperText: helperText,
         focusColor: Colors.black,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),

@@ -86,7 +86,7 @@ class ClassController extends ChangeNotifier {
     }
   }
 
-  Future<void> updateSyllabus(String text) async {
+  Future<bool> updateSyllabus(String text) async {
     try {
       final token = await secureStorage.getToken();
       final response = await http.post(
@@ -102,10 +102,13 @@ class ClassController extends ChangeNotifier {
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         print(responseData);
+        return true;
       }
     } catch (e) {
       // print(e.toString());
       Log.e(e.toString());
+      return false;
     }
+    return false;
   }
 }

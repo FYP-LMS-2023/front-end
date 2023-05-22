@@ -6,6 +6,7 @@ class MainButton extends StatelessWidget {
   final void Function() onPressed;
   final Color? color;
   final bool enabled;
+  final Widget? child;
 
   const MainButton({
     super.key,
@@ -13,6 +14,7 @@ class MainButton extends StatelessWidget {
     required this.onPressed,
     this.color = Colors.black,
     this.enabled = true,
+    this.child,
   });
 
   @override
@@ -31,7 +33,7 @@ class MainButton extends StatelessWidget {
         ),
         shadowColor: Colors.grey.shade900,
       ),
-      child: Text(text, style: Styles.labelLarge),
+      child: child == null ? Text(text, style: Styles.labelLarge) : child!,
     );
   }
 }

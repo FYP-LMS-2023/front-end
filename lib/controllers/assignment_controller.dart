@@ -129,12 +129,11 @@ class AssignmentController extends ChangeNotifier {
     }
   }
 
-  Future<void> createAssignment(
-      Map<String, dynamic> data, List<File>? files) async {
+  Future<bool> createAssignment(
+    Map<String, dynamic> data,
+    List<File>? files,
+  ) async {
     final token = await secureStorage.getToken();
-    // var headers = {
-    //   'Authorization': token ?? "",
-    // };
     var request = http.MultipartRequest('POST',
         Uri.parse('${Environment.baseURL}assignmentTwo/createAssignment'));
 
@@ -146,8 +145,6 @@ class AssignmentController extends ChangeNotifier {
     request.fields['dueDate'] = data['dueDate'];
     request.fields['marks'] = data['marks'];
     request.fields['status'] = data['status'];
-
-    // request.headers.addAll(headers);
 
     for (File f in files!) {
       final mimeTypeData =
@@ -168,17 +165,14 @@ class AssignmentController extends ChangeNotifier {
 
       if (response.statusCode != 200) {
         Log.e("Error: ${response.body}");
+        return false;
       } else {
         Log.v("Response: ${response.body}");
+        return true;
       }
-      // http.StreamedResponse response = await request.send();
-      // if (response.statusCode == 200) {
-      //   print(await response.stream.bytesToString());
-      // } else {
-      //   print(response.reasonPhrase);
-      // }
     } catch (e) {
       Log.e(e.toString());
     }
+    return false;
   }
 }
