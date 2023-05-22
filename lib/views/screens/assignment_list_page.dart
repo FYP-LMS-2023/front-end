@@ -5,6 +5,7 @@ import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/views/screens/assignment_page.dart';
 import 'package:front_end/views/widgets/cards.dart';
+import 'package:front_end/views/widgets/loading.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
 import 'package:provider/provider.dart';
 
@@ -226,24 +227,21 @@ class _AssignmentListPageState extends State<AssignmentListPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           
           children: [
-            // Container(
-            //   height: MediaQuery.of(context).size.height * 0.25,
-            //   child: Column(
-            //     children: [
-    
-            //     ],
-            //   ),
-            // ),
+
             buildStats(context),
             const VerticalSpacer(),
             const Subheading(text: "Assignments"),
+            SizedBox(height: size.height * 0.02),
             assignments == null ?
-             Container(
+              const Center(child: CircularProgressIndicator(color: Colors.black,))
+            :
+            assignments!.isEmpty ? 
+            Container(
                 height: size.height * 0.05,
                 alignment: Alignment.center,
                 child: Text("No assignments yet",
                     style: Styles.bodySmall.copyWith(
-                        color: Color.fromARGB(255, 97, 65, 65)),
+                        color: const Color.fromARGB(255, 97, 65, 65)),
                     textAlign: TextAlign.center))
             :
             Expanded(

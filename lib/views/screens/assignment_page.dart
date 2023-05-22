@@ -4,6 +4,7 @@ import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/views/widgets/buttons.dart';
 import 'package:front_end/views/widgets/cards.dart';
+import 'package:front_end/views/widgets/loading.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
 import 'package:front_end/views/widgets/submissions.dart';
 import 'package:provider/provider.dart';
@@ -69,7 +70,9 @@ class _AssignmentPageState extends State<AssignmentPage> {
         subtitle: assignment != null ? assignment!.title : "Assignment 1",
         onMenuPressed: () {},
       ),
-      body: SingleChildScrollView(
+      body: assignment == null ?
+      const Loading() 
+      : SingleChildScrollView(
         child: Center(
           child: Padding(
             padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
