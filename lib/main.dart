@@ -7,7 +7,10 @@ import '../../controllers/user_controller.dart';
 import 'controllers/announcement_controller.dart';
 import 'controllers/assignment_controller.dart';
 import 'controllers/channel_controller.dart';
+import 'controllers/comment_controller.dart';
 import 'controllers/home_controller.dart';
+import 'controllers/reply_controller.dart';
+import 'controllers/thread_controller.dart';
 
 void main() {
   runApp(
@@ -24,6 +27,12 @@ void main() {
             create: (_) => AnnouncementController()),
         ChangeNotifierProvider<ChannelController>(
             create: (_) => ChannelController()),
+        ChangeNotifierProvider<ThreadController>(
+            create: (_) => ThreadController()),
+        ChangeNotifierProvider<CommentController>(
+            create: (_) => CommentController()),
+        ChangeNotifierProvider<ReplyController>(
+            create: (_) => ReplyController()),
       ],
       child: const MyApp(),
     ),

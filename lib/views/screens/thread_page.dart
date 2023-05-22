@@ -3,12 +3,24 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
+import 'package:front_end/controllers/user_controller.dart';
 import 'package:front_end/utils/functions/status_color.dart';
 import 'package:front_end/views/widgets/headers.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
+import 'package:provider/provider.dart';
+
+import '../../constants/log.dart';
+import '../../controllers/channel_controller.dart';
+import '../../controllers/comment_controller.dart';
+import '../../controllers/reply_controller.dart';
+import '../../controllers/thread_controller.dart';
+import '../../models/comment_model.dart';
+import '../../models/thread_model.dart';
+import '../widgets/loading.dart';
 
 class ThreadPage extends StatefulWidget {
-  const ThreadPage({super.key});
+  String? id;
+  ThreadPage({super.key, this.id});
 
   @override
   State<ThreadPage> createState() => _ThreadPageState();
@@ -16,6 +28,10 @@ class ThreadPage extends StatefulWidget {
 
 class _ThreadPageState extends State<ThreadPage> {
   bool isCommentBoxVisible = false;
+  ThreadModel? thread;
+  bool showReplyTextField = false; // for reply text field
+  int selectedCommentIndex = -1;
+  String? userId;
 
   void _toggleCommentBox() {
     setState(() {
@@ -23,16 +39,62 @@ class _ThreadPageState extends State<ThreadPage> {
     });
   }
 
+  Future<void> fetchThreadDetails() async {
+    Log.i("fetching thread details");
+    try {
+      await context
+          .read<ChannelController>()
+          .getThreadDetails(widget.id != null ? widget.id! : "1")
+          .then((value) {
+        setState(() {
+          thread = context.read<ChannelController>().getThreadObject;
+        });
+      });
+
+      Log.d("Thread details:  ${thread!.comments}");
+    } catch (e) {
+      Log.e("error araha fetch thread details me $e");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchThreadDetails();
+    userId = context.read<UserController>().getUser!.id;
+    Log.d("User ID: $userId");
+  }
+
+  String calculateTimeDifference(DateTime? postedDate) {
+    Duration difference = DateTime.now().difference(postedDate!);
+    String timeDifference;
+
+    if (difference.inDays > 0) {
+      timeDifference = "${difference.inDays}d";
+    } else {
+      timeDifference = "${difference.inHours}h";
+    }
+
+    return timeDifference;
+  }
+
   @override
   Widget build(BuildContext context) {
+    String timeDifference = calculateTimeDifference(
+        thread != null ? thread!.datePosted : DateTime.now());
+    final commentController = TextEditingController();
+    final replyController = TextEditingController();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CourseHeader(
         title: 'Thread',
-        subtitle: 'Course Code - Course Name',
         onMenuPressed: () {},
       ),
-      body: Stack(
+      body: thread == null
+          ? const Loading()
+          :
+      Stack(
         children: [
           SingleChildScrollView(
             child: Center(
@@ -52,7 +114,13 @@ class _ThreadPageState extends State<ThreadPage> {
                               radius: 22,
                               backgroundColor: Colors.primaries[
                                   Random().nextInt(Colors.primaries.length)],
-                              child: Text('FL',
+                              child: Text(
+                                  thread != null
+                                      ? thread!.postedBy!.fullName
+                                          .split(' ')
+                                          .map((name) => name[0])
+                                          .join()
+                                      : "FL",
                                   style: Styles.labelLarge
                                       .copyWith(color: Colors.white)),
                             ),
@@ -60,10 +128,14 @@ class _ThreadPageState extends State<ThreadPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Full Name', style: Styles.titleMedium),
+                                Text(
+                                    thread != null
+                                        ? thread!.postedBy!.fullName
+                                        : "Full Name",
+                                    style: Styles.titleMedium),
                                 // const SizedBox(height: 4.0),
                                 Text(
-                                  '2 hours ago',
+                                  timeDifference,
                                   style: Styles.bodySmall,
                                 ),
                               ],
@@ -75,11 +147,13 @@ class _ThreadPageState extends State<ThreadPage> {
                           alignment: Alignment.centerRight,
                           child: Chip(
                             label: Text(
-                              "Exam",
+                              thread != null ? thread!.tags[0] : "Exam",
                               style: Styles.bodySmall
                                   .copyWith(color: Colors.white),
+                              maxLines: 5,
                             ),
-                            backgroundColor: status_color("Exam"),
+                            backgroundColor: status_color(
+                                thread != null ? thread!.tags[0] : "Exam"),
                           ),
                         ),
                       ],
@@ -89,19 +163,63 @@ class _ThreadPageState extends State<ThreadPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Thread Description goes here. Write some long text here to explain the question in details so that others in the class may respond to them and help you out.',
+                            thread != null ? thread!.title : "Title",
                             style: Styles.bodyLarge,
+                            maxLines: 10,
+                          ),
+                          const SizedBox(height: 8.0),
+                          Text(
+                            thread != null
+                                ? thread!.description
+                                : "Description",
+                            style: Styles.bodyMedium,
                             maxLines: 10,
                           ),
                           const SizedBox(height: 8.0),
                           Row(
                             children: [
                               IconButton(
-                                icon: const Icon(Icons.arrow_upward),
-                                onPressed: () {},
+                                icon: Icon(Icons.arrow_upward),
+                                  color:  thread!.upvotes.contains(userId)
+      ? Colors.green
+      : null,
+                                onPressed: () async {
+                                  bool c = thread!.upvotes.contains(userId);
+                                  
+                                  await context
+                                      .read<ThreadController>()
+                                      .upvoteThread(thread!.id);
+                                      
+                                  Log.d("Thread Upvotes contain UserID: $c");
+                                  setState(() {
+                                    fetchThreadDetails();
+                                  });
+                                },
                               ),
                               Text(
-                                '10',
+                                thread != null
+                                    ? thread!.upVoteCount.toString()
+                                    : "-1",
+                                style: Styles.labelLarge,
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.arrow_downward),
+                                color: thread!.downvotes.contains(userId)
+      ? Colors.red
+      : null,
+                                onPressed: () async {
+                                  await context
+                                      .read<ThreadController>()
+                                      .downvoteThread(thread!.id);
+                                  setState(() {
+                                    fetchThreadDetails();
+                                  });
+                                },
+                              ),
+                              Text(
+                                thread != null
+                                    ? thread!.downVoteCount.toString()
+                                    : "-1",
                                 style: Styles.labelLarge,
                               ),
                               IconButton(
@@ -109,7 +227,9 @@ class _ThreadPageState extends State<ThreadPage> {
                                 onPressed: () {},
                               ),
                               Text(
-                                '3',
+                                thread != null
+                                    ? thread!.commentsCount.toString()
+                                    : "-1",
                                 style: Styles.labelLarge,
                               ),
                             ],
@@ -120,8 +240,9 @@ class _ThreadPageState extends State<ThreadPage> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 3,
+                      itemCount: thread != null ? thread!.comments.length : 0,
                       itemBuilder: (context, index) {
+                        CommentModel comment = thread!.comments[index];
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
@@ -133,7 +254,11 @@ class _ThreadPageState extends State<ThreadPage> {
                                   CircleAvatar(
                                     backgroundColor: Colors.primaries[Random()
                                         .nextInt(Colors.primaries.length)],
-                                    child: Text('FL',
+                                    child: Text(
+                                        comment.postedBy!.fullName
+                                            .split(' ')
+                                            .map((name) => name[0])
+                                            .join(),
                                         style: Styles.labelLarge
                                             .copyWith(color: Colors.white)),
                                   ),
@@ -143,12 +268,13 @@ class _ThreadPageState extends State<ThreadPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text('Full Name',
+                                        Text(comment.postedBy!.fullName,
                                             style: Styles.labelLarge),
                                         const SizedBox(height: 4.0),
-                                        const Text(
-                                          'Comment text goes here. Write anything to answer to the question being asked.',
-                                          style: TextStyle(fontSize: 14.0),
+                                        Text(
+                                          comment.comment,
+                                          style:
+                                              const TextStyle(fontSize: 14.0),
                                         ),
                                         const SizedBox(height: 4.0),
                                         Row(
@@ -160,27 +286,132 @@ class _ThreadPageState extends State<ThreadPage> {
                                                 Icons.reply,
                                                 size: 20,
                                               ),
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                setState(() {
+                                                  selectedCommentIndex = index;
+                                                  showReplyTextField =
+                                                      !showReplyTextField;
+                                                });
+                                              },
                                             ),
                                             Text(
                                               "Reply",
                                               style: Styles.labelMedium,
                                             ),
                                             // const Text('5'),
-
                                             IconButton(
                                               icon: const Icon(
                                                 Icons.arrow_upward,
                                                 size: 20,
                                               ),
-                                              onPressed: () {},
+                                              onPressed: () async {
+                                                await context
+                                                    .read<CommentController>()
+                                                    .upvoteComment(comment.id);
+                                                setState(() {
+                                                  fetchThreadDetails();
+                                                });
+                                              },
                                             ),
                                             Text(
-                                              "10",
+                                              comment.upVoteCount.toString(),
+                                              style: Styles.labelMedium,
+                                            ),
+                                            IconButton(
+                                              icon: const Icon(
+                                                Icons.arrow_downward,
+                                                size: 20,
+                                              ),
+                                              onPressed: () async {
+                                                await context
+                                                    .read<CommentController>()
+                                                    .downvoteComment(
+                                                        comment.id);
+                                                setState(() {
+                                                  fetchThreadDetails();
+                                                });
+                                              },
+                                            ),
+                                            Text(
+                                              comment.downVoteCount.toString(),
                                               style: Styles.labelMedium,
                                             ),
                                           ],
                                         ),
+                                        if (showReplyTextField &&
+                                            selectedCommentIndex ==
+                                                index) // Add this condition
+                                          Container(
+                                            color: Colors.white,
+                                            padding: const EdgeInsets.all(16),
+                                            child: TextFormField(
+                                              controller: replyController,
+                                              cursorColor: Colors.black,
+                                              validator: (value) {
+                                                if (value!.isEmpty) {
+                                                  return 'Please enter a reply';
+                                                } else {
+                                                  return "";
+                                                }
+                                              },
+                                              decoration: InputDecoration(
+                                                focusedBorder:
+                                                    const OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(10.0),
+                                                  ),
+                                                  borderSide: BorderSide(
+                                                      color: Colors.black),
+                                                ),
+                                                border:
+                                                    const OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(10.0),
+                                                  ),
+                                                  borderSide: BorderSide(
+                                                      color: Colors.red),
+                                                ),
+                                                enabledBorder:
+                                                    const OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(10.0),
+                                                  ),
+                                                  borderSide: BorderSide(
+                                                      color: Colors.black),
+                                                ), // your color
+
+                                                hintText: 'Write a reply...',
+                                                suffixIcon: IconButton(
+                                                  icon: const Icon(
+                                                    Icons.send,
+                                                    color: Colors.black,
+                                                  ),
+                                                  onPressed: () async {
+                                                    if (replyController
+                                                        .text.isNotEmpty) {
+                                                      await context
+                                                          .read<
+                                                              ReplyController>()
+                                                          .createReply(
+                                                            comment.id,
+                                                            replyController
+                                                                .text,
+                                                          );
+                                                      setState(() {
+                                                        fetchThreadDetails();
+                                                        showReplyTextField = false;
+                                                        selectedCommentIndex = -1;
+                                                      });
+                                                      replyController.clear();
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                       ],
                                     ),
                                   ),
@@ -189,8 +420,9 @@ class _ThreadPageState extends State<ThreadPage> {
                               ListView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: 2,
+                                itemCount: comment.replies.length,
                                 itemBuilder: (context, index) {
+                                  Reply reply = comment.replies[index];
                                   return Padding(
                                     padding: const EdgeInsets.only(
                                         left: 45.0, top: 8.0),
@@ -206,7 +438,11 @@ class _ThreadPageState extends State<ThreadPage> {
                                               backgroundColor: Colors.primaries[
                                                   Random().nextInt(
                                                       Colors.primaries.length)],
-                                              child: Text('FL',
+                                              child: Text(
+                                                  reply.postedBy!.fullName
+                                                      .split(' ')
+                                                      .map((name) => name[0])
+                                                      .join(),
                                                   style: Styles.labelLarge
                                                       .copyWith(
                                                           color: Colors.white)),
@@ -218,11 +454,11 @@ class _ThreadPageState extends State<ThreadPage> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text('Full Name',
+                                                  Text(reply.postedBy!.fullName,
                                                       style: Styles.labelLarge),
                                                   const SizedBox(height: 4.0),
-                                                  const Text(
-                                                    'Reply text goes here. Write if you thing this comment is correct or false.',
+                                                  Text(
+                                                    reply.reply,
                                                     style: TextStyle(
                                                         fontSize: 14.0),
                                                   ),
@@ -236,10 +472,42 @@ class _ThreadPageState extends State<ThreadPage> {
                                                           Icons.arrow_upward,
                                                           size: 20,
                                                         ),
-                                                        onPressed: () {},
+                                                        onPressed: () async {
+                                                          await context
+                                                              .read<
+                                                                  ReplyController>()
+                                                              .upvoteReply(
+                                                                  reply.id);
+                                                          setState(() {
+                                                            fetchThreadDetails();
+                                                          });
+                                                        },
                                                       ),
                                                       Text(
-                                                        "10",
+                                                        reply.upVoteCount
+                                                            .toString(),
+                                                        style:
+                                                            Styles.labelMedium,
+                                                      ),
+                                                      IconButton(
+                                                        icon: const Icon(
+                                                          Icons.arrow_downward,
+                                                          size: 20,
+                                                        ),
+                                                        onPressed: () async {
+                                                          await context
+                                                              .read<
+                                                                  ReplyController>()
+                                                              .downvoteReply(
+                                                                  reply.id);
+                                                          setState(() {
+                                                            fetchThreadDetails();
+                                                          });
+                                                        },
+                                                      ),
+                                                      Text(
+                                                        reply.downVoteCount
+                                                            .toString(),
                                                         style:
                                                             Styles.labelMedium,
                                                       ),
@@ -266,13 +534,22 @@ class _ThreadPageState extends State<ThreadPage> {
               ),
             ),
           ),
+          if(!showReplyTextField)
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               color: Colors.white,
               padding: const EdgeInsets.all(16),
               child: TextFormField(
+                controller: commentController,
                 cursorColor: Colors.black,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a comment';
+                  } else {
+                    return "";
+                  }
+                },
                 decoration: InputDecoration(
                   focusedBorder: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(
@@ -299,7 +576,18 @@ class _ThreadPageState extends State<ThreadPage> {
                       Icons.send,
                       color: Colors.black,
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      if (commentController.text.isNotEmpty) {
+                        await context.read<CommentController>().createComment(
+                              thread!.id,
+                              commentController.text,
+                            );
+                        setState(() {
+                          fetchThreadDetails();
+                        });
+                        commentController.clear();
+                      }
+                    },
                   ),
                 ),
               ),
