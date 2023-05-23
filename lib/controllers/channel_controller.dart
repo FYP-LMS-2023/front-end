@@ -80,6 +80,8 @@ Future<void> getThreadDetails(String id) async {
         var comments = responseData["comments"];
         var tags = responseData["tags"];
         var datePosted = responseData["datePosted"];
+        var upvotes = responseData["upvotes"];
+        var downvotes = responseData["downvotes"];
         var upVoteCount = responseData["upvoteCount"];
         var downVoteCount = responseData["downvoteCount"];
         var commentsCount = responseData["comments"].length;
@@ -95,6 +97,8 @@ Future<void> getThreadDetails(String id) async {
           "upvoteCount" : upVoteCount,
           "downvoteCount" : downVoteCount,
           "commentsCount" : commentsCount,
+          "upvotes" : upvotes,
+          "downvotes" : downvotes,
         };
 
         Log.d("filteredData: $filteredData");

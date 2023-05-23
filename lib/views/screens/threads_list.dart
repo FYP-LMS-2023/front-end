@@ -6,6 +6,7 @@ import 'package:front_end/views/widgets/loading.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 
+import '../../constants/icons.dart';
 import '../../constants/log.dart';
 import '../../controllers/channel_controller.dart';
 import '../../models/channel_model.dart';
@@ -383,13 +384,13 @@ class _ThreadTileState extends State<ThreadTile> {
                   const SizedBox(height: 8.0),
                   Row(
                     children: [
-                      const Icon(Icons.arrow_upward, size: 16.0),
+                      const Icon(MyIcons.up, size: 16.0, color: Colors.green,),
                       Text(
                         widget.upVoteCount.toString(),
                         style: Styles.labelMedium,
                       ),
                       const SizedBox(width: 8.0),
-                      const Icon(Icons.arrow_downward, size: 16.0),
+                      const Icon(MyIcons.down, size: 16.0, color: Colors.red,),
                       Text(
                         widget.downVoteCount.toString(),
                         style: Styles.labelMedium,
