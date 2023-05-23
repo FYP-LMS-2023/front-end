@@ -10,6 +10,7 @@ import 'package:front_end/views/widgets/cards.dart';
 import 'package:front_end/views/widgets/loading.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
 import 'package:front_end/views/widgets/submissions.dart';
+import 'package:front_end/views/widgets/textfields.dart';
 import 'package:provider/provider.dart';
 import '../../constants/log.dart';
 import '../../controllers/assignment_controller.dart';
@@ -19,6 +20,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class AssignmentPage extends StatefulWidget {
   final bool graded;
+  
   String? id;
   AssignmentPage({super.key, this.graded = false, this.id});
 
@@ -29,6 +31,8 @@ class AssignmentPage extends StatefulWidget {
 class _AssignmentPageState extends State<AssignmentPage> {
   List<File>? filesToUpload;
   AssignmentModel? assignment;
+  final submissionDescriptionController = TextEditingController();
+  bool loading = false;
 
   Future<void> fetchAssignmentDetails() async {
     Log.i("fetching assignment details");
@@ -48,10 +52,53 @@ class _AssignmentPageState extends State<AssignmentPage> {
     }
   }
 
+  // void submit() async {
+  //     setState(() {
+  //       loading = true;
+  //     });
+
+  //     final assignmentData = {
+  //       'classID': widget.classID,
+  //       'title': title.text,
+  //       'description': description.text,
+  //       'dueDate': DateFormat('dd/MM/yy').format(dueDate!),
+  //       'marks': marks.text,
+  //       'status': status,
+  //     };
+
+  //     context
+  //         .read<AssignmentController>()
+  //         .createAssignment(assignmentData, filesToUpload)
+  //         .then((value) {
+  //       if (value == true) {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           const SnackBar(
+  //             content: Text('Assignment created successfully'),
+  //             backgroundColor: Colors.green,
+  //             behavior: SnackBarBehavior.floating,
+  //           ),
+  //         );
+  //         Navigator.pop(context);
+  //       } else {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           const SnackBar(
+  //             content: Text('Error creating assignment'),
+  //             backgroundColor: Colors.red,
+  //             behavior: SnackBarBehavior.floating,
+  //           ),
+  //         );
+  //         setState(() {
+  //           loading = false;
+  //         });
+  //       }
+  //     });
+  // }
+
   @override
   void initState() {
     super.initState();
     fetchAssignmentDetails();
+    filesToUpload = [];
   }
 
   Future<void> _launchInBrowser(Uri url) async {
@@ -179,7 +226,11 @@ class _AssignmentPageState extends State<AssignmentPage> {
                 },
               ),
                 const VerticalSpacer(),
-                const Subheading(text: "Submissions"),
+                const Subheading(text: "Submission"),
+                MainTextField(
+                  label: "Submission Description", 
+                  controller: submissionDescriptionController,
+                ),
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -194,6 +245,48 @@ class _AssignmentPageState extends State<AssignmentPage> {
                 //   width: MediaQuery.of(context).size.width,
                 //   child: const Submissions(),
                 // )
+                ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: filesToUpload!.length,
+                      separatorBuilder: (context, index) {
+                        return SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02);
+                      },
+                      itemBuilder: (context, index) {
+                        return Ink(
+                          decoration: boxDecoration,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              children: [
+                                createIcon2(
+                                    filesToUpload![index].path.split('.').last),
+                                const HorizontalSpacer(),
+                                Expanded(
+                                  child: Text(
+                                    filesToUpload![index].path.split('/').last,
+                                    style: Styles.bodyMedium,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      filesToUpload!.removeAt(index);
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 MainButton(
                       onPressed: () async {
                         FilePickerResult? result = await FilePicker.platform
@@ -232,6 +325,27 @@ class _AssignmentPageState extends State<AssignmentPage> {
           : const SizedBox(),
     );
   }
+  Icon createIcon2(String ext) {
+    // print(ext);
+    if (ext == "pdf") {
+      return const Icon(Icons.picture_as_pdf_rounded, color: Colors.black);
+    } else if (ext == "jpeg") {
+      return const Icon(Icons.image, color: Colors.white);
+    } else if (ext == "jpg") {
+      return const Icon(Icons.image, color: Colors.white);
+    } else if (ext == "png") {
+      return const Icon(Icons.image, color: Colors.black);
+    } else if (ext == "mp4") {
+      return const Icon(Icons.video_library, color: Colors.black);
+    } else if (ext == "mp3") {
+      return const Icon(Icons.audio_file, color: Colors.black);
+    } else if (ext == "txt") {
+      return const Icon(Icons.text_snippet_rounded, color: Colors.black);
+    } else if (ext == "docx") {
+      return const Icon(Icons.edit_document, color: Colors.black);
+    }
+    return const Icon(Icons.file_copy_rounded, color: Colors.black);
+  }
   
   Icon createIcon(String ext) {
     // print(ext);
@@ -240,6 +354,11 @@ class _AssignmentPageState extends State<AssignmentPage> {
         Icons.picture_as_pdf_rounded,
         color: Colors.white,
       );
+    } else if (ext == "jpeg") {
+      return const Icon(Icons.image, color: Colors.white);
+    } 
+    else if (ext == "jpg") {
+      return const Icon(Icons.image, color: Colors.white);
     } else if (ext == "png") {
       return const Icon(Icons.image, color: Colors.white);
     } else if (ext == "mp4") {

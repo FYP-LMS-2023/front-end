@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/env.dart';
@@ -19,6 +20,21 @@ class AssignmentController extends ChangeNotifier {
 
   List<AssignmentModel>? get getAssignments=> assignments;
 
+
+  Future<void> submitAsssignment(String id, List<File> filesToUpload) async {
+    try {
+      final token = await secureStorage.getToken();
+      final response = await http.MultipartRequest(
+        'POST',
+        Uri.parse('${Environment.baseURL}assignmentTwo/createAssignment'),
+      );
+      response.headers['Authorization'] = token ?? '';
+
+    } catch(e) {
+      Log.e("Error in submitAsssignment: $e");
+    }
+
+  }
 
   Future<void> getAssignmentDetails(String id) async {
     try{
