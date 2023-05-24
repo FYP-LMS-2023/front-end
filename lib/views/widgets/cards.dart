@@ -293,7 +293,7 @@ class CourseOverviewCard extends StatelessWidget {
                         ),
                         if (type == "quiz")
                           Text(
-                            "Marks: $marks",
+                            "Max Marks: $marks",
                             style: Styles.labelLarge,
                           ),
                       ],

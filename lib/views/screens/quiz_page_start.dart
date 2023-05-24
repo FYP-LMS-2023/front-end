@@ -13,6 +13,7 @@ import 'package:front_end/views/widgets/headers.dart';
 import 'package:front_end/views/widgets/loading.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class QuizPageStart extends StatefulWidget {
   String? id;
 
@@ -58,8 +59,7 @@ class _QuizPageStartState extends State<QuizPageStart> {
         : Scaffold(
             backgroundColor: Colors.white,
             appBar: CourseHeader(
-              title:
-                  quizzes?.title ?? "", //quizzes == null ? quizzes!.title : "",
+              title: quizzes?.title ?? "",
               subtitle:
                   "${classData!.course!.courseCode} - ${classData!.course!.courseName}",
               onMenuPressed: () {},
@@ -85,8 +85,7 @@ class _QuizPageStartState extends State<QuizPageStart> {
                           const SizedBox(
                             height: 8,
                           ),
-                          Text(quizzes?.description ??
-                              ""), //quizzes == null ? quizzes!.description : ""
+                          Text(quizzes?.description ?? ""),
                           const VerticalSpacer(),
                           Text(
                             "We will add some basic instructions here that will be followed for all tests",
@@ -103,11 +102,15 @@ class _QuizPageStartState extends State<QuizPageStart> {
               padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
               child: MainButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => QuizPage(id: widget.id != null ? widget.id! : "1"),
-                    ),
-                  );
+                  if (quizzes!.startDate!.isBefore(DateTime.now())) {
+                    //Add this for start date check
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            QuizPage(id: widget.id != null ? widget.id! : "1"),
+                      ),
+                    );
+                  }
                 },
                 text: "Start Quiz",
                 color: Palette.kToDark[50],

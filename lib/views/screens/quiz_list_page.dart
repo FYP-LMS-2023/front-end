@@ -87,8 +87,9 @@ class _QuizListPageState extends State<QuizListPage> {
                                   quizzes != null ? quizzes![index].marks : 0,
                               status: quizzes![index].status,
                               onClick: () {
-                                if (time_left(quizzes![index].dueDate) !=
-                                    "Expired") {
+                                if (quizzes![index].status == "open" ||
+                                    time_left(quizzes![index].dueDate) !=
+                                        "Expired") {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
