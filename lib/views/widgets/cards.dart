@@ -231,6 +231,7 @@ class CourseOverviewCard extends StatelessWidget {
   final String type;
   final String title;
   final DateTime date;
+  final int? marks;
   final String? postedBy;
   final String? description;
   final String? status;
@@ -242,6 +243,7 @@ class CourseOverviewCard extends StatelessWidget {
     required this.type,
     required this.title,
     required this.date,
+    this.marks,
     this.postedBy,
     this.description,
     this.progress,
@@ -269,32 +271,31 @@ class CourseOverviewCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          child: Text(
-                            title,
-                            style: Styles.headlineSmall,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                        Text(
+                          title,
+                          style: Styles.headlineSmall,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 5.0),
-                        Container(
-                          child: Text(
-                            type == "quiz"
-                                ? 'Time Left: ${time_left(date)}'
-                                : 'Posted by: $postedBy',
-                            style: Styles.labelLarge,
-                          ),
+                        Text(
+                          type == "quiz"
+                              ? 'Time Left: ${time_left(date)}'
+                              : 'Posted by: $postedBy',
+                          style: Styles.labelLarge,
                         ),
                         const SizedBox(height: 5.0),
-                        Container(
-                          child: Text(
-                            type == "assignment" || type == "quiz"
-                                ? 'Due: ${DateFormat('dd, MMMM yyyy @ hh:mm a').format(date)}'
-                                : DateFormat('dd, MMMM yyyy - hh:mm a')
-                                    .format(date),
+                        Text(
+                          type == "assignment" || type == "quiz"
+                              ? 'Due: ${DateFormat('dd, MMMM yyyy @ hh:mm a').format(date)}'
+                              : DateFormat('dd, MMMM yyyy - hh:mm a')
+                                  .format(date),
+                          style: Styles.labelLarge,
+                        ),
+                        if (type == "quiz")
+                          Text(
+                            "Max Marks: $marks",
                             style: Styles.labelLarge,
                           ),
-                        ),
                       ],
                     ),
                   ),

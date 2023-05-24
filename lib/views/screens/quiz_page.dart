@@ -67,6 +67,7 @@ class _QuizPageState extends State<QuizPage> {
               padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
               child: MainButton(
                 onPressed: () {
+                  //quizList!.status == "Submitted";
                   formatResponse(answerIDs, questionIDs);
                   Navigator.pop(context);
                   Navigator.pop(context);
@@ -159,8 +160,8 @@ class _QuizPageState extends State<QuizPage> {
     List<Map<String, dynamic>> submissions = [];
     Map<String, dynamic> responseEntry = {};
     for (int i = 0; i < answerIDs.length; i++) {
-      responseEntry["questionID"] = questionIDs[i];
-      responseEntry["answerID"] = answerIDs[i];
+      responseEntry["question"] = questionIDs[i];
+      responseEntry["answer"] = answerIDs[i];
       submissions.add(responseEntry);
     }
 

@@ -33,6 +33,9 @@ Color status_color(status) {
     case "failed":
       color = Colors.red;
       break;
+    case "pending":
+      color = const Color.fromARGB(255, 250, 230, 50);
+      break;
     default:
       color = Colors.grey;
   }

@@ -8,12 +8,14 @@ import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/controllers/quiz_controller.dart';
 import 'package:front_end/models/class_model.dart';
 import 'package:front_end/models/quiz_model.dart';
+import 'package:front_end/utils/functions/time_left.dart';
 import 'package:front_end/views/screens/quiz_page_start.dart';
 import 'package:front_end/views/widgets/cards.dart';
 import 'package:front_end/views/widgets/loading.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class QuizListPage extends StatefulWidget {
   String? id;
 
@@ -64,9 +66,9 @@ class _QuizListPageState extends State<QuizListPage> {
                     EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
                 child: Column(
                   children: <Widget>[
-                    //buildStats(context),
                     const VerticalSpacer(),
-                    const Subheading(text: "Quizzes"),
+                    Subheading(
+                        text: quizzes!.isEmpty ? "No Quizzes Yet" : "Quizzes"),
                     ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
@@ -79,16 +81,22 @@ class _QuizListPageState extends State<QuizListPage> {
                               type: "quiz",
                               title: quizzes != null
                                   ? quizzes![index].title
-                                  : "nigga",
-                              date: quizzes![index].dueDate ??
-                                  DateTime.now(), //DateTime.now(),
+                                  : "Untitled",
+                              date: quizzes![index].dueDate ?? DateTime.now(),
+                              marks:
+                                  quizzes != null ? quizzes![index].marks : 0,
+                              status: quizzes![index].status,
                               onClick: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        QuizPageStart(id: quizzes![index].id),
-                                  ),
-                                );
+                                if (quizzes![index].status == "open" ||
+                                    time_left(quizzes![index].dueDate) !=
+                                        "Expired") {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          QuizPageStart(id: quizzes![index].id),
+                                    ),
+                                  );
+                                }
                               },
                             ),
                             SizedBox(

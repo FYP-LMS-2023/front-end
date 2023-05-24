@@ -56,6 +56,7 @@ class ClassController extends ChangeNotifier {
         // print('courseDetails: $courseDetails');
         // print('classDetails: $filteredData');
         // log('classDetails: $filteredData');
+        Log.d('classDetails: $filteredData');
         myClass = ClassModel.fromJson(filteredData);
         myClass!.id = id;
         notifyListeners();

@@ -31,7 +31,9 @@ class QuizController extends ChangeNotifier {
             .map((quiz) => QuizModel(
                 id: quiz['_id'],
                 title: quiz['title'],
-                dueDate: DateTime.parse(quiz['dueDate'])))
+                dueDate: DateTime.parse(quiz['dueDate']),
+                marks: quiz['marks'],
+                status: quiz['status']))
             .toList();
         Log.e(quizzes);
 
@@ -47,7 +49,7 @@ class QuizController extends ChangeNotifier {
     try {
       final token = await secureStorage.getToken();
       final response = await http.get(
-        Uri.parse('${Environment.baseURL}quiz/getQuiz/$id'),
+        Uri.parse('${Environment.baseURL}quiz/getQuizDetailsStudent/$id'),
         headers: <String, String>{'Authorization': token ?? ""},
       );
 
@@ -55,6 +57,7 @@ class QuizController extends ChangeNotifier {
         final data = jsonDecode(response.body);
         Log.d(data);
         data.remove('classId');
+        data.remove('submissions');
         quiz = QuizModel.fromJson(data);
         Log.e(quiz!.title);
 
@@ -70,7 +73,7 @@ class QuizController extends ChangeNotifier {
     try {
       final token = await secureStorage.getToken();
       final encodedData = jsonEncode(data);
-      Log.e(encodedData);
+      Log.d(encodedData);
       var headers = {
         "Authorization": token ?? "",
         "Content-Type": "application/json"
@@ -86,6 +89,8 @@ class QuizController extends ChangeNotifier {
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
+      final respStr = await response.stream.bytesToString();
+      Log.e(respStr);
       // final response = await http.post(
       //   Uri.parse('${Environment.baseURL}quiz/submitQuiz'),
       //   headers: <String, String>{
@@ -95,17 +100,16 @@ class QuizController extends ChangeNotifier {
       //   body: encodedData,
       // );
 
-      // Log.e(encodedData);
-      // Log.d(response.statusCode);
-      // Log.d(response.body);
       if (response.statusCode == 200) {
         // final data = jsonDecode(response.body);
+        Log.d(request.body);
+
         print(await response.stream.bytesToString());
 
         notifyListeners();
       } else {
         Log.e(
-            "Submit quiz request failed with status code ${response.statusCode}");
+            "Submit quiz request failed with status code ${response.statusCode} + ${response.reasonPhrase}");
       }
     } catch (e) {
       Log.e("Error: $e");
