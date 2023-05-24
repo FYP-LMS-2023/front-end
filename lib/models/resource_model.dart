@@ -47,17 +47,6 @@ class ResourceModel {
         title: title ?? this.title,
         description: description ?? this.description,
         files: files ?? this.files
-        // fileSize: fileSize ?? this.fileSize,
-        // fileType: fileType ?? this.fileType,
-        // fileLink: fileLink ?? this.fileLink,
-        // fileName: fileName ?? this.fileName,
-        title: title ?? this.title,
-        description: description ?? this.description,
-        files: files ?? this.files
-        // fileSize: fileSize ?? this.fileSize,
-        // fileType: fileType ?? this.fileType,
-        // fileLink: fileLink ?? this.fileLink,
-        // fileName: fileName ?? this.fileName,
       );
 
   factory ResourceModel.fromJson(Map<String, dynamic> json) => ResourceModel(

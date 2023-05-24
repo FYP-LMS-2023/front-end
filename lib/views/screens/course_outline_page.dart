@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
+import 'package:front_end/views/widgets/markdown_text.dart';
 
 class CourseOutlinePage extends StatelessWidget {
   String? syllabus;
@@ -20,10 +21,11 @@ class CourseOutlinePage extends StatelessWidget {
             //textAlign: TextAlign.center,
           ),
           const VerticalSpacer(),
-          Text(
-            syllabus ?? "No Syllabus Yet",
-            style: Styles.bodyLarge,
-          ),
+          FormattedTextWidget(markdownText: syllabus ?? "No Syllabus Yet"),
+          // Text(
+          //   syllabus ?? "No Syllabus Yet",
+          //   style: Styles.bodyLarge,
+          // ),
         ],
       ),
     );

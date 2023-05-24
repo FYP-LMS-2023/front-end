@@ -66,10 +66,10 @@ class _QuizListPageState extends State<QuizListPage> {
                     EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
                 child: Column(
                   children: <Widget>[
-                    const VerticalSpacer(),
                     Subheading(
                         text: quizzes!.isEmpty ? "No Quizzes Yet" : "Quizzes"),
                     ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       clipBehavior: Clip.none,
