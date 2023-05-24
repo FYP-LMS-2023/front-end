@@ -98,7 +98,7 @@ class AssignmentController extends ChangeNotifier {
     try {
       final token = await secureStorage.getToken();
       final response = await http.get(
-        Uri.parse('${Environment.baseURL}assignmentTwo/getAssignmentById/$id'),
+        Uri.parse('${Environment.baseURL}assignmentTwo/getAssignmentDetailsStudent/$id'),
         headers: <String, String>{'Authorization': token ?? ""},
       );
 
@@ -107,6 +107,12 @@ class AssignmentController extends ChangeNotifier {
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         final assignmentData = responseData["assignment"];
+        final submissionData = responseData["mySubmission"];
+        if(submissionData != null) {
+          submissionData.remove("studentID");
+        }
+          
+        var temp = responseData["isSubmitted"];
         Log.d("Assignment Data: $assignmentData");
         Log.d("Assignment Data is not Empty: ${assignmentData.isNotEmpty}");
 
@@ -121,6 +127,8 @@ class AssignmentController extends ChangeNotifier {
           var marks = assignmentData["marks"];
           var files = assignmentData["files"];
           //var submissions = assignmentData["submissions"];
+          var mySubmission = submissionData;
+          var isSubmitted = temp;
 
           final filteredData = {
             "_id": id,
@@ -131,9 +139,11 @@ class AssignmentController extends ChangeNotifier {
             "description": description,
             "marks": marks,
             "files": files,
+            "mySubmission": mySubmission,
+            "isSubmitted": isSubmitted,
             //"submissions": submissions,
           };
-          Log.d("filteredData: $filteredData");
+          Log.d(filteredData);
           Log.d("filteredData type: ${filteredData.runtimeType}");
 
           assignmentObject = AssignmentModel.fromJson(filteredData);
@@ -141,7 +151,7 @@ class AssignmentController extends ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
-      print("Error coming: $e");
+      Log.d("Error coming in get Assignment Details: $e");
     }
   }
 
