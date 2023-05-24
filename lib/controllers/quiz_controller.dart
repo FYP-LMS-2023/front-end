@@ -103,6 +103,9 @@ class QuizController extends ChangeNotifier {
         print(await response.stream.bytesToString());
 
         notifyListeners();
+      } else {
+        Log.e(
+            "Submit quiz request failed with status code ${response.statusCode} + ${response.body}");
       }
     } catch (e) {
       Log.e("Error: $e");
