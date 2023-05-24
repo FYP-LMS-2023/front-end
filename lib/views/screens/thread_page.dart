@@ -113,8 +113,9 @@ class _ThreadPageState extends State<ThreadPage> {
                                 children: [
                                   CircleAvatar(
                                     radius: 22,
-                                    backgroundColor: Colors.primaries[Random()
-                                        .nextInt(Colors.primaries.length)],
+                                    backgroundColor: Colors.primaries[thread != null
+                                    ? thread!.postedBy!.fullName[0].hashCode % Colors.primaries.length
+                                    : 0],
                                     child: Text(
                                         thread != null
                                             ? thread!.postedBy!.fullName
@@ -263,9 +264,9 @@ class _ThreadPageState extends State<ThreadPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         CircleAvatar(
-                                          backgroundColor: Colors.primaries[
-                                              Random().nextInt(
-                                                  Colors.primaries.length)],
+                                           backgroundColor: Colors.primaries[thread != null
+                                            ? comment.postedBy!.fullName[0].hashCode % Colors.primaries.length
+                                            : 0],
                                           child: Text(
                                               comment.postedBy!.fullName
                                                   .split(' ')
@@ -464,10 +465,9 @@ class _ThreadPageState extends State<ThreadPage> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   CircleAvatar(
-                                                    backgroundColor: Colors
-                                                            .primaries[
-                                                        Random().nextInt(Colors
-                                                            .primaries.length)],
+                                                  backgroundColor: Colors.primaries[thread != null
+                                                  ? reply.postedBy!.fullName[0].hashCode % Colors.primaries.length
+                                                  : 0],
                                                     child: Text(
                                                         reply.postedBy!.fullName
                                                             .split(' ')
@@ -580,7 +580,7 @@ class _ThreadPageState extends State<ThreadPage> {
                           ),
                           SizedBox(
                               height:
-                                  MediaQuery.of(context).size.height * 0.02),
+                                  MediaQuery.of(context).size.height * 0.1),
                         ],
                       ),
                     ),

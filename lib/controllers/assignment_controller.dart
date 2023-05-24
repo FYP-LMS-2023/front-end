@@ -178,6 +178,7 @@ class AssignmentController extends ChangeNotifier {
         if (assignmentsData.isNotEmpty) {
           tempAssignments = [];
           for (var data in assignmentsData) {
+            // var temp = data["assignment"];
             Log.d("Data: $data");
             var id = data["_id"];
             var title = data["title"];

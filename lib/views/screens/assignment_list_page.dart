@@ -228,8 +228,8 @@ class _AssignmentListPageState extends State<AssignmentListPage> {
           
           children: [
 
-            buildStats(context),
-            const VerticalSpacer(),
+            // buildStats(context),
+            // const VerticalSpacer(),
             const Subheading(text: "Assignments"),
             SizedBox(height: size.height * 0.02),
             assignments == null ?

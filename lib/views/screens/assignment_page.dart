@@ -432,7 +432,9 @@ class _AssignmentPageState extends State<AssignmentPage> {
           ? Container(
               padding: const EdgeInsets.all(16),
               child: assignment!.isSubmitted
-                  ? MainButton(text: "Submit Assignment", onPressed: null)
+                  ? assignment!.dueDate!.isAfter(DateTime.now()) && !assignment!.mySubmission!.returned! ? 
+                  MainButton(text: "Resubmit Assignment", onPressed: () {},color: Colors.blue,) : 
+                  const MainButton(text: "Submit Assignment", onPressed: null)
                   : MainButton(
                       onPressed: () async {
                         if (submissionDescriptionController.text
