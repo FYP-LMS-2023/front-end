@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/class_controller.dart';
-import 'package:front_end/views/screens/faculty/test/textread.dart';
 import 'package:front_end/views/widgets/bottom_popup.dart';
 import 'package:front_end/views/widgets/buttons.dart';
+import 'package:front_end/views/widgets/markdown_text.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
 import 'package:front_end/views/widgets/textfields.dart';
 import 'package:provider/provider.dart';
@@ -80,7 +80,7 @@ class _FacCourseOutlinePageState extends State<FacCourseOutlinePage> {
                                 )
                         ],
                       ),
-                      isEditing ? const VerticalSpacer(): const SizedBox(),
+                      isEditing ? const VerticalSpacer() : const SizedBox(),
                       !isEditing
                           ? FormattedTextWidget(markdownText: controller.text)
                           : Column(

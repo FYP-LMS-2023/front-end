@@ -385,6 +385,7 @@ class AssignmentDetailCard extends StatelessWidget {
   final int numResubmissions;
   final DateTime resubmissionDueDate;
   final String status;
+  final int marks;
 
   const AssignmentDetailCard({
     super.key,
@@ -392,6 +393,7 @@ class AssignmentDetailCard extends StatelessWidget {
     required this.numResubmissions,
     required this.resubmissionDueDate,
     required this.status,
+    required this.marks,
   });
 
   @override
@@ -429,7 +431,6 @@ class AssignmentDetailCard extends StatelessWidget {
                       "Due Date: ",
                       style: Styles.titleMedium,
                     ),
-                    
                   ],
                 ),
                 Text(
@@ -455,7 +456,6 @@ class AssignmentDetailCard extends StatelessWidget {
                       "Resubmission Deadline: ",
                       style: Styles.titleMedium,
                     ),
-
                   ],
                 ),
                 Text(
@@ -464,6 +464,20 @@ class AssignmentDetailCard extends StatelessWidget {
                   style: Styles.bodyLarge,
                   overflow: TextOverflow.ellipsis,
                 ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      "Total Marks: ",
+                      style: Styles.titleMedium,
+                    ),
+                  ],
+                ),
+                Text(
+                  marks.toString(),
+                  style: Styles.bodyLarge,
+                  overflow: TextOverflow.ellipsis,
+                )
               ],
             ),
           ),
@@ -472,7 +486,144 @@ class AssignmentDetailCard extends StatelessWidget {
     );
   }
 }
+
 //* /////////////////////////////////////////////////////////////////////////////////////////////
+class SubmissionCard extends StatefulWidget {
+  final DateTime? submitDate;
+  final String fullName;
+  final String erp;
+  final bool returned;
+  final int? marks;
+  final String description;
+  final Function? onClick;
+  const SubmissionCard({
+    super.key,
+    this.submitDate,
+    required this.fullName,
+    required this.erp,
+    required this.returned,
+    this.marks = 0,
+    required this.description,
+    this.onClick,
+  });
+
+  @override
+  State<SubmissionCard> createState() => _SubmissionCardState();
+}
+
+class _SubmissionCardState extends State<SubmissionCard> {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        widget.onClick != null ? widget.onClick!() : null;
+      },
+      child: Ink(
+        decoration: boxDecoration,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              child: Text(
+                                widget.fullName,
+                                style: Styles.headlineSmall,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            const SizedBox(height: 5.0),
+                            Row(
+                              children: [
+                                Container(
+                                  child: Text(
+                                    'ERP ID: ',
+                                    style: Styles.labelLarge,
+                                  ),
+                                ),
+                                Container(
+                                  child: Text(
+                                    widget.erp,
+                                    style: Styles.bodyMedium,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(16.0),
+                        alignment: Alignment.centerRight,
+                        child: Chip(
+                          label: Text(
+                            widget.returned
+                                ? 'Marks: ${widget.marks.toString()}'
+                                : "Not Returned",
+                            style:
+                                Styles.bodySmall.copyWith(color: Colors.white),
+                          ),
+                          backgroundColor: widget.returned
+                              ? widget.marks! >= 50
+                                  ? Colors.green
+                                  : Colors.red
+                              : Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Text(
+                          'Submitted on: ',
+                          style: Styles.labelLarge,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          DateFormat('dd, MMMM yyyy @ hh:mm a')
+                              .format(widget.submitDate!),
+                          style: Styles.bodyMedium,
+                          overflow: TextOverflow.clip,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.description,
+                    style: Styles.bodyMedium,
+                  ),
+                  const SizedBox(height: 8.0),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class CenteredCard extends StatelessWidget {
   final double width;

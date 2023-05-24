@@ -89,6 +89,7 @@ class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
   // final Widget drawer;
   final String? subtitle;
   final bool disableBack;
+  final Widget? trailing;
 
   const CourseHeader({
     super.key,
@@ -96,6 +97,7 @@ class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
     required this.onMenuPressed,
     this.subtitle,
     this.disableBack = false,
+    this.trailing,
   });
 
   @override
@@ -136,6 +138,7 @@ class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
               : const SizedBox(),
         ],
       ),
+      actions: trailing != null ? [trailing!] : [const SizedBox()],
     );
   }
 

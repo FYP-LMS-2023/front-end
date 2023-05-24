@@ -7,6 +7,7 @@ import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/assignment_controller.dart';
 import 'package:front_end/models/assignment_model.dart';
 import 'package:front_end/views/screens/faculty/faculty_add_assignment.dart';
+import 'package:front_end/views/screens/faculty/faculty_assignment_page.dart';
 import 'package:front_end/views/widgets/cards.dart';
 import 'package:front_end/views/widgets/loading.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
@@ -120,7 +121,15 @@ class _FacAssignmentListPageState extends State<FacAssignmentListPage> {
                               description: assignment.description,
                               status: assignment.status,
                               postedBy: widget.fullName,
-                              onClick: () {},
+                              onClick: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) {
+                                    return FacAssignmentPage(
+                                      id: assignment.id,
+                                    );
+                                  },
+                                ));
+                              },
                             );
                           },
                         ),

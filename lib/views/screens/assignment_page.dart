@@ -58,8 +58,6 @@ class _AssignmentPageState extends State<AssignmentPage> {
     }
   }
 
-  
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,6 +79,7 @@ class _AssignmentPageState extends State<AssignmentPage> {
                   numResubmissions: 4,
                   resubmissionDueDate: DateTime(2023, 05, 04, 20, 20),
                   status: assignment != null ? assignment!.status : "<status!>",
+                  marks: assignment != null ? assignment!.marks : 0,
                 ),
                 const VerticalSpacer(),
                 widget.graded
@@ -110,74 +109,76 @@ class _AssignmentPageState extends State<AssignmentPage> {
                 ),
                 const VerticalSpacer(),
                 const Subheading(text: "Files"),
-                assignment?.files == null ? 
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "No files to download",
-                    style: Styles.bodyMedium,
-                  ),
-                ) :
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Please download the following files to complete the assignment.",
-                    style: Styles.bodyMedium,
-                  ),
-                ),
-                const VerticalSpacer(),
-              ListView.separated(
-                shrinkWrap: true,
-                itemCount: assignment != null ? assignment!.files!.length : 0,
-                separatorBuilder: (context, index) => SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      _launchInBrowser(
-                          Uri.parse(assignment!.files![index].url));
-                    },
-                    child: Ink(
-                      decoration: boxDecoration,
-                      child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.13,
-                              height: MediaQuery.of(context).size.width * 0.13,
-                              decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: createIcon(assignment!.files![index].url
-                                  .split("-").last
-                                  .split(".")[1]),
-                            ),
-                            const HorizontalSpacer(),
-                            Expanded(
-                              child: 
-                                Text(assignment!.files![index].url
-                                    .split("/")[8]
-                                    .split("-")[1].replaceAll('%20', ' '),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                )
-                            )
-                          ],
+                assignment?.files == null
+                    ? Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "No files to download",
+                          style: Styles.bodyMedium,
+                        ),
+                      )
+                    : Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Please download the following files to complete the assignment.",
+                          style: Styles.bodyMedium,
                         ),
                       ),
-                    ),
-                  );
-                },
-              ),
+                const VerticalSpacer(),
+                ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: assignment != null ? assignment!.files!.length : 0,
+                  separatorBuilder: (context, index) => SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        _launchInBrowser(
+                            Uri.parse(assignment!.files![index].url));
+                      },
+                      child: Ink(
+                        decoration: boxDecoration,
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.13,
+                                height:
+                                    MediaQuery.of(context).size.width * 0.13,
+                                decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: createIcon(assignment!.files![index].url
+                                    .split("-")
+                                    .last
+                                    .split(".")[1]),
+                              ),
+                              const HorizontalSpacer(),
+                              Expanded(
+                                  child: Text(
+                                assignment!.files![index].url
+                                    .split("/")[8]
+                                    .split("-")[1]
+                                    .replaceAll('%20', ' '),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              ))
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
                 // if (assignment?.files != null && assignment!.files!.isNotEmpty)
                 //   Column(
                 //     crossAxisAlignment: CrossAxisAlignment.start,
                 //     children: assignment!.files
                 //         !.map((file) => InkWell(
                 //               onTap: () async {
-                               
+
                 //               },
                 //               child: Container(
                 //                 margin: const EdgeInsets.only(bottom: 8.0),
@@ -233,7 +234,7 @@ class _AssignmentPageState extends State<AssignmentPage> {
           : const SizedBox(),
     );
   }
-  
+
   Icon createIcon(String ext) {
     // print(ext);
     if (ext == "pdf") {
