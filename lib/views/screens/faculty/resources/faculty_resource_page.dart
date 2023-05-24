@@ -2,34 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
+import 'package:front_end/controllers/resource_controller.dart';
 import 'package:front_end/models/resource_model.dart';
+import 'package:front_end/utils/functions/create_file_icon.dart';
+import 'package:front_end/utils/functions/url_launcher.dart';
+import 'package:front_end/views/screens/faculty/resources/faculty_edit_resource.dart';
+import 'package:front_end/views/widgets/buttons.dart';
 import 'package:front_end/views/widgets/headers.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
 
-class ResourcePage extends StatelessWidget {
+class FacResourcePage extends StatefulWidget {
   final ResourceModel? resourceData;
-  final String classData;
-  const ResourcePage(
-      {super.key, required this.resourceData, required this.classData});
+  final String classID;
+  const FacResourcePage(
+      {super.key, required this.resourceData, required this.classID});
 
-  Future<void> _launchInBrowser(Uri url) async {
-    if (!await launchUrl(
-      url,
-      mode: LaunchMode.externalApplication,
-    )) {
-      throw Exception('Could not launch $url');
-    }
-  }
+  @override
+  State<FacResourcePage> createState() => _FacResourcePageState();
+}
 
+class _FacResourcePageState extends State<FacResourcePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: CourseHeader(
         title: "Resources",
-        subtitle: classData,
+        subtitle: widget.classID,
         onMenuPressed: () {},
+        trailing: IconButton(
+          icon: Icon(Icons.edit),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => FacEditResourcePage(
+                    resource: widget.resourceData!, id: widget.classID),
+              ),
+            );
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -47,14 +60,14 @@ class ResourcePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        resourceData!.title,
+                        widget.resourceData!.title,
                         style: Styles.titleMedium,
                         overflow: TextOverflow.clip,
                       ),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.01),
                       Text(
-                        resourceData!.description,
+                        widget.resourceData!.description,
                         style: Styles.bodyMedium,
                         overflow: TextOverflow.clip,
                       ),
@@ -70,7 +83,7 @@ class ResourcePage extends StatelessWidget {
                           Container(
                             width: MediaQuery.of(context).size.width * 0.6,
                             child: Text(
-                              resourceData!.uploadedBy!.fullName,
+                              widget.resourceData!.uploadedBy!.fullName,
                               style: Styles.bodyMedium,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -88,8 +101,8 @@ class ResourcePage extends StatelessWidget {
                           Container(
                             width: MediaQuery.of(context).size.width * 0.5,
                             child: Text(
-                              DateFormat('dd MMM yyy @ hh:mm a').format(
-                                  resourceData!.dateUploaded as DateTime),
+                              DateFormat('dd MMM yyy @ hh:mm a').format(widget
+                                  .resourceData!.dateUploaded as DateTime),
                               style: Styles.bodyMedium,
                               overflow: TextOverflow.clip,
                             ),
@@ -104,15 +117,15 @@ class ResourcePage extends StatelessWidget {
               const Subheading(text: "Files"),
               ListView.separated(
                 shrinkWrap: true,
-                itemCount: resourceData!.files.length,
+                itemCount: widget.resourceData!.files.length,
                 separatorBuilder: (context, index) => SizedBox(
                   height: MediaQuery.of(context).size.height * 0.02,
                 ),
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      _launchInBrowser(
-                          Uri.parse(resourceData!.files[index].url));
+                      launchInBrowser(
+                          Uri.parse(widget.resourceData!.files[index].url));
                     },
                     child: Ink(
                       decoration: boxDecoration,
@@ -126,7 +139,8 @@ class ResourcePage extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: Colors.black,
                                   borderRadius: BorderRadius.circular(10)),
-                              child: createIcon(resourceData!.files[index].url
+                              child: createFileIcon(widget
+                                  .resourceData!.files[index].url
                                   .split("-")
                                   .last
                                   .split(".")
@@ -136,7 +150,7 @@ class ResourcePage extends StatelessWidget {
                             Expanded(
                               child: Container(
                                 child: Text(
-                                  resourceData!.files[index].url
+                                  widget.resourceData!.files[index].url
                                       .split("/")
                                       .last
                                       .split("-")
@@ -157,30 +171,6 @@ class ResourcePage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Icon createIcon(String ext) {
-    // print(ext);
-    if (ext == "pdf") {
-      return const Icon(
-        Icons.picture_as_pdf_rounded,
-        color: Colors.white,
-      );
-    } else if (ext == "png") {
-      return const Icon(Icons.image, color: Colors.white);
-    } else if (ext == "mp4") {
-      return const Icon(Icons.video_library, color: Colors.white);
-    } else if (ext == "mp3") {
-      return const Icon(Icons.audio_file, color: Colors.white);
-    } else if (ext == "txt") {
-      return const Icon(Icons.text_snippet_rounded, color: Colors.white);
-    } else if (ext == "docx") {
-      return const Icon(Icons.edit_document, color: Colors.white);
-    }
-    return const Icon(
-      Icons.file_copy_rounded,
-      color: Colors.white,
     );
   }
 }

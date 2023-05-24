@@ -107,7 +107,7 @@ class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: disableBack ? false : true,
       iconTheme: const IconThemeData(color: Colors.black),
       elevation: 0.0,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       centerTitle: false,
       leading: disableBack
           ? null
@@ -138,7 +138,7 @@ class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
               : const SizedBox(),
         ],
       ),
-      actions: trailing != null ? [trailing!] : [const SizedBox()],
+      actions: trailing != null ? [trailing!] : null,
     );
   }
 

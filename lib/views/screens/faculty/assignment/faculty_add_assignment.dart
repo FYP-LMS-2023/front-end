@@ -1,12 +1,11 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
 import 'package:front_end/constants/fonts.dart';
+import 'package:front_end/constants/log.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/assignment_controller.dart';
-import 'package:front_end/models/assignment_model.dart';
 import 'package:front_end/utils/functions/create_file_icon.dart';
 import 'package:front_end/views/widgets/buttons.dart';
 import 'package:front_end/views/widgets/headers.dart';
@@ -16,75 +15,68 @@ import 'package:front_end/views/widgets/textfields.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class FacEditAssignmentPage extends StatefulWidget {
-  final AssignmentModel? assignment;
-  final String id;
-  const FacEditAssignmentPage({
-    super.key,
-    required this.id,
-    required this.assignment,
-  });
+class FacAssignmentAddPage extends StatefulWidget {
+  final String classID;
+
+  const FacAssignmentAddPage({required this.classID});
 
   @override
-  State<FacEditAssignmentPage> createState() => _FacEditAssignmentPageState();
+  _FacAssignmentAddPageState createState() => _FacAssignmentAddPageState();
 }
 
-class _FacEditAssignmentPageState extends State<FacEditAssignmentPage> {
+class _FacAssignmentAddPageState extends State<FacAssignmentAddPage> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController marksController = TextEditingController();
+  TextEditingController title = TextEditingController();
+  TextEditingController description = TextEditingController();
+  // TextEditingController dueDateController = TextEditingController();
   DateTime? dueDate;
+  TextEditingController marks = TextEditingController();
+  // TextEditingController status = TextEditingController();
   String status = 'active';
-  List<File>? oldFiles;
-  List<File>? newFiles;
+  // PlatformFile? file;
+  // List<PlatformFile> files = [];
+  List<File>? filesToUpload;
 
   bool loading = false;
 
   @override
   void initState() {
     super.initState();
-    newFiles = [];
-    if (widget.assignment != null) {
-      titleController.text = widget.assignment!.title;
-      descriptionController.text = widget.assignment!.description;
-      marksController.text = widget.assignment!.marks.toString();
-      dueDate = widget.assignment!.dueDate;
-      status = widget.assignment!.status;
-      oldFiles = widget.assignment!.files!
-          .map(
-            (e) => File(e.url),
-          )
-          .toList();
-    }
+    title.text = '';
+    description.text = '';
+    marks.text = '';
+    filesToUpload = [];
+    dueDate = DateTime.now();
+
+    Log.e('step 4: ${widget.classID}');
   }
 
-  void editAssignment() async {
+  void create() async {
     if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
       setState(() {
         loading = true;
       });
 
       final assignmentData = {
-        "title": titleController.text,
-        "description": descriptionController.text,
-        "dueDate": dueDate!.toIso8601String(),
-        "status": status,
-        "marks": marksController.text,
+        'classID': widget.classID,
+        'title': title.text,
+        'description': description.text,
+        'dueDate': DateFormat('dd/MM/yy').format(dueDate!),
+        'marks': marks.text,
+        'status': status,
       };
 
       context
           .read<AssignmentController>()
-          .udpateAssignment(
-            assignmentData,
-            widget.id,
-          )
+          .createAssignment(assignmentData, filesToUpload)
           .then((value) {
         if (value == true) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Assignment edited successfully'),
+              content: Text('Assignment created successfully'),
               backgroundColor: Colors.green,
               behavior: SnackBarBehavior.floating,
             ),
@@ -93,7 +85,7 @@ class _FacEditAssignmentPageState extends State<FacEditAssignmentPage> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Error editing assignment'),
+              content: Text('Error creating assignment'),
               backgroundColor: Colors.red,
               behavior: SnackBarBehavior.floating,
             ),
@@ -104,66 +96,6 @@ class _FacEditAssignmentPageState extends State<FacEditAssignmentPage> {
         }
       });
     }
-  }
-
-  void deleteFile(int index) async {
-    context.read<AssignmentController>().deleteFile(index, widget.id).then(
-      (value) {
-        if (value == true) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'File ${oldFiles![index].path.split('/').last} removed successfully',
-              ),
-              backgroundColor: Colors.green,
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
-          setState(() {
-            oldFiles!.removeAt(index);
-          });
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'Failed to removed file ${oldFiles![index].path.split('/').last}',
-              ),
-              backgroundColor: Colors.green,
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
-        }
-      },
-    );
-  }
-
-  void addFile() async {
-    context
-        .read<AssignmentController>()
-        .addFile(newFiles, widget.id)
-        .then((value) {
-      if (value == true) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('File added successfully'),
-            backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-        setState(() {
-          oldFiles!.addAll(newFiles!);
-          newFiles = [];
-        });
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Error adding file'),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
-    });
   }
 
   @override
@@ -192,14 +124,14 @@ class _FacEditAssignmentPageState extends State<FacEditAssignmentPage> {
                         }
                         return null;
                       },
-                      controller: titleController,
+                      controller: title,
                     ),
                     const VerticalSpacer(),
                     MainTextField(
                       label: "Instructions",
                       maxLines: 6,
                       minLines: 6,
-                      controller: descriptionController,
+                      controller: description,
                       validator: (value) {
                         if (value!.trim().isEmpty) {
                           return 'Please enter the assignment instructions';
@@ -215,7 +147,7 @@ class _FacEditAssignmentPageState extends State<FacEditAssignmentPage> {
                           flex: 1,
                           child: MainTextField(
                             label: "Marks",
-                            controller: marksController,
+                            controller: marks,
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return 'Please enter marks';
@@ -355,7 +287,7 @@ class _FacEditAssignmentPageState extends State<FacEditAssignmentPage> {
                     const Subheading(text: "Upload Files"),
                     ListView.separated(
                       shrinkWrap: true,
-                      itemCount: oldFiles!.length,
+                      itemCount: filesToUpload!.length,
                       separatorBuilder: (context, index) {
                         return SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02);
@@ -368,19 +300,21 @@ class _FacEditAssignmentPageState extends State<FacEditAssignmentPage> {
                             child: Row(
                               children: [
                                 createFileIcon(
-                                    oldFiles![index].path.split('.').last),
+                                    filesToUpload![index].path.split('.').last),
                                 const HorizontalSpacer(),
                                 Expanded(
                                   child: Text(
-                                    oldFiles![index].path.split('/').last,
+                                    filesToUpload![index].path.split('/').last,
                                     style: Styles.bodyMedium,
                                   ),
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    deleteFile(index);
+                                    setState(() {
+                                      filesToUpload!.removeAt(index);
+                                    });
                                   },
-                                  icon: const Icon(
+                                  icon: Icon(
                                     Icons.delete,
                                     color: Colors.red,
                                   ),
@@ -398,11 +332,10 @@ class _FacEditAssignmentPageState extends State<FacEditAssignmentPage> {
                             .pickFiles(allowMultiple: true);
                         if (result != null) {
                           setState(() {
-                            newFiles!.addAll(result.paths
+                            filesToUpload!.addAll(result.paths
                                 .map((path) => File(path!))
                                 .toList());
                           });
-                          addFile();
                         }
                       },
                       text: "Upload File",
@@ -422,13 +355,13 @@ class _FacEditAssignmentPageState extends State<FacEditAssignmentPage> {
               padding: EdgeInsets.all(16.0),
               child: MainButton(
                 onPressed: () {
-                  editAssignment();
+                  create();
                 },
                 text: "Save",
                 color: Colors.green,
               ),
             )
-          : const SizedBox(),
+          : SizedBox(),
     );
   }
 }

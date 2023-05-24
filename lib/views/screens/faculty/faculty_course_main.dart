@@ -3,14 +3,12 @@ import 'package:front_end/constants/log.dart';
 import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/models/class_model.dart';
 import 'package:front_end/views/screens/announcement_list_page.dart';
-import 'package:front_end/views/screens/assignment_list_page.dart';
-import 'package:front_end/views/screens/course_outline_page.dart';
-import 'package:front_end/views/screens/course_overview_page.dart';
-import 'package:front_end/views/screens/faculty/faculty_assignment_list.dart';
+import 'package:front_end/views/screens/faculty/announcements/facult_announcement_list.dart';
+import 'package:front_end/views/screens/faculty/assignment/faculty_assignment_list.dart';
 import 'package:front_end/views/screens/faculty/faculty_course_outline.dart';
 import 'package:front_end/views/screens/faculty/faculty_course_overview.dart';
+import 'package:front_end/views/screens/faculty/resources/faculty_resource_list.dart';
 import 'package:front_end/views/screens/quiz_list_page.dart';
-import 'package:front_end/views/screens/resource_list_page.dart';
 import 'package:front_end/views/screens/threads_list.dart';
 import 'package:front_end/views/screens/view_attendance.dart';
 import 'package:front_end/views/widgets/drawer.dart';
@@ -23,7 +21,7 @@ class FacCourseMainPage extends StatefulWidget {
   String currentTab;
   FacCourseMainPage({
     super.key,
-    this.currentTab = "Assignments",
+    this.currentTab = "Announcements",
     this.id,
   });
 
@@ -62,6 +60,12 @@ class _FacCourseMainPageState extends State<FacCourseMainPage> {
           )
         : Scaffold(
             backgroundColor: Colors.white,
+            appBar: CourseHeader(
+              title: widget.currentTab,
+              subtitle:
+                  "${classData!.course!.courseCode} - ${classData!.course!.courseName}",
+              onMenuPressed: () {},
+            ),
             endDrawer: classData == null
                 ? null
                 : DrawerWidget(
@@ -75,12 +79,6 @@ class _FacCourseMainPageState extends State<FacCourseMainPage> {
                     },
                     tabSelected: widget.currentTab,
                   ),
-            appBar: CourseHeader(
-              title: widget.currentTab,
-              subtitle:
-                  "${classData!.course!.courseCode} - ${classData!.course!.courseName}",
-              onMenuPressed: () {},
-            ),
             body: createPage(widget.currentTab),
           );
   }
@@ -96,17 +94,17 @@ class _FacCourseMainPageState extends State<FacCourseMainPage> {
               classData != null ? classData!.syllabus : "No Outline Uploaded",
         );
       case "Attendance":
-        return  ViewAttendanceScreen();
+        return ViewAttendanceScreen();
       case "Quizzes":
-        return  QuizListPage();
+        return QuizListPage();
       case "Assignments":
         return FacAssignmentListPage(
             id: widget.id, fullName: classData!.teacher!.fullName);
       case "Announcements":
-        return AnnouncementListPage(widget.id,
+        return FacAnnouncementListPage(widget.id,
             fullname: classData!.teacher!.fullName);
       case "Resources":
-        return  ResourceListPage();
+        return FacResourceListPage(id: widget.id != null ? widget.id! : "1");
       case "Channel":
         return ThreadsList(id: classData!.channel!.channelId);
     }

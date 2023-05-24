@@ -1,12 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/env.dart';
 import 'package:front_end/constants/secure_storage.dart';
 import 'package:front_end/models/assignment_submission_model.dart';
-import 'package:front_end/models/submission_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
@@ -286,9 +283,8 @@ class AssignmentController extends ChangeNotifier {
       }
     } catch (e) {
       Log.e(e.toString());
+      return false;
     }
-
-    return false;
   }
 
   Future<bool> addFile(List<File>? files, String id) async {
@@ -415,6 +411,34 @@ class AssignmentController extends ChangeNotifier {
         "marksReceived": marks,
         "returnDescription": returnDesc,
       });
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        print(await response.stream.bytesToString());
+        return true;
+      } else {
+        print(response.reasonPhrase);
+        return false;
+      }
+    } catch (e) {
+      Log.e(e.toString());
+      return false;
+    }
+  }
+
+  Future<bool> deleteAssignment(String id) async {
+    try {
+      final token = await secureStorage.getToken();
+      var headers = {
+        'Authorization': token ?? "",
+      };
+      var request = http.MultipartRequest(
+        'PATCH',
+        Uri.parse(
+            '${Environment.baseURL}assignmentTwo/setAssignmentDeleteFlag/$id'),
+      );
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();

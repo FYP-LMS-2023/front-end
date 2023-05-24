@@ -8,8 +8,8 @@ import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/models/assignment_model.dart';
 import 'package:front_end/utils/functions/create_file_icon.dart';
 import 'package:front_end/utils/functions/url_launcher.dart';
-import 'package:front_end/views/screens/faculty/faculty_edit_assignment.dart';
-import 'package:front_end/views/screens/faculty/faculty_submissions_list.dart';
+import 'package:front_end/views/screens/faculty/assignment/faculty_edit_assignment.dart';
+import 'package:front_end/views/screens/faculty/assignment/faculty_submissions_list.dart';
 import 'package:front_end/views/widgets/buttons.dart';
 import 'package:front_end/views/widgets/cards.dart';
 import 'package:front_end/views/widgets/headers.dart';
@@ -207,6 +207,8 @@ class _FacAssignmentPageState extends State<FacAssignmentPage> {
                           MaterialPageRoute(
                             builder: (context) => FacSubmissionsListPage(
                               id: widget.id != null ? widget.id! : "1",
+                              totalMarks:
+                                  assignment != null ? assignment!.marks : 0,
                             ),
                           ),
                         ),

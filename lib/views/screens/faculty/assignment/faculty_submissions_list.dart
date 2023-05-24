@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:front_end/constants/fonts.dart';
-import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/assignment_controller.dart';
-import 'package:front_end/models/assignment_model.dart';
 import 'package:front_end/models/assignment_submission_model.dart';
-import 'package:front_end/views/screens/faculty/faculty_add_assignment.dart';
-import 'package:front_end/views/screens/faculty/faculty_assignment_page.dart';
-import 'package:front_end/views/screens/faculty/faculty_view_submission.dart';
+import 'package:front_end/views/screens/faculty/assignment/faculty_view_submission.dart';
 import 'package:front_end/views/widgets/cards.dart';
 import 'package:front_end/views/widgets/headers.dart';
 import 'package:front_end/views/widgets/loading.dart';
@@ -17,10 +10,8 @@ import 'package:provider/provider.dart';
 
 class FacSubmissionsListPage extends StatefulWidget {
   final String? id;
-  const FacSubmissionsListPage({
-    super.key,
-    this.id,
-  });
+  final int? totalMarks;
+  const FacSubmissionsListPage({super.key, this.id, this.totalMarks});
 
   @override
   State<FacSubmissionsListPage> createState() => _FacSubmissionsListPageState();
@@ -95,6 +86,7 @@ class _FacSubmissionsListPageState extends State<FacSubmissionsListPage> {
                             );
                           },
                           marks: sub.marksReceived,
+                          totalMarks: widget.totalMarks,
                         );
                       },
                     ),

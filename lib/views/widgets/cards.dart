@@ -494,6 +494,7 @@ class SubmissionCard extends StatefulWidget {
   final String erp;
   final bool returned;
   final int? marks;
+  final int? totalMarks;
   final String description;
   final Function? onClick;
   const SubmissionCard({
@@ -503,6 +504,7 @@ class SubmissionCard extends StatefulWidget {
     required this.erp,
     required this.returned,
     this.marks = 0,
+    this.totalMarks = 0,
     required this.description,
     this.onClick,
   });
@@ -575,7 +577,7 @@ class _SubmissionCardState extends State<SubmissionCard> {
                                 Styles.bodySmall.copyWith(color: Colors.white),
                           ),
                           backgroundColor: widget.returned
-                              ? widget.marks! >= 50
+                              ? widget.marks! >= (widget.totalMarks! / 2)
                                   ? Colors.green
                                   : Colors.red
                               : Colors.grey,

@@ -6,7 +6,7 @@ import 'package:front_end/controllers/assignment_controller.dart';
 import 'package:front_end/models/assignment_submission_model.dart';
 import 'package:front_end/utils/functions/create_file_icon.dart';
 import 'package:front_end/utils/functions/url_launcher.dart';
-import 'package:front_end/views/screens/faculty/faculty_grade_assignment.dart';
+import 'package:front_end/views/screens/faculty/assignment/faculty_grade_assignment.dart';
 import 'package:front_end/views/widgets/buttons.dart';
 import 'package:front_end/views/widgets/headers.dart';
 import 'package:front_end/views/widgets/subheadings.dart';

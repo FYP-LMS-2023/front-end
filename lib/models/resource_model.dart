@@ -1,3 +1,4 @@
+import 'package:front_end/models/file_model.dart';
 import 'package:front_end/models/user_model.dart';
 
 class ResourceModel {
@@ -6,7 +7,7 @@ class ResourceModel {
   DateTime? dateUploaded;
   String title;
   String description;
-  List<File> files;
+  List<FileModel> files;
   // int fileSize;
   // String fileType;
   // String fileLink;
@@ -31,7 +32,7 @@ class ResourceModel {
           DateTime? dateUploaded,
           String? title,
           String? description,
-          List<File>? files
+          List<FileModel>? files
           // int? fileSize,
           // String? fileType,
           // String? fileLink,
@@ -62,7 +63,7 @@ class ResourceModel {
           : DateTime.parse(json["uploadDate"]),
       title: json["title"] ?? "<!title>",
       description: json["description"] ?? "<!description>",
-      files: json["files"] == null ? [] : List<File>.from(json["files"].map((x) => File.fromJson(x))),
+      files: json["files"] == null ? [] : List<FileModel>.from(json["files"].map((x) => FileModel.fromJson(x))),
       // fileSize: json["fileSize"] ?? -1,
       // fileType: json["fileType"] ?? "<!fileType>",
       // fileLink: json["fileLink"] ?? "<!fileLink>",
@@ -85,40 +86,40 @@ class ResourceModel {
       };
 }
 
-class File {
-  String id = "<!id>";
-  String url;
-  String publicId;
+// class FileModel {
+//   String id = "<!id>";
+//   String url;
+//   String publicId;
 
-  File(
-      {this.id = "<!id>",
-      this.url = "<!url>",
-      this.publicId = "<!publicId>"
-      });
+//   FileModel(
+//       {this.id = "<!id>",
+//       this.url = "<!url>",
+//       this.publicId = "<!publicId>"
+//       });
 
-  File copyWith(
-          {String? id,
-          String? url,
-          String? publicId
-          }) =>
-      File(
-        id: id ?? this.id,
-        url: url ?? this.url,
-        publicId: publicId ?? this.publicId,
-      );
+//   FileModel copyWith(
+//           {String? id,
+//           String? url,
+//           String? publicId
+//           }) =>
+//       FileModel(
+//         id: id ?? this.id,
+//         url: url ?? this.url,
+//         publicId: publicId ?? this.publicId,
+//       );
 
-  factory File.fromJson(Map<String, dynamic> json) => File(
-      id: json["_id"] ?? "<!id>",
-      url: json["url"] ?? "<!url>",
-      publicId: json["public_id"] ?? "<!publicId>"
-      );
+//   factory FileModel.fromJson(Map<String, dynamic> json) => FileModel(
+//       id: json["_id"] ?? "<!id>",
+//       url: json["url"] ?? "<!url>",
+//       publicId: json["public_id"] ?? "<!publicId>"
+//       );
 
-  Map<String, dynamic> toJson() => {
-        "_id": id,
-        "url": url,
-        "public_id": publicId
-      };
-}
+//   Map<String, dynamic> toJson() => {
+//         "_id": id,
+//         "url": url,
+//         "public_id": publicId
+//       };
+// }
 
 
 
