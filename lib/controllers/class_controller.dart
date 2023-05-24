@@ -21,7 +21,7 @@ class ClassController extends ChangeNotifier {
       final token = await secureStorage.getToken();
       // print('testing: $test');
       final response = await http.post(
-        Uri.parse('${Environment.baseURL}class/getclassDetailsShaheer'),
+        Uri.parse('${Environment.baseURL}class/getClassDetailsShaheer'),
         headers: <String, String>{'Authorization': token ?? ""},
         body: <String, String>{"classID": id},
       );
@@ -56,7 +56,6 @@ class ClassController extends ChangeNotifier {
         // print('courseDetails: $courseDetails');
         // print('classDetails: $filteredData');
         // log('classDetails: $filteredData');
-
         myClass = ClassModel.fromJson(filteredData);
         myClass!.id = id;
         notifyListeners();

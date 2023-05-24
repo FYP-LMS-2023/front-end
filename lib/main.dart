@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/controllers/attendance_controller.dart';
 import 'package:front_end/controllers/class_controller.dart';
+import 'package:front_end/controllers/quiz_controller.dart';
+import 'package:front_end/controllers/resource_controller.dart';
+// import 'controllers/quiz_controller.dart';
 import 'package:front_end/views/screens/login_page.dart';
 import 'package:provider/provider.dart';
 import '../constants/colors.dart';
@@ -9,12 +13,12 @@ import 'controllers/assignment_controller.dart';
 import 'controllers/channel_controller.dart';
 import 'controllers/home_controller.dart';
 
-void main() {
+void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<HomeController>(
-            create: (_) => HomeController()),
+        ChangeNotifierProvider<HomeController>(create: (_) => HomeController()),
+        // ChangeNotifierProvider<QuizController>(create: (_) => QuizController()),
         ChangeNotifierProvider<UserController>(create: (_) => UserController()),
         ChangeNotifierProvider<ClassController>(
             create: (_) => ClassController()),
@@ -24,6 +28,13 @@ void main() {
             create: (_) => AnnouncementController()),
         ChangeNotifierProvider<ChannelController>(
             create: (_) => ChannelController()),
+        ChangeNotifierProvider<ResourceController>(
+            create: (_) => ResourceController()),
+        ChangeNotifierProvider<AttendanceController>(
+            create: (_) => AttendanceController()),
+        ChangeNotifierProvider<QuizController>(
+            create: (_) => QuizController())
+        
       ],
       child: const MyApp(),
     ),

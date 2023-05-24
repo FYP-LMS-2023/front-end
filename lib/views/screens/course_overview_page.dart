@@ -40,7 +40,7 @@ class CousrseOverviewPage extends StatelessWidget {
                       number: classData.studentList.length,
                     ),
                   ),
-                  HorizontalSpacer(),
+                  const HorizontalSpacer(),
                   Expanded(
                     flex: 2,
                     child: DetailCard(

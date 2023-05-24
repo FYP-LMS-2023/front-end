@@ -96,11 +96,9 @@ class _FacCourseMainPageState extends State<FacCourseMainPage> {
               classData != null ? classData!.syllabus : "No Outline Uploaded",
         );
       case "Attendance":
-        return const ViewAttendanceScreen(
-          courseName: "Math",
-        );
+        return  ViewAttendanceScreen();
       case "Quizzes":
-        return const QuizListPage();
+        return  QuizListPage();
       case "Assignments":
         return FacAssignmentListPage(
             id: widget.id, fullName: classData!.teacher!.fullName);
@@ -108,7 +106,7 @@ class _FacCourseMainPageState extends State<FacCourseMainPage> {
         return AnnouncementListPage(widget.id,
             fullname: classData!.teacher!.fullName);
       case "Resources":
-        return const ResourceListPage();
+        return  ResourceListPage();
       case "Channel":
         return ThreadsList(id: classData!.channel!.channelId);
     }
