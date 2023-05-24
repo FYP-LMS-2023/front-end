@@ -31,7 +31,9 @@ class QuizController extends ChangeNotifier {
             .map((quiz) => QuizModel(
                 id: quiz['_id'],
                 title: quiz['title'],
-                dueDate: DateTime.parse(quiz['dueDate'])))
+                dueDate: DateTime.parse(quiz['dueDate']),
+                marks: quiz['marks'],
+                status: quiz['status']))
             .toList();
         Log.e(quizzes);
 
@@ -103,10 +105,11 @@ class QuizController extends ChangeNotifier {
         print(await response.stream.bytesToString());
 
         notifyListeners();
-      } else {
-        Log.e(
-            "Submit quiz request failed with status code ${response.statusCode} + ${response.body}");
       }
+      //else {
+      //   Log.e(
+      //       "Submit quiz request failed with status code ${response.statusCode} + ${response.body}");
+      // }
     } catch (e) {
       Log.e("Error: $e");
     }

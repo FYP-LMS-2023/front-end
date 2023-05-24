@@ -10,7 +10,7 @@ class QuizModel {
   DateTime? dueDate;
   DateTime? startDate;
   ClassModel? classId;
-  String status;
+  String? status;
   List<QuizSubmissionModel> submissions;
   List<QuestionModel> questions;
   int marks;
@@ -23,7 +23,7 @@ class QuizModel {
     this.dueDate,
     this.startDate,
     this.classId,
-    this.status = "<!status>",
+    this.status,
     this.submissions = const [],
     this.questions = const [],
     this.marks = -1,
@@ -75,7 +75,6 @@ class QuizModel {
         startDate: json["startDate"] == null
             ? DateTime(2000, 2, 15, 00, 00, 00, 00, 00)
             : DateTime.parse(json["startDate"]),
-        // classId: ClassModel.fromJson(json["classId"]),
         classId: json["classId"] == null
             ? ClassModel()
             : ClassModel.fromJson(json["classId"]),

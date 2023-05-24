@@ -21,8 +21,6 @@ class ViewAttendanceScreen extends StatefulWidget {
 }
 
 class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
-  int presentCount = 24;
-  int absenceCount = 3;
   int totalCount = 28;
   bool loading = true;
   AbsentDays? absents;
@@ -38,22 +36,16 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
         setState(() {
           loading = false;
           //print(DateFormat('EEEE').format(absents.absentDays));
+          DateTime formatDate = DateFormat('dd/MM/yyyy').parse('10/06/2023');
+          print(DateFormat('EEEE').format(formatDate));
           absents = context.read<AttendanceController>().getAttendance;
           Log.d(absents);
           classData = context.read<ClassController>().getMyClass;
         });
       });
-
-      // Log.d("resource details: ${resources![0].fileName}");
     } catch (e) {
       Log.e("$e");
     }
-  }
-
-  String formattedDate(DateTime dateTime) {
-    String twoDigitString(int value) => value.toString().padLeft(2, '0');
-
-    return '${twoDigitString(dateTime.day)}/${twoDigitString(dateTime.month)}/${dateTime.year}';
   }
 
   @override
@@ -175,9 +167,11 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
                                   vertical: 8.0,
                                   horizontal: 8.0,
                                 ),
-                                child: const Text(
-                                  "Absent Day",
-                                  style: TextStyle(
+                                child: Text(
+                                  DateFormat('EEEE').format(
+                                      DateFormat('dd/MM/yyyy')
+                                          .parse(absents!.absentDays[index])),
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),

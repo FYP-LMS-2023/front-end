@@ -8,8 +8,14 @@ Color status_color(status) {
     case "Open":
       color = Colors.blue;
       break;
+    case "open":
+      color = Colors.blue;
+      break;
     case "Closed":
       color = Colors.grey;
+      break;
+    case "closed":
+      color = Colors.black;
       break;
     case "Late":
       color = Colors.red;
@@ -31,6 +37,9 @@ Color status_color(status) {
       break;
     case "Failed":
       color = Colors.red;
+      break;
+    case "pending":
+      color = const Color.fromARGB(255, 250, 230, 50);
       break;
     default:
       color = Colors.grey;
