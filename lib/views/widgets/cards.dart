@@ -38,24 +38,23 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
         widget.onPressed();
       },
       child: Ink(
-        // width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.width * 0.21,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.1,
         decoration: boxDecoration,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: 
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    widget.title,
-                    style: Styles.titleMedium,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                widget.title + "sadasdhka",
+                style: Styles.titleMedium,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
+            ),
+          ],
         ),
       ),
     );
