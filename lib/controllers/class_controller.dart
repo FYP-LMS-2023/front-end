@@ -37,7 +37,7 @@ class ClassController extends ChangeNotifier {
         final channelDetails = responseData['channel'];
         final assignmentDetails = responseData['latestAssignment'];
 
-        assignmentDetails.remove("submissions");
+        //assignmentDetails.remove("submissions");
 
         Log.d("Assignment Details: $assignmentDetails");
 
