@@ -120,7 +120,6 @@ class _FacAssignmentListPageState extends State<FacAssignmentListPage> {
                               date: assignment.dueDate ?? DateTime.now(),
                               description: assignment.description,
                               status: assignment.status,
-                              postedBy: widget.fullName,
                               onClick: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) {

@@ -12,48 +12,23 @@ import 'package:http_parser/http_parser.dart';
 import '../constants/log.dart';
 import '../models/assignment_model.dart';
 
-import 'package:file_picker/file_picker.dart';
-import 'package:http_parser/http_parser.dart';
-
 class AssignmentController extends ChangeNotifier {
   final secureStorage = SecureStorage();
 
   AssignmentModel? assignmentObject;
-
   AssignmentModel? get getAssignmentObject => assignmentObject;
 
   List<AssignmentModel>? assignments;
-
   List<AssignmentModel>? get getAssignments => assignments;
 
-  // Future<void> submitAssignment(String submissionDescription,
-  //     List<String> files, int assignmentId) async {
-  //   try {
-  //     var url = Uri.parse(
-  //         '${Environment.baseURL}assignmentTwo/submitAssignment/$assignmentId');
+  int? numSubs;
+  int? get getNumSubs => numSubs;
 
-  //     var request = http.MultipartRequest('POST', url);
-  //     request.fields['submission_description'] = submissionDescription;
+  List<AssignmentSubmissionModel>? submissions;
+  List<AssignmentSubmissionModel>? get getSubmissions => submissions;
 
-  //     for (var file in files) {
-  //       var multipartFile = await http.MultipartFile.fromPath('files', file);
-  //       request.files.add(multipartFile);
-  //     }
-
-  //     var response = await request.send();
-
-  //     if (response.statusCode == 200) {
-  //       print('Assignment submitted successfully');
-  //     } else {
-  //       print(
-  //           'Failed to submit assignment. Status code: ${response.statusCode}');
-  //     }
-  //   } catch (e) {
-  //     print('Error occurred while submitting assignment: $e');
-  //   }
-  // }
-
-  Future<bool> submitAsssignment(String id, Map<String, dynamic> data, List<File>? files) async {
+  Future<bool> submitAsssignment(
+      String id, Map<String, dynamic> data, List<File>? files) async {
     try {
       final token = await secureStorage.getToken();
       final request = http.MultipartRequest(
@@ -61,17 +36,18 @@ class AssignmentController extends ChangeNotifier {
         Uri.parse('${Environment.baseURL}assignmentTwo/submitAssignment/$id'),
       );
       request.headers['Authorization'] = token ?? '';
-      request.fields['submissionDescription'] = data['submissionDescription'] ?? '';
+      request.fields['submissionDescription'] =
+          data['submissionDescription'] ?? '';
 
       Log.d("Submission Description: ${data['submissionDescription']}");
 
       for (File f in files!) {
-      final mimeTypeData =
-          lookupMimeType(f.path, headerBytes: [0xFF, 0xD8])?.split('/');
-      final file = await http.MultipartFile.fromPath("files", f.path,
-          contentType: MediaType(mimeTypeData![0], mimeTypeData[1]));
+        final mimeTypeData =
+            lookupMimeType(f.path, headerBytes: [0xFF, 0xD8])?.split('/');
+        final file = await http.MultipartFile.fromPath("files", f.path,
+            contentType: MediaType(mimeTypeData![0], mimeTypeData[1]));
 
-      request.files.add(file);
+        request.files.add(file);
       }
 
       final streamedResponse = await request.send();
@@ -88,25 +64,19 @@ class AssignmentController extends ChangeNotifier {
         Log.v("Response: ${response.body}");
         return true;
       }
-
-    } catch(e) {
+    } catch (e) {
       Log.e("Error in submitAsssignment: $e");
     }
     return false;
-
   }
-  int? numSubs;
-  int? get getNumSubs => numSubs;
-
-  List<AssignmentSubmissionModel>? submissions;
-  List<AssignmentSubmissionModel>? get getSubmissions => submissions;
 
   Future<void> getAssignmentDetails(String id) async {
     try {
       final token = await secureStorage.getToken();
       print("wtf: $id");
       final response = await http.get(
-        Uri.parse('${Environment.baseURL}assignmentTwo/getAssignmentDetailsStudent/$id'),
+        Uri.parse(
+            '${Environment.baseURL}assignmentTwo/getAssignmentDetailsStudent/$id'),
         headers: <String, String>{'Authorization': token ?? ""},
       );
 
@@ -116,10 +86,10 @@ class AssignmentController extends ChangeNotifier {
         final responseData = jsonDecode(response.body);
         final assignmentData = responseData["assignment"];
         final submissionData = responseData["mySubmission"];
-        if(submissionData != null) {
+        if (submissionData != null) {
           submissionData.remove("studentID");
         }
-          
+
         var temp = responseData["isSubmitted"];
         Log.d("Assignment Data: $assignmentData");
         Log.d("Assignment Data is not Empty: ${assignmentData.isNotEmpty}");

@@ -35,9 +35,7 @@ void main() async {
             create: (_) => ResourceController()),
         ChangeNotifierProvider<AttendanceController>(
             create: (_) => AttendanceController()),
-        ChangeNotifierProvider<QuizController>(
-            create: (_) => QuizController())
-        
+        ChangeNotifierProvider<QuizController>(create: (_) => QuizController()),
         ChangeNotifierProvider<ThreadController>(
             create: (_) => ThreadController()),
         ChangeNotifierProvider<CommentController>(

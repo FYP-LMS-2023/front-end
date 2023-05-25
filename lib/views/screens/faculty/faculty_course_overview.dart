@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/fonts.dart';
-import 'package:front_end/constants/log.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/models/class_model.dart';
 import 'package:front_end/views/widgets/cards.dart';
@@ -72,9 +71,6 @@ class FacCourseOverviewPage extends StatelessWidget {
                     date: classData.latestAssignment == null
                         ? DateTime.now()
                         : classData.latestAssignment!.dueDate!,
-                    postedBy: classData.latestAssignment == null
-                        ? "N/A"
-                        : classData.teacher!.fullName,
                     description: classData.latestAssignment == null
                         ? "N/A"
                         : classData.latestAssignment!.description,
@@ -101,9 +97,6 @@ class FacCourseOverviewPage extends StatelessWidget {
                     date: classData.latestAnnouncement == null
                         ? DateTime.now()
                         : classData.latestAnnouncement!.datePosted!,
-                    postedBy: classData.latestAnnouncement == null
-                        ? "N/A"
-                        : classData.teacher!.fullName,
                     description: classData.latestAnnouncement == null
                         ? "N/A"
                         : classData.latestAnnouncement!.description,

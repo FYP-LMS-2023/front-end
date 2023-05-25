@@ -101,8 +101,6 @@ class _FacAssignmentPageState extends State<FacAssignmentPage> {
                       AssignmentDetailCard(
                         dueDate: assignment?.dueDate ??
                             DateTime(2021, 05, 04, 20, 20),
-                        numResubmissions: 4,
-                        resubmissionDueDate: DateTime(2023, 05, 04, 20, 20),
                         status: assignment != null
                             ? assignment!.status
                             : "<status!>",

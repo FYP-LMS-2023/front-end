@@ -9,7 +9,6 @@ import 'package:front_end/views/widgets/buttons.dart';
 import 'package:front_end/views/widgets/cards.dart';
 import 'package:front_end/views/widgets/loading.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
-import 'package:front_end/views/widgets/submissions.dart';
 import 'package:front_end/views/widgets/textfields.dart';
 import 'package:provider/provider.dart';
 import '../../constants/log.dart';
@@ -69,7 +68,6 @@ class _AssignmentPageState extends State<AssignmentPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +86,7 @@ class _AssignmentPageState extends State<AssignmentPage> {
                       EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
                   child: Column(
                     children: <Widget>[
-                        assignment!.mySubmission!.returned ?? false
+                      assignment!.mySubmission!.returned ?? false
                           ? Container(
                               padding: const EdgeInsets.all(4.0),
                               height: 45,
@@ -115,9 +113,6 @@ class _AssignmentPageState extends State<AssignmentPage> {
                       AssignmentDetailCard(
                         dueDate: assignment?.dueDate ??
                             DateTime(2021, 05, 04, 20, 20),
-                        numResubmissions: assignment!.resubmissionsAllowed,
-                        resubmissionDueDate: DateTime.parse(
-                            assignment!.resubmissionDeadline.toString()),
                         status: assignment != null
                             ? assignment!.status
                             : "<status!>",
@@ -433,9 +428,15 @@ class _AssignmentPageState extends State<AssignmentPage> {
           ? Container(
               padding: const EdgeInsets.all(16),
               child: assignment!.isSubmitted
-                  ? assignment!.dueDate!.isAfter(DateTime.now()) && !assignment!.mySubmission!.returned! ? 
-                  MainButton(text: "Resubmit Assignment", onPressed: () {},color: Colors.blue,) : 
-                  const MainButton(text: "Submit Assignment", onPressed: null)
+                  ? assignment!.dueDate!.isAfter(DateTime.now()) &&
+                          !assignment!.mySubmission!.returned!
+                      ? MainButton(
+                          text: "Resubmit Assignment",
+                          onPressed: () {},
+                          color: Colors.blue,
+                        )
+                      : const MainButton(
+                          text: "Submit Assignment", onPressed: null)
                   : MainButton(
                       onPressed: () async {
                         if (submissionDescriptionController.text

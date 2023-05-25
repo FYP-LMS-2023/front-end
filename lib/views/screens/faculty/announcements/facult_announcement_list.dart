@@ -123,9 +123,6 @@ class _FacAnnouncementListPageState extends State<FacAnnouncementListPage> {
                               type: announcement.announcementType,
                               title: announcement.title,
                               date: announcement.datePosted ?? DateTime.now(),
-                              postedBy: widget.fullname != null
-                                  ? widget.fullname!
-                                  : "<fullname!>",
                               description: announcement.description,
                               onClick: () {
                                 Navigator.of(context).push(

@@ -10,7 +10,7 @@ import '../widgets/cards.dart';
 import 'announcement_page.dart';
 
 class AnnouncementListPage extends StatefulWidget {
-  AnnouncementListPage(this.id, {super.key,this.fullname});
+  AnnouncementListPage(this.id, {super.key, this.fullname});
   String? id;
   String? fullname;
 
@@ -53,49 +53,53 @@ class _AnnouncementListPageState extends State<AnnouncementListPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           const Subheading(text: "Announcements"),
-          announcements == null ?
-            const Center(child: CircularProgressIndicator(color: Colors.black,))
-              : announcements!.isEmpty ?
-                Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "No announcements yet",
-                    style: Styles.bodySmall.copyWith(
-                      color: const Color.fromARGB(255, 97, 65, 65),
+          announcements == null
+              ? const Center(
+                  child: CircularProgressIndicator(
+                  color: Colors.black,
+                ))
+              : announcements!.isEmpty
+                  ? Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "No announcements yet",
+                        style: Styles.bodySmall.copyWith(
+                          color: const Color.fromARGB(255, 97, 65, 65),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  : Expanded(
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount:
+                            announcements != null ? announcements!.length : 0,
+                        itemBuilder: (context, index) {
+                          AnnouncementModel announcement =
+                              announcements![index];
+                          return Column(
+                            children: [
+                              CourseOverviewCard(
+                                type: announcement.announcementType,
+                                title: announcement.title,
+                                date: announcement.datePosted ?? DateTime.now(),
+                                description: announcement.description,
+                                onClick: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => AnnouncementPage(
+                                        id: announcement.id,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                            ],
+                          );
+                        },
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                )
-                : Expanded(
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: announcements != null ? announcements!.length : 0,
-                    itemBuilder: (context, index) {
-                      AnnouncementModel announcement = announcements![index];
-                      return Column(
-                        children: [
-                          CourseOverviewCard(
-                            type: announcement.announcementType,
-                            title: announcement.title,
-                            date: announcement.datePosted ?? DateTime.now(),
-                            postedBy: widget.fullname != null
-                                    ? widget.fullname!
-                                : "<fullname!>",
-                            description: announcement.description,
-                            onClick: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => AnnouncementPage(id: announcement.id,),
-                                ),
-                              );
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                        ],
-                      );
-                    },
-                  ),
-                ),
         ],
       ),
     );

@@ -232,7 +232,6 @@ class CourseOverviewCard extends StatelessWidget {
   final String title;
   final DateTime date;
   final int? marks;
-  final String? postedBy;
   final String? description;
   final String? status;
   final Widget? progress;
@@ -244,7 +243,6 @@ class CourseOverviewCard extends StatelessWidget {
     required this.title,
     required this.date,
     this.marks,
-    this.postedBy,
     this.description,
     this.progress,
     this.status,
@@ -277,12 +275,6 @@ class CourseOverviewCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 5.0),
-                        Text(
-                          type == "quiz"
-                              ? 'Time Left: ${time_left(date)}'
-                              : 'Posted by: $postedBy',
-                          style: Styles.labelLarge,
-                        ),
                         const SizedBox(height: 5.0),
                         Text(
                           type == "assignment" || type == "quiz"
@@ -383,17 +375,13 @@ class QuizProgress extends StatelessWidget {
 //* Assignment Detail Card////////////////////////////////////////////////////////////////////////
 class AssignmentDetailCard extends StatelessWidget {
   final DateTime dueDate;
-  final int numResubmissions;
-  final DateTime resubmissionDueDate;
-  final String ?status;
+  final String? status;
   final int marks;
-  final bool ?isHidden;
+  final bool? isHidden;
 
   const AssignmentDetailCard({
     super.key,
     required this.dueDate,
-    required this.numResubmissions,
-    required this.resubmissionDueDate,
     this.status,
     required this.marks,
     this.isHidden,
@@ -403,20 +391,21 @@ class AssignmentDetailCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        isHidden == false ?
-        Container(
-          padding: const EdgeInsets.all(4.0),
-          height: 45,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: status_color(status),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Text(
-            status!,
-            style: Styles.bodyLarge.copyWith(color: Colors.white),
-          ),
-        ) : const SizedBox(),
+        isHidden == false
+            ? Container(
+                padding: const EdgeInsets.all(4.0),
+                height: 45,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: status_color(status),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Text(
+                  status!,
+                  style: Styles.bodyLarge.copyWith(color: Colors.white),
+                ),
+              )
+            : const SizedBox(),
         // const VerticalSpacer(),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.02,
@@ -439,32 +428,6 @@ class AssignmentDetailCard extends StatelessWidget {
                 ),
                 Text(
                   DateFormat('dd, MMMM yyyy @ hh:mm a').format(dueDate),
-                  style: Styles.bodyLarge,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      "No. of Resubmissions Allowed: ",
-                      style: Styles.titleMedium,
-                    ),
-                    Text(
-                      numResubmissions.toString(),
-                      style: Styles.bodyLarge,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      "Resubmission Deadline: ",
-                      style: Styles.titleMedium,
-                    ),
-                  ],
-                ),
-                Text(
-                  DateFormat('dd, MMMM yyyy @ hh:mm a')
-                      .format(resubmissionDueDate),
                   style: Styles.bodyLarge,
                   overflow: TextOverflow.ellipsis,
                 ),

@@ -65,7 +65,6 @@ class CousrseOverviewPage extends StatelessWidget {
               ),
               const VerticalSpacer(),
               const Subheading(text: "Latest Assignment"),
-              
               classData.latestAssignment == null
                   ? Container(
                       height: size.height * 0.05,
@@ -82,9 +81,6 @@ class CousrseOverviewPage extends StatelessWidget {
                       date: classData.latestAssignment == null
                           ? DateTime.now()
                           : classData.latestAssignment!.dueDate!,
-                      postedBy: classData.latestAssignment == null
-                          ? "N/A"
-                          : classData.teacher!.fullName,
                       description: classData.latestAssignment == null
                           ? "N/A"
                           : classData.latestAssignment!.description,
@@ -92,26 +88,25 @@ class CousrseOverviewPage extends StatelessWidget {
                           ? "N/A"
                           : classData.latestAssignment!.status,
                       onClick: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => 
-                              AssignmentPage(
-                                id: classData.latestAssignment!.id,
-                                graded: false,
-                              ),
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AssignmentPage(
+                              id: classData.latestAssignment!.id,
+                              graded: false,
                             ),
-                          );
-                        },
+                          ),
+                        );
+                      },
                     ),
               const VerticalSpacer(),
               const Subheading(text: "Latest Announcement"),
-
               classData.latestAnnouncement == null
                   ? Container(
                       height: size.height * 0.05,
                       alignment: Alignment.center,
                       child: Text("No announcements yet",
-                          style: Styles.bodySmall.copyWith(color: Color.fromARGB(255, 97, 65, 65)),
+                          style: Styles.bodySmall
+                              .copyWith(color: Color.fromARGB(255, 97, 65, 65)),
                           textAlign: TextAlign.center),
                     )
                   : CourseOverviewCard(
@@ -122,19 +117,18 @@ class CousrseOverviewPage extends StatelessWidget {
                       date: classData.latestAnnouncement == null
                           ? DateTime.now()
                           : classData.latestAnnouncement!.datePosted!,
-                      postedBy: classData.latestAnnouncement == null
-                          ? "N/A"
-                          : classData.teacher!.fullName,
                       description: classData.latestAnnouncement == null
                           ? "N/A"
                           : classData.latestAnnouncement!.description,
                       onClick: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => AnnouncementPage(id: classData.latestAnnouncement!.id,),
-                                ),
-                              );
-                            },
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AnnouncementPage(
+                              id: classData.latestAnnouncement!.id,
+                            ),
+                          ),
+                        );
+                      },
                     ),
             ],
           ),
