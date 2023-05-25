@@ -8,13 +8,12 @@ import 'package:front_end/views/screens/profile_page.dart';
 class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
   final String name;
   final String id;
-  final String profilePicture;
 
-  const ProfileHeader(
-      {super.key,
-      required this.name,
-      required this.id,
-      required this.profilePicture});
+  const ProfileHeader({
+    super.key,
+    required this.name,
+    required this.id,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -55,23 +54,17 @@ class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
               ));
             },
             child: CircleAvatar(
-              // backgroundColor: Palette.kToDark[50],
-              backgroundColor: Colors.primaries[name.isNotEmpty
-                  ? name[0].hashCode % Colors.primaries.length
-                  : 0],
-              // child: ,
-              backgroundImage: Image.network(
-                profilePicture,
-                height: 20,
-                fit: BoxFit.scaleDown,
-              ).image,
-              child: Text(
-                name.isNotEmpty ? name[0] : '',
-                style: Styles.titleMedium.copyWith(
-                  color: Colors.white,
-                ),
-              )
-            ),
+                // backgroundColor: Palette.kToDark[50],
+                backgroundColor: Colors.primaries[name.isNotEmpty
+                    ? name[0].hashCode % Colors.primaries.length
+                    : 0],
+                // child: ,
+                child: Text(
+                  name.isNotEmpty ? name[0] : '',
+                  style: Styles.titleMedium.copyWith(
+                    color: Colors.white,
+                  ),
+                )),
           ),
         ),
       ],
@@ -146,7 +139,6 @@ class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
-
 
 class ProfilePageHeader extends StatelessWidget implements PreferredSizeWidget {
   final String title;

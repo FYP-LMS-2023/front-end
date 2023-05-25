@@ -392,7 +392,8 @@ class _AssignmentPageState extends State<AssignmentPage> {
                       if (assignment!.isSubmitted &&
                           assignment!.dueDate!.isAfter(DateTime.now()) &&
                           !assignment!.mySubmission!.returned!)
-                        Column(
+                        ListView(
+                          shrinkWrap: true, 
                           children: [
                             const SizedBox(
                               height: 16.0,

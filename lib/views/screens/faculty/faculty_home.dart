@@ -45,7 +45,6 @@ class _FacHomeState extends State<FacHome> {
       appBar: ProfileHeader(
         name: "Dr Shaheer",
         id: "18635",
-        profilePicture: user != null ? user!.profilePic : "<!profilePic>",
       ),
       body: loading
           ? Loading()
