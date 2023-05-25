@@ -21,7 +21,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<HomeController>(create: (_) => HomeController()),
-        // ChangeNotifierProvider<QuizController>(create: (_) => QuizController()),
+        ChangeNotifierProvider<QuizController>(create: (_) => QuizController()),
         ChangeNotifierProvider<UserController>(create: (_) => UserController()),
         ChangeNotifierProvider<ClassController>(
             create: (_) => ClassController()),

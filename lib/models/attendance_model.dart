@@ -78,22 +78,22 @@ class Attendance {
   String id;
   UserModel? studentId;
   bool? present;
+  int hasChanged;
 
   Attendance({
     this.id = "<!id>",
     this.studentId,
+    this.hasChanged = 0,
     this.present,
   });
 
-  Attendance copyWith({
-    String? id,
-    UserModel? studentId,
-    bool? present,
-  }) =>
+  Attendance copyWith(
+          {String? id, UserModel? studentId, bool? present, int? hasChanged}) =>
       Attendance(
         id: id ?? this.id,
         studentId: studentId ?? this.studentId ?? UserModel(),
         present: present ?? this.present,
+        hasChanged: hasChanged ?? this.hasChanged,
       );
 
   factory Attendance.fromJson(Map<String, dynamic> json) => Attendance(
@@ -102,12 +102,14 @@ class Attendance {
             ? UserModel.fromJson(json["studentID"])
             : UserModel(),
         present: json["present"],
+        hasChanged: 0,
       );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
         "studentID": studentId == null ? null : studentId!.toJson(),
         "present": present,
+        "hasChanged": hasChanged
       };
 }
 
