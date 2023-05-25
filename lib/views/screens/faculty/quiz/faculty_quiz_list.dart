@@ -6,7 +6,6 @@ import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/controllers/quiz_controller.dart';
 import 'package:front_end/models/class_model.dart';
 import 'package:front_end/models/quiz_model.dart';
-import 'package:front_end/views/screens/faculty/quiz/faculty_add_question.dart';
 import 'package:front_end/views/screens/faculty/quiz/faculty_add_quiz.dart';
 import 'package:front_end/views/widgets/cards.dart';
 import 'package:front_end/views/widgets/loading.dart';
@@ -65,27 +64,9 @@ class _FacQuizListPageState extends State<FacQuizListPage> {
                     InkWell(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => StartPage(
+                            builder: (context) => FacCreateQuizPage(
                                   id: widget.id != null ? widget.id! : "1",
                                 )));
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (context) {
-                        //       return FacAddQuestionPage(
-                        //         id: "646ed623a1b7d4b9d19a4839",
-                        //       );
-                        //     },
-                        //   ),
-                        // );
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (context) {
-                        //       return FacAddResourcePage(
-                        //         classID: widget.id != null ? widget.id! : "1",
-                        //       );
-                        //     },
-                        //   ),
-                        // );
                       },
                       child: Ink(
                         padding: const EdgeInsets.all(4.0),

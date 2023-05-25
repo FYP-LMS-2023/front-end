@@ -185,4 +185,61 @@ class AnnouncementController extends ChangeNotifier {
     }
     return false;
   }
+
+  Future<bool> udpateAnnouncement(Map<String, dynamic> data, String id) async {
+    try {
+      final token = await secureStorage.getToken();
+      final response = await http.patch(
+        Uri.parse('${Environment.baseURL}announcement/updateAnnouncement/$id'),
+        headers: <String, String>{'Authorization': token ?? ""},
+        body: data,
+      );
+
+      Log.i(
+          'Response Status Code: ${response.statusCode} - ${response.reasonPhrase}');
+
+      if (response.statusCode != 200) {
+        Log.e("Error: ${response.body}");
+        return false;
+      } else {
+        Log.v("Response: ${response.body}");
+        return true;
+      }
+    } catch (e) {
+      Log.e(e.toString());
+    } catch (e) {
+      Log.e(e.toString());
+    }
+    return false;
+  }
+
+  Future<bool> deleteAnnouncement(String id) async {
+    try {
+      final token = await secureStorage.getToken();
+      var headers = {
+        'Authorization': token ?? "",
+      };
+
+      var request = http.Request(
+        'DELETE', 
+        Uri.parse(
+            '${Environment.baseURL}announcement/deleteAnnouncement/$id'),
+      );
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        print(await response.stream.bytesToString());
+        return true;
+      } else {
+        print(response.reasonPhrase);
+        return false;
+      }
+    } catch (e) {
+      Log.e(e.toString());
+      return false;
+    }
+  }
 }

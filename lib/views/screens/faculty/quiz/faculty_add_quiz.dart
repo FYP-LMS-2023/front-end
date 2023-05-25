@@ -11,15 +11,15 @@ import 'package:front_end/views/widgets/textfields.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class StartPage extends StatefulWidget {
+class FacCreateQuizPage extends StatefulWidget {
   final String id;
-  const StartPage({super.key, required this.id});
+  const FacCreateQuizPage({super.key, required this.id});
 
   @override
-  State<StartPage> createState() => _StartPageState();
+  State<FacCreateQuizPage> createState() => _FacCreateQuizPageState();
 }
 
-class _StartPageState extends State<StartPage> {
+class _FacCreateQuizPageState extends State<FacCreateQuizPage> {
   final _formKey = GlobalKey<FormState>();
 
   bool loading = false;
@@ -43,8 +43,10 @@ class _StartPageState extends State<StartPage> {
       'classID': widget.id,
       'title': titleController.text,
       'description': descriptionController.text,
-      'startDate': DateFormat('MM/dd/yyyy').format(startDate!),
-      'dueDate': DateFormat('MM-dd-yyyy').format(dueDate!),
+      'startDate': DateFormat('MM/dd/yyyy')
+          .format(startDate != null ? startDate! : DateTime.now()),
+      'dueDate': DateFormat('MM-dd-yyyy')
+          .format(dueDate != null ? dueDate! : DateTime.now()),
       'status': status,
     };
 

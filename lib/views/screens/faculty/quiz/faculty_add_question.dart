@@ -28,61 +28,286 @@ class _FacAddQuestionPageState extends State<FacAddQuestionPage> {
   TextEditingController questionController = TextEditingController();
   TextEditingController optionController = TextEditingController();
 
-  Map<int, dynamic> answerIDs = {};
+  // Map<int, dynamic> answerIDs = {};
+  // Map<int, int?> answerIDs = {};
+  Map<int, String?> answerIDs = {};
+
   Map<int, dynamic> questionIDs = {};
+
+  // void createQuestions() async {
+  //   for (int i = 0; i < questionObjects.length; i++) {
+  //     print(widget.id);
+  //     final questionData = {
+  //       "questionDescription": questionObjects[i].questionText,
+  //       "marks": 1,
+  //       "quizID": widget.id,
+  //     };
+  //     await context
+  //         .read<QuizController>()
+  //         .createQuestion(questionData)
+  //         .then((value) async {
+  //       if (mounted) {
+  //         print('phhydd: ${value}');
+  //         if (value != '1') {
+  //           for (int j = 0; j < questionObjects[i].options!.length; j++) {
+  //             final answerData = {
+  //               "answerDescription": questionObjects[i].options![j],
+  //               "isCorrect": true,
+  //               "questionID": value,
+  //             };
+  //             await context
+  //                 .read<QuizController>()
+  //                 .createAnswer(answerData)
+  //                 .then((value) {
+  //               if (mounted) {
+  //                 if (value == true) {
+  //                   ScaffoldMessenger.of(context).showSnackBar(
+  //                     const SnackBar(
+  //                       content: Text("Question added successfully"),
+  //                       backgroundColor: Colors.green,
+  //                       behavior: SnackBarBehavior.floating,
+  //                     ),
+  //                   );
+  //                   Navigator.pop(context);
+  //                 } else {
+  //                   ScaffoldMessenger.of(context).showSnackBar(
+  //                     const SnackBar(
+  //                       content: Text("Question could not be added"),
+  //                       backgroundColor: Colors.red,
+  //                       behavior: SnackBarBehavior.floating,
+  //                     ),
+  //                   );
+  //                 }
+  //               }
+  //             });
+  //           }
+  //         }
+  //         // questionIDs[i] = value;
+  //       }
+  //     });
+  //   }
+  // }
+
+  // void createQuestions() async {
+  //   for (int i = 0; i < questionObjects.length; i++) {
+  //     print(widget.id);
+  //     final questionData = {
+  //       "questionDescription": questionObjects[i].questionText,
+  //       "marks": 1,
+  //       "quizID": widget.id,
+  //     };
+  //     await context
+  //         .read<QuizController>()
+  //         .createQuestion(questionData)
+  //         .then((value) async {
+  //       if (mounted) {
+  //         print('phhydd: $value');
+  //         if (value != '1') {
+  //           for (int j = 0; j < questionObjects[i].options!.length; j++) {
+  //             final answerData = {
+  //               "answerDescription": questionObjects[i].options![j],
+  //               "isCorrect": j ==
+  //                   answerIDs[
+  //                       i], // Set true for selected answer, false for others
+  //               "questionID": value,
+  //             };
+  //             await context
+  //                 .read<QuizController>()
+  //                 .createAnswer(answerData)
+  //                 .then((value) {
+  //               if (mounted) {
+  //                 if (value == true) {
+  //                   ScaffoldMessenger.of(context).showSnackBar(
+  //                     const SnackBar(
+  //                       content: Text("Question added successfully"),
+  //                       backgroundColor: Colors.green,
+  //                       behavior: SnackBarBehavior.floating,
+  //                     ),
+  //                   );
+  //                   Navigator.pop(context);
+  //                 } else {
+  //                   ScaffoldMessenger.of(context).showSnackBar(
+  //                     const SnackBar(
+  //                       content: Text("Question could not be added"),
+  //                       backgroundColor: Colors.red,
+  //                       behavior: SnackBarBehavior.floating,
+  //                     ),
+  //                   );
+  //                 }
+  //               }
+  //             });
+  //           }
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
+
+  // void createQuestions() async {
+  //   for (int i = 0; i < questionObjects.length; i++) {
+  //     print(widget.id);
+  //     final questionData = {
+  //       "questionDescription": questionObjects[i].questionText,
+  //       "marks": 1,
+  //       "quizID": widget.id,
+  //     };
+  //     await context
+  //         .read<QuizController>()
+  //         .createQuestion(questionData)
+  //         .then((value) async {
+  //       if (mounted) {
+  //         print('phhydd: $value');
+  //         if (value != '1') {
+  //           for (int j = 0; j < questionObjects[i].options!.length; j++) {
+  //             final answerData = {
+  //               "answerDescription": questionObjects[i].options![j],
+  //               "isCorrect": questionObjects[i].options![j] == answerIDs[i],
+  //               "questionID": value,
+  //             };
+  //             await context
+  //                 .read<QuizController>()
+  //                 .createAnswer(answerData)
+  //                 .then((value) {
+  //               if (mounted) {
+  //                 if (value == true) {
+  //                   ScaffoldMessenger.of(context).showSnackBar(
+  //                     const SnackBar(
+  //                       content: Text("Question added successfully"),
+  //                       backgroundColor: Colors.green,
+  //                       behavior: SnackBarBehavior.floating,
+  //                     ),
+  //                   );
+  //                   Navigator.pop(context);
+  //                 } else {
+  //                   ScaffoldMessenger.of(context).showSnackBar(
+  //                     const SnackBar(
+  //                       content: Text("Question could not be added"),
+  //                       backgroundColor: Colors.red,
+  //                       behavior: SnackBarBehavior.floating,
+  //                     ),
+  //                   );
+  //                 }
+  //               }
+  //             });
+  //           }
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
+
+  // void createQuestions() async {
+  //   for (int i = 0; i < questionObjects.length; i++) {
+  //     if (!mounted) {
+  //       return;
+  //     }
+  //     print(widget.id);
+  //     final questionData = {
+  //       "questionDescription": questionObjects[i].questionText,
+  //       "marks": 1,
+  //       "quizID": widget.id,
+  //     };
+  //     final questionValue =
+  //         await context.read<QuizController>().createQuestion(questionData);
+  //     if (!mounted) {
+  //       return;
+  //     }
+  //     if (questionValue != '1') {
+  //       for (int j = 0; j < questionObjects[i].options!.length; j++) {
+  //         final answerData = {
+  //           "answerDescription": questionObjects[i].options![j],
+  //           "isCorrect": questionObjects[i].options![j] == answerIDs[i],
+  //           "questionID": questionValue,
+  //         };
+  //         final answerValue =
+  //             await context.read<QuizController>().createAnswer(answerData);
+  //         if (!mounted) {
+  //           return;
+  //         }
+  //         if (answerValue == true) {
+  //           ScaffoldMessenger.of(context).showSnackBar(
+  //             const SnackBar(
+  //               content: Text("Question added successfully"),
+  //               backgroundColor: Colors.green,
+  //               behavior: SnackBarBehavior.floating,
+  //             ),
+  //           );
+  //           Navigator.pop(context);
+  //         } else {
+  //           ScaffoldMessenger.of(context).showSnackBar(
+  //             const SnackBar(
+  //               content: Text("Question could not be added"),
+  //               backgroundColor: Colors.red,
+  //               behavior: SnackBarBehavior.floating,
+  //             ),
+  //           );
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   void createQuestions() async {
     for (int i = 0; i < questionObjects.length; i++) {
+      if (!mounted) {
+        return;
+      }
       print(widget.id);
       final questionData = {
         "questionDescription": questionObjects[i].questionText,
         "marks": 1,
         "quizID": widget.id,
       };
-      await context
-          .read<QuizController>()
-          .createQuestion(questionData)
-          .then((value) async {
-        if (mounted) {
-          print('phhydd: ${value}');
-          if (value != '1') {
-            for (int j = 0; j < questionObjects[i].options!.length; j++) {
-              final answerData = {
-                "answerDescription": questionObjects[i].options![j],
-                "isCorrect": true,
-                "questionID": value,
-              };
-              await context
-                  .read<QuizController>()
-                  .createAnswer(answerData)
-                  .then((value) {
-                if (mounted) {
-                  if (value == true) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Question added successfully"),
-                        backgroundColor: Colors.green,
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
-                    Navigator.pop(context);
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Question could not be added"),
-                        backgroundColor: Colors.red,
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
-                  }
-                }
-              });
-            }
+      final questionValue =
+          await context.read<QuizController>().createQuestion(questionData);
+      if (!mounted) {
+        return;
+      }
+      if (questionValue != '1') {
+        for (int j = 0; j < questionObjects[i].options!.length; j++) {
+          final answerData = {
+            "answerDescription": questionObjects[i].options![j],
+            "isCorrect": questionObjects[i].options![j] == answerIDs[i],
+            "questionID": questionValue,
+          };
+          final answerValue =
+              await context.read<QuizController>().createAnswer(answerData);
+          if (!mounted) {
+            return;
           }
-          // questionIDs[i] = value;
+          if (answerValue != true) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Question could not be added"),
+                backgroundColor: Colors.red,
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+            return; // Exit the method if an answer fails to be added
+          }
         }
-      });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Question could not be added"),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+        return; // Exit the method if a question fails to be added
+      }
     }
+
+    // If the method reaches this point, all questions and answers were added successfully
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Questions added successfully"),
+        backgroundColor: Colors.green,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   @override
@@ -228,9 +453,23 @@ class _FacAddQuestionPageState extends State<FacAddQuestionPage> {
                                   MaterialStateProperty.all(Colors.black),
                               value: answerText,
                               groupValue: answerIDs[questionIndex],
+                              // onChanged: (value) {
+                              //   setState(() {
+                              //     answerIDs[questionIndex] = value!;
+                              //     questionIDs[questionIndex] =
+                              //         question.questionText;
+                              //   });
+                              // },
+                              // onChanged: (value) {
+                              //   setState(() {
+                              //     answerIDs[questionIndex] = answerIndex;
+                              //     questionIDs[questionIndex] =
+                              //         question.questionText;
+                              //   });
+                              // },
                               onChanged: (value) {
                                 setState(() {
-                                  answerIDs[questionIndex] = value!;
+                                  answerIDs[questionIndex] = answerText;
                                   questionIDs[questionIndex] =
                                       question.questionText;
                                 });
@@ -269,7 +508,7 @@ class Questions {
   String questionText;
   // List<String> answers;
   List<String>? options;
-  
+
   Questions({
     required this.questionText,
     this.options,

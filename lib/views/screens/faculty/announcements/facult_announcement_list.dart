@@ -11,6 +11,8 @@ import 'package:front_end/views/widgets/loading.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
 import 'package:provider/provider.dart';
 
+import 'faculty_announcement.dart';
+
 class FacAnnouncementListPage extends StatefulWidget {
   String? id;
   String? fullname;
@@ -127,7 +129,7 @@ class _FacAnnouncementListPageState extends State<FacAnnouncementListPage> {
                               onClick: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => AnnouncementPage(
+                                    builder: (context) => FacAnnouncementPage(
                                       id: announcement.id,
                                     ),
                                   ),

@@ -208,7 +208,7 @@ class QuizController extends ChangeNotifier {
       request.body = json.encode({
         "QuestionId": data["questionID"],
         "answerDescription": data["answerDescription"],
-        "correctAnswer": data["correctAnswer"],
+        "correctAnswer": data["isCorrect"],
       });
       request.headers.addAll(headers);
 

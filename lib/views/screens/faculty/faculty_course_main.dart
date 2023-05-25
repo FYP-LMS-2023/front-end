@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:front_end/constants/log.dart';
 import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/models/class_model.dart';
-import 'package:front_end/views/screens/announcement_list_page.dart';
 import 'package:front_end/views/screens/faculty/announcements/facult_announcement_list.dart';
 import 'package:front_end/views/screens/faculty/assignment/faculty_assignment_list.dart';
+import 'package:front_end/views/screens/faculty/attendance/faculty_attendance_sessions_list.dart';
 import 'package:front_end/views/screens/faculty/faculty_course_outline.dart';
 import 'package:front_end/views/screens/faculty/faculty_course_overview.dart';
 import 'package:front_end/views/screens/faculty/quiz/faculty_quiz_list.dart';
@@ -94,7 +94,8 @@ class _FacCourseMainPageState extends State<FacCourseMainPage> {
               classData != null ? classData!.syllabus : "No Outline Uploaded",
         );
       case "Attendance":
-        return ViewAttendanceScreen();
+        return FacAttendanceSessionsListPage(
+            classID: widget.id != null ? widget.id! : "1");
       case "Quizzes":
         return FacQuizListPage(
           id: widget.id != null ? widget.id! : "1",
