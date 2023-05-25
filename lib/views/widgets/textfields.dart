@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/colors.dart';
 
 class MainTextField extends StatelessWidget {
   final String label;
@@ -53,7 +54,7 @@ class MainTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
           borderSide: const BorderSide(width: 1, color: Colors.red),
         ),
-        fillColor: Colors.white,
+        fillColor: backgroundColor,
         filled: true,
         labelText: label,
         labelStyle: TextStyle(color: Colors.grey[700]),

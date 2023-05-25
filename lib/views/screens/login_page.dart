@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/user_controller.dart';
-import 'package:front_end/views/screens/dummy_faculty_screen.dart';
 import 'package:front_end/views/screens/faculty/faculty_home.dart';
 import 'package:front_end/views/widgets/loading.dart';
 import 'package:provider/provider.dart';
@@ -39,9 +39,6 @@ class _LoginPageState extends State<LoginPage> {
         .login(
           usernameController.text,
           passwordController.text,
-          // "stud1@gmail.com",
-          // "fac1@gmail.com",
-          // "123456"
         )
         .then(
       (value) {
@@ -80,8 +77,10 @@ class _LoginPageState extends State<LoginPage> {
               validationError = true;
             });
           }
-          ;
         }
+        setState(() {
+          passwordController.clear();
+        });
       },
     );
   }
@@ -93,130 +92,129 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       body: loading
           ? const Loading()
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 100,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.width * 0.09),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "SMASH LMS",
-                            style: TextStyle(
-                                fontSize: 36, fontWeight: FontWeight.bold),
-                          ),
-                          const VerticalSpacer(),
-                          Container(
-                            padding: const EdgeInsets.all(16),
-                            //                width: size.width,
-                            decoration: boxDecoration,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Login",
-                                  style: Styles.titleLarge,
-                                ),
-                                if (blockedError)
-                                  Column(
-                                    children: [
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      Container(
-                                        alignment: Alignment.center,
-                                        width: double.infinity,
-                                        height: size.height * 0.04,
-                                        color: Colors.redAccent,
-                                        child: Padding(
-                                          padding: EdgeInsets.all(
-                                              size.width * 0.016),
-                                          child: Text(
-                                            "Account has been deactivated",
-                                            style: Styles.bodySmall
-                                                .copyWith(color: Colors.white),
+          : Center(
+              child: SingleChildScrollView(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.09),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/logo.png',
+                              width: size.width *
+                                  0.65, // Adjust the height as needed
+                            ),
+                            const VerticalSpacer(),
+                            Container(
+                              padding: const EdgeInsets.all(16),
+                              //                width: size.width,
+                              decoration: boxDecoration,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Login",
+                                    style: Styles.titleLarge,
+                                  ),
+                                  if (blockedError)
+                                    Column(
+                                      children: [
+                                        SizedBox(
+                                          height: size.height * 0.01,
+                                        ),
+                                        Container(
+                                          alignment: Alignment.center,
+                                          width: double.infinity,
+                                          height: size.height * 0.04,
+                                          color: Colors.redAccent,
+                                          child: Padding(
+                                            padding: EdgeInsets.all(
+                                                size.width * 0.016),
+                                            child: Text(
+                                              "Account has been deactivated",
+                                              style: Styles.bodySmall.copyWith(
+                                                  color: Colors.white),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                if (validationError)
-                                  Column(
-                                    children: [
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      Container(
-                                        alignment: Alignment.center,
-                                        width: double.infinity,
-                                        height: size.height * 0.04,
-                                        color: Colors.redAccent,
-                                        child: Padding(
-                                          padding: EdgeInsets.all(
-                                              size.width * 0.016),
-                                          child: Text(
-                                            "Invalid username or password",
-                                            style: Styles.bodySmall
-                                                .copyWith(color: Colors.white),
+                                      ],
+                                    ),
+                                  if (validationError)
+                                    Column(
+                                      children: [
+                                        SizedBox(
+                                          height: size.height * 0.01,
+                                        ),
+                                        Container(
+                                          alignment: Alignment.center,
+                                          width: double.infinity,
+                                          height: size.height * 0.04,
+                                          color: Colors.redAccent,
+                                          child: Padding(
+                                            padding: EdgeInsets.all(
+                                                size.width * 0.016),
+                                            child: Text(
+                                              "Invalid username or password",
+                                              style: Styles.bodySmall.copyWith(
+                                                  color: Colors.white),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                const VerticalSpacer(),
-                                MainTextField(
-                                    label: "Username",
-                                    controller: usernameController,
+                                      ],
+                                    ),
+                                  const VerticalSpacer(),
+                                  MainTextField(
+                                      label: "Username",
+                                      controller: usernameController,
+                                      validator: (value) {
+                                        if (value?.isEmpty ?? true) {
+                                          return "Please enter username";
+                                        }
+                                        return null;
+                                      }),
+                                  const VerticalSpacer(),
+                                  MainTextField(
+                                    label: "Password",
+                                    obsureText: true,
+                                    controller: passwordController,
                                     validator: (value) {
                                       if (value?.isEmpty ?? true) {
-                                        return "Please enter username";
+                                        return "Please enter password";
                                       }
                                       return null;
-                                    }),
-                                const VerticalSpacer(),
-                                MainTextField(
-                                  label: "Password",
-                                  obsureText: true,
-                                  controller: passwordController,
-                                  validator: (value) {
-                                    if (value?.isEmpty ?? true) {
-                                      return "Please enter password";
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                const VerticalSpacer(),
-                                MainButton(
-                                  text: "Login",
-                                  onPressed: () async {
-                                    Log.i("Login button pressed");
+                                    },
+                                  ),
+                                  const VerticalSpacer(),
+                                  MainButton(
+                                    text: "Login",
+                                    onPressed: () async {
+                                      Log.i("Login button pressed");
 
-                                    // await userLogin();
-                                    if (_formKey.currentState!.validate()) {
-                                      await userLogin();
-                                      passwordController.clear();
-                                    }
-                                  },
-                                ),
-                                const VerticalSpacer(),
-                              ],
+                                      // await userLogin();
+                                      if (_formKey.currentState!.validate()) {
+                                        await userLogin();
+                                      }
+                                    },
+                                  ),
+                                  const VerticalSpacer(),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
     );

@@ -19,3 +19,9 @@ class Palette {
     },
   );
 }
+
+// Color containerColor = const Color.fromARGB(255, 131, 205, 41);
+Color backgroundColor = const Color(0xffFFFFFA);
+Color surfaceColor = const Color(0xffFFFFFA);
+Color blackButtonColor = const Color(0xFF152519);
+// Color surfaceColor = const Color(0xFFFBFFFA);
