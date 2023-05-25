@@ -7,8 +7,8 @@ import 'package:front_end/views/screens/faculty/announcements/facult_announcemen
 import 'package:front_end/views/screens/faculty/assignment/faculty_assignment_list.dart';
 import 'package:front_end/views/screens/faculty/faculty_course_outline.dart';
 import 'package:front_end/views/screens/faculty/faculty_course_overview.dart';
+import 'package:front_end/views/screens/faculty/quiz/faculty_quiz_list.dart';
 import 'package:front_end/views/screens/faculty/resources/faculty_resource_list.dart';
-import 'package:front_end/views/screens/quiz_list_page.dart';
 import 'package:front_end/views/screens/threads_list.dart';
 import 'package:front_end/views/screens/view_attendance.dart';
 import 'package:front_end/views/widgets/drawer.dart';
@@ -21,7 +21,7 @@ class FacCourseMainPage extends StatefulWidget {
   String currentTab;
   FacCourseMainPage({
     super.key,
-    this.currentTab = "Announcements",
+    this.currentTab = "Quizzes",
     this.id,
   });
 
@@ -96,7 +96,9 @@ class _FacCourseMainPageState extends State<FacCourseMainPage> {
       case "Attendance":
         return ViewAttendanceScreen();
       case "Quizzes":
-        return QuizListPage();
+        return FacQuizListPage(
+          id: widget.id != null ? widget.id! : "1",
+        );
       case "Assignments":
         return FacAssignmentListPage(
             id: widget.id, fullName: classData!.teacher!.fullName);

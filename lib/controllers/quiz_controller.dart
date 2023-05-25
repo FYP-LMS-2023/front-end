@@ -17,6 +17,9 @@ class QuizController extends ChangeNotifier {
 
   List<QuizModel>? get getQuizzes => quizzes;
 
+  String? quizID;
+  String? get getQuizID => quizID;
+
   Future<void> getAllQuizzes(String id) async {
     try {
       final token = await secureStorage.getToken();
@@ -113,6 +116,115 @@ class QuizController extends ChangeNotifier {
       }
     } catch (e) {
       Log.e("Error: $e");
+    }
+  }
+
+  Future<String> createQuiz(Map<String, dynamic> data) async {
+    Log.e(data);
+    try {
+      final token = await secureStorage.getToken();
+      var headers = {
+        'Authorization': token ?? "",
+        'Content-Type': 'application/json'
+      };
+      var request = http.Request(
+          'POST', Uri.parse('${Environment.baseURL}quiz/createQuiz'));
+
+      request.body = json.encode({
+        "title": data["title"],
+        "description": data["description"],
+        "startDate": data["startDate"],
+        "dueDate": data["dueDate"],
+        "classId": data["classID"],
+        "status": data["status"],
+      });
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        // print(await response.stream.bytesToString());
+        var responseJson = await response.stream.bytesToString();
+        var responseData = json.decode(responseJson);
+        return responseData['_id'];
+        // return;
+      } else {
+        // print(response.reasonPhrase);
+        print(await response.stream.bytesToString());
+
+        return '1';
+      }
+    } catch (e) {
+      Log.e("Error: $e");
+      return '1';
+    }
+  }
+
+  Future<String> createQuestion(Map<String, dynamic> questionData) async {
+    try {
+      final token = await secureStorage.getToken();
+
+      var headers = {
+        'Authorization': token ?? '',
+        'Content-Type': 'application/json'
+      };
+      var request = http.Request(
+          'POST', Uri.parse('${Environment.baseURL}question/createQuestion'));
+      request.body = json.encode({
+        "questionDescription": questionData["questionDescription"],
+        "marks": questionData["marks"],
+        "quizID": questionData["quizID"],
+      });
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        // print(await response.stream.bytesToString());
+        var responseJson = await response.stream.bytesToString();
+        var responseData = json.decode(responseJson);
+        return responseData['questionID'];
+      } else {
+        print(await response.stream.bytesToString());
+        print(response.reasonPhrase);
+        return '1';
+      }
+    } catch (e) {
+      Log.e("Error: $e");
+      return '1';
+    }
+  }
+
+  Future<bool> createAnswer(Map<String, dynamic> data) async {
+    try {
+      final token = await secureStorage.getToken();
+      var headers = {
+        'Authorization': token ?? '',
+        'Content-Type': 'application/json'
+      };
+      var request = http.Request(
+          'POST', Uri.parse('${Environment.baseURL}answer/createAnswer'));
+      request.body = json.encode({
+        "QuestionId": data["questionID"],
+        "answerDescription": data["answerDescription"],
+        "correctAnswer": data["correctAnswer"],
+      });
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        print(await response.stream.bytesToString());
+        return true;
+      } else {
+        print(await response.stream.bytesToString());
+        print(response.reasonPhrase);
+        return false;
+      }
+    } catch (e) {
+      Log.e("Error: $e");
+      return false;
     }
   }
 }
