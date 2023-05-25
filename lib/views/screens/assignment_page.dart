@@ -102,7 +102,7 @@ class _AssignmentPageState extends State<AssignmentPage> {
                                     borderRadius: BorderRadius.circular(10.0),
                                     color: assignment!.mySubmission!.returned!
                                         ? assignment!.mySubmission!.marksReceived! >
-                                                50
+                                                assignment!.marks / 2
                                             ? Colors.green
                                             : Colors.red
                                         : Colors.grey,
@@ -167,11 +167,11 @@ class _AssignmentPageState extends State<AssignmentPage> {
                         alignment: Alignment.centerLeft,
                         padding: const EdgeInsets.all(16.0),
                         decoration: boxDecoration,
-                        child: Text(
+                        child: FormattedTextWidget(
+                          markdownText:
                           assignment != null
                               ? assignment!.description
                               : "This means description is not coming",
-                          style: Styles.bodyMedium,
                         ),
                       ),
                       const VerticalSpacer(),
@@ -193,6 +193,7 @@ class _AssignmentPageState extends State<AssignmentPage> {
                             ),
                       const VerticalSpacer(),
                       ListView.separated(
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount:
                             assignment != null ? assignment!.files!.length : 0,
@@ -333,6 +334,7 @@ class _AssignmentPageState extends State<AssignmentPage> {
                       ),
                       if (assignment!.isSubmitted)
                         ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: assignment != null
                               ? assignment!.mySubmission!.files!.length
@@ -425,6 +427,7 @@ class _AssignmentPageState extends State<AssignmentPage> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.02),
                             ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: filesToUpload!.length,
                               separatorBuilder: (context, index) {

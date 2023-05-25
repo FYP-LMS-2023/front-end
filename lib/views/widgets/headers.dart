@@ -65,11 +65,12 @@ class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
                 height: 20,
                 fit: BoxFit.scaleDown,
               ).image,
-              // child: Text(
-              //   name.isNotEmpty ? name[0] : '',
-              //   style: Styles.titleMedium.copyWith(
-              //     color: Colors.white,
-              //   ),
+              child: Text(
+                name.isNotEmpty ? name[0] : '',
+                style: Styles.titleMedium.copyWith(
+                  color: Colors.white,
+                ),
+              )
             ),
           ),
         ),

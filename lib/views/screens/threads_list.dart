@@ -11,6 +11,7 @@ import '../../constants/log.dart';
 import '../../controllers/channel_controller.dart';
 import '../../models/channel_model.dart';
 import '../../models/thread_model.dart';
+import '../widgets/textfields.dart';
 import 'thread_page.dart';
 
 class ThreadsList extends StatefulWidget {
@@ -25,12 +26,12 @@ class _ThreadsListState extends State<ThreadsList> {
   List<ThreadModel>? threads;
   final _formKey = GlobalKey<FormState>();
   List<String> tags = [
-    "General",
-    "Homework",
-    "Project",
-    "Exam",
-    "Question",
-    "Other"
+    "general",
+    "homework",
+    "project",
+    "exam",
+    "question",
+    "other"
   ];
 
   List<String> addedTags = [];
@@ -164,6 +165,7 @@ class _ThreadsListState extends State<ThreadsList> {
                               );
                           setState(() {
                             fetchThreads();
+                            addedTags.clear();
                           });
                           Navigator.of(context).pop();
                           
@@ -197,11 +199,9 @@ class _ThreadsListState extends State<ThreadsList> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      TextFormField(
+                      MainTextField(
                         controller: textController,
-                        decoration: const InputDecoration(
-                          labelText: 'Title',
-                        ),
+                        label: "Title",
                         validator: (value) {
                           if (value!.trim().isEmpty) {
                             return 'Please enter a title';
@@ -210,11 +210,11 @@ class _ThreadsListState extends State<ThreadsList> {
                         },
                       ),
                       const SizedBox(height: 16.0),
-                      TextFormField(
+                      MainTextField(
                         controller: descriptionController,
-                        decoration: const InputDecoration(
-                          labelText: 'Description',
-                        ),
+                        label: "Description",
+                        maxLines: 6,
+                        minLines: 6,
                         validator: (value) {
                           if (value!.trim().isEmpty) {
                             return 'Please enter a description';

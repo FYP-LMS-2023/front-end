@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
           : ProfileHeader(
               name: user != null ? user!.fullName : "<!username>",
               id: user != null ? user!.erp : "<!erp>",
-              profilePicture: user != null ? user!.profilePic : "<!profilePic>",
+              profilePicture: user != null ? user!.fullName[0] : "<!profilePic>",
             ),
       body: loading
           ? Loading()
