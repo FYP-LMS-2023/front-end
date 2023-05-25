@@ -23,7 +23,6 @@ import '../widgets/loading.dart';
 class ThreadPage extends StatefulWidget {
   String? id;
   ThreadPage({super.key, this.id});
-
   @override
   State<ThreadPage> createState() => _ThreadPageState();
 }
@@ -34,6 +33,7 @@ class _ThreadPageState extends State<ThreadPage> {
   bool showReplyTextField = false; // for reply text field
   int selectedCommentIndex = -1;
   String? userId;
+  final _formKey = GlobalKey<FormState>();
 
   void _toggleCommentBox() {
     setState(() {
@@ -366,77 +366,77 @@ class _ThreadPageState extends State<ThreadPage> {
                                                   color: Colors.white,
                                                   padding:
                                                       const EdgeInsets.all(16),
-                                                  child: TextFormField(
-                                                    controller: replyController,
-                                                    cursorColor: Colors.black,
-                                                    validator: (value) {
-                                                      if (value!.isEmpty) {
-                                                        return 'Please enter a reply';
-                                                      } else {
-                                                        return "";
-                                                      }
-                                                    },
-                                                    decoration: InputDecoration(
-                                                      focusedBorder:
-                                                          const OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                          Radius.circular(10.0),
+                                                  child: Form(
+                                                    key: _formKey,
+                                                    child: TextFormField(
+                                                      controller: replyController,
+                                                      cursorColor: Colors.black,
+                                                      validator: (value) {
+                                                        if (value!.trim().isEmpty) {
+                                                          return 'Please enter a reply';
+                                                        } 
+                                                        return null;
+                                                      },
+                                                      decoration: InputDecoration(
+                                                        focusedBorder:
+                                                            const OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(10.0),
+                                                          ),
+                                                          borderSide: BorderSide(
+                                                              color:
+                                                                  Colors.black),
                                                         ),
-                                                        borderSide: BorderSide(
-                                                            color:
-                                                                Colors.black),
-                                                      ),
-                                                      border:
-                                                          const OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                          Radius.circular(10.0),
+                                                        border:
+                                                            const OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(10.0),
+                                                          ),
+                                                          borderSide: BorderSide(
+                                                              color: Colors.red),
                                                         ),
-                                                        borderSide: BorderSide(
-                                                            color: Colors.red),
-                                                      ),
-                                                      enabledBorder:
-                                                          const OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                          Radius.circular(10.0),
+                                                        enabledBorder:
+                                                            const OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(10.0),
+                                                          ),
+                                                          borderSide: BorderSide(
+                                                              color:
+                                                                  Colors.black),
+                                                        ), // your color
+                                                  
+                                                        hintText:
+                                                            'Write a reply...',
+                                                        suffixIcon: IconButton(
+                                                          icon: const Icon(
+                                                            Icons.send,
+                                                            color: Colors.black,
+                                                          ),
+                                                          onPressed: () async {
+                                                            if (_formKey.currentState!.validate()) {
+                                                              await context
+                                                                  .read<
+                                                                      ReplyController>()
+                                                                  .createReply(
+                                                                    comment.id,
+                                                                    replyController
+                                                                        .text,
+                                                                  );
+                                                              setState(() {
+                                                                fetchThreadDetails();
+                                                                showReplyTextField =
+                                                                    false;
+                                                                selectedCommentIndex =
+                                                                    -1;
+                                                              });
+                                                              replyController
+                                                                  .clear();
+                                                            }
+                                                          },
                                                         ),
-                                                        borderSide: BorderSide(
-                                                            color:
-                                                                Colors.black),
-                                                      ), // your color
-
-                                                      hintText:
-                                                          'Write a reply...',
-                                                      suffixIcon: IconButton(
-                                                        icon: const Icon(
-                                                          Icons.send,
-                                                          color: Colors.black,
-                                                        ),
-                                                        onPressed: () async {
-                                                          if (replyController
-                                                              .text
-                                                              .isNotEmpty) {
-                                                            await context
-                                                                .read<
-                                                                    ReplyController>()
-                                                                .createReply(
-                                                                  comment.id,
-                                                                  replyController
-                                                                      .text,
-                                                                );
-                                                            setState(() {
-                                                              fetchThreadDetails();
-                                                              showReplyTextField =
-                                                                  false;
-                                                              selectedCommentIndex =
-                                                                  -1;
-                                                            });
-                                                            replyController
-                                                                .clear();
-                                                          }
-                                                        },
                                                       ),
                                                     ),
                                                   ),
@@ -592,56 +592,58 @@ class _ThreadPageState extends State<ThreadPage> {
                     child: Container(
                       color: Colors.white,
                       padding: const EdgeInsets.all(16),
-                      child: TextFormField(
-                        controller: commentController,
-                        cursorColor: Colors.black,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter a comment';
-                          } else {
-                            return "";
-                          }
-                        },
-                        decoration: InputDecoration(
-                          focusedBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                      child: Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          controller: commentController,
+                          cursorColor: Colors.black,
+                          validator: (value) {
+                            if (value!.trim().isEmpty) {
+                              return 'Please enter a comment';
+                            } 
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            focusedBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                              borderSide: BorderSide(color: Colors.black),
                             ),
-                            borderSide: BorderSide(color: Colors.black),
-                          ),
-                          border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                            border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                              borderSide: BorderSide(color: Colors.red),
                             ),
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                            enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                              borderSide: BorderSide(color: Colors.black),
+                            ), // your color
+                      
+                            hintText: 'Write a comment...',
+                            suffixIcon: IconButton(
+                              icon: const Icon(
+                                Icons.send,
+                                color: Colors.black,
+                              ),
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  await context
+                                      .read<CommentController>()
+                                      .createComment(
+                                        thread!.id,
+                                        commentController.text,
+                                      );
+                                  setState(() {
+                                    fetchThreadDetails();
+                                  });
+                                  commentController.clear();
+                                }
+                              },
                             ),
-                            borderSide: BorderSide(color: Colors.black),
-                          ), // your color
-
-                          hintText: 'Write a comment...',
-                          suffixIcon: IconButton(
-                            icon: const Icon(
-                              Icons.send,
-                              color: Colors.black,
-                            ),
-                            onPressed: () async {
-                              if (commentController.text.isNotEmpty) {
-                                await context
-                                    .read<CommentController>()
-                                    .createComment(
-                                      thread!.id,
-                                      commentController.text,
-                                    );
-                                setState(() {
-                                  fetchThreadDetails();
-                                });
-                                commentController.clear();
-                              }
-                            },
                           ),
                         ),
                       ),

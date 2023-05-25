@@ -9,6 +9,7 @@ import 'package:front_end/models/resource_model.dart';
 import 'package:front_end/controllers/resource_controller.dart';
 import 'package:front_end/views/screens/resource_page.dart';
 import 'package:front_end/views/widgets/loading.dart';
+import 'package:front_end/views/widgets/subheadings.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -62,75 +63,88 @@ class _ResourceListPageState extends State<ResourceListPage> {
               child: Padding(
                 padding:
                     EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  separatorBuilder: (context, index) => const Divider(),
-                  itemCount: resources != null
-                      ? resources!.length
-                      : 0, //resources != null ? classData!.resources.length :
-                  itemBuilder: (context, index) {
-                    //final resource = widget.classData!.resources;
-                    return InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ResourcePage(
-                            resourceData:
-                                resources != null ? resources![index] : null,
-                            classData:
-                                '${classData?.course?.courseCode} - ${classData?.course?.courseName}',
-                          ),
-                        ));
-                      },
-                      child: Ink(
-                        padding: const EdgeInsets.all(16),
-                        decoration: boxDecoration,
-                        child: Row(
-                          children: [
-                            Flexible(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    child: Text(
-                                      resources != null
-                                          ? resources![index].title
-                                          : "File Not Found",
-                                      overflow: TextOverflow.clip,
-                                      style: Styles.titleSmall,
-                                    ),
+                child: Column(
+                  children: [
+                    const Subheading(text: "Resource Folders"),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      separatorBuilder: (context, index) => const Divider(),
+                      itemCount: resources != null
+                          ? resources!.length
+                          : 0, //resources != null ? classData!.resources.length :
+                      itemBuilder: (context, index) {
+                        //final resource = widget.classData!.resources;
+                        return InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ResourcePage(
+                                resourceData:
+                                    resources != null ? resources![index] : null,
+                                classData:
+                                    '${classData?.course?.courseCode} - ${classData?.course?.courseName}',
+                              ),
+                            ));
+                          },
+                          child: Ink(
+                            padding: const EdgeInsets.all(16),
+                            decoration: boxDecoration,
+                            child: Row(
+                              children: [
+                                Flexible(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        child: Text(
+                                          resources != null
+                                              ? resources![index].title
+                                              : "File Not Found",
+                                          overflow: TextOverflow.clip,
+                                          style: Styles.titleSmall,
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Text(
+                                          resources != null
+                                              ? resources![index].description
+                                              : "No File Found",
+                                          style: Styles.bodySmall.copyWith(
+                                            color: Colors.grey,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Container(
-                                    child: Text(
+                                ),
+                                // Spacer(flex: ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      "${resources![index].files.length.toString()} files", 
+                                      style: Styles.bodySmall,
+                                    ),
+                                    SizedBox(height: 5,),
+                                    Text(
                                       resources != null
-                                          ? resources![index].description
+                                          ? DateFormat('dd MMM, yyy')
+                                              .format(resources![index].dateUploaded!)
+                                              .toString()
                                           : "No File Found",
                                       style: Styles.bodySmall.copyWith(
                                         color: Colors.grey,
                                       ),
-                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            // Spacer(flex: ),
-                            Container(
-                              child: Text(
-                                resources != null
-                                    ? DateFormat('dd MMM, yyy')
-                                        .format(resources![index].dateUploaded!)
-                                        .toString()
-                                    : "No File Found",
-                                style: Styles.bodySmall.copyWith(
-                                  color: Colors.grey,
+                                  ],
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -17,6 +17,8 @@ import '../../models/assignment_model.dart';
 import '../widgets/headers.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../widgets/markdown_text.dart';
+
 class AssignmentPage extends StatefulWidget {
   final bool graded;
 
@@ -29,6 +31,8 @@ class AssignmentPage extends StatefulWidget {
 
 class _AssignmentPageState extends State<AssignmentPage> {
   List<File>? filesToUpload;
+  final _formKey = GlobalKey<FormState>();
+  final _formKeyResubmission = GlobalKey<FormState>();
   AssignmentModel? assignment;
   final submissionDescriptionController = TextEditingController();
   bool loading = false;
@@ -87,28 +91,53 @@ class _AssignmentPageState extends State<AssignmentPage> {
                   child: Column(
                     children: <Widget>[
                       assignment!.mySubmission!.returned ?? false
-                          ? Container(
-                              padding: const EdgeInsets.all(4.0),
-                              height: 45,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                // border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: assignment!.mySubmission!.returned!
-                                    ? assignment!.mySubmission!.marksReceived! >
-                                            50
-                                        ? Colors.green
-                                        : Colors.red
-                                    : Colors.grey,
-                              ),
-                              child: Text(
-                                assignment!.mySubmission!.returned!
-                                    ? "Marks: ${assignment!.mySubmission!.marksReceived!} out of ${assignment!.marks}"
-                                    : "Not Returned",
-                                style: Styles.bodySmall
-                                    .copyWith(color: Colors.white),
-                              ),
-                            )
+                          ? Column(
+                            children: [
+                              Container(
+                                  padding: const EdgeInsets.all(4.0),
+                                  height: 45,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    // border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: assignment!.mySubmission!.returned!
+                                        ? assignment!.mySubmission!.marksReceived! >
+                                                50
+                                            ? Colors.green
+                                            : Colors.red
+                                        : Colors.grey,
+                                  ),
+                                  child: Text(
+                                    assignment!.mySubmission!.returned!
+                                        ? "Marks: ${assignment!.mySubmission!.marksReceived!} out of ${assignment!.marks}"
+                                        : "Not Returned",
+                                    style: Styles.bodySmall
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                ),
+                                const SizedBox(height: 16.0),
+                                Container(
+                                  decoration: boxDecoration,
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Feedback:", style: Styles.labelLarge),
+                                        const SizedBox(height: 4.0),
+                                        Text(
+                                          assignment!.mySubmission!.returned!
+                                              ? assignment!.mySubmission!.returnDescription!
+                                              : "",
+                                          style: Styles.bodyMedium,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                            ]
+                          )
                           : const SizedBox(),
                       AssignmentDetailCard(
                         dueDate: assignment?.dueDate ??
@@ -217,50 +246,60 @@ class _AssignmentPageState extends State<AssignmentPage> {
                       ),
                       const VerticalSpacer(),
                       const Subheading(text: "Submission"),
-                      assignment!.isSubmitted
-                          ? (assignment!.mySubmission!.submissionDescription ==
-                                  null
-                              ? const CircularProgressIndicator()
-                              : Column(
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "Submitted Description",
-                                        style: Styles.bodyMedium,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.02,
-                                    ),
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      padding: const EdgeInsets.all(16.0),
-                                      decoration: boxDecoration,
-                                      child: Text(
-                                        assignment != null
-                                            ? assignment!.mySubmission!
-                                                .submissionDescription!
-                                            : "This means description is not coming",
-                                        style: Styles.bodyMedium,
-                                      ),
-                                    ),
-                                  ],
-                                ))
-                          : MainTextField(
-                              label: "Submission Description",
-                              controller: submissionDescriptionController,
-                              maxLines: 6,
-                              minLines: 6,
-                              validator: (value) {
-                                if (value!.trim().isEmpty) {
-                                  return 'Please enter the submission description';
-                                }
-                                return null;
-                              },
-                            ),
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            assignment!.isSubmitted
+                                ? (assignment!.mySubmission!
+                                            .submissionDescription ==
+                                        null
+                                    ? const CircularProgressIndicator()
+                                    : Column(
+                                        children: [
+                                          Container(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              "Submitted Description",
+                                              style: Styles.bodyMedium,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.02,
+                                          ),
+                                          Container(
+                                            alignment: Alignment.centerLeft,
+                                            padding: const EdgeInsets.all(16.0),
+                                            decoration: boxDecoration,
+                                            child: FormattedTextWidget(
+                                              markdownText:
+                                              assignment != null
+                                                  ? assignment!.mySubmission!
+                                                      .submissionDescription!
+                                                  : "This means description is not coming",
+                                              // style: Styles.bodyMedium,
+                                            ),
+                                          ),
+                                        ],
+                                      ))
+                                : MainTextField(
+                                    label: "Submission Description",
+                                    controller: submissionDescriptionController,
+                                    maxLines: 6,
+                                    minLines: 6,
+                                    validator: (value) {
+                                      if (value!.trim().isEmpty) {
+                                        return 'Please enter the submission description';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                          ],
+                        ),
+                      ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
@@ -348,52 +387,162 @@ class _AssignmentPageState extends State<AssignmentPage> {
                             );
                           },
                         ),
-                      ListView.separated(
-                        shrinkWrap: true,
-                        itemCount: filesToUpload!.length,
-                        separatorBuilder: (context, index) {
-                          return SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.02);
-                        },
-                        itemBuilder: (context, index) {
-                          return Ink(
-                            decoration: boxDecoration,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Row(
-                                children: [
-                                  createIcon2(filesToUpload![index]
-                                      .path
-                                      .split('.')
-                                      .last),
-                                  const HorizontalSpacer(),
-                                  Expanded(
-                                    child: Text(
-                                      filesToUpload![index]
-                                          .path
-                                          .split('/')
-                                          .last,
-                                      style: Styles.bodyMedium,
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        filesToUpload!.removeAt(index);
-                                      });
-                                    },
-                                    icon: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ],
+                      if (assignment!.isSubmitted &&
+                          assignment!.dueDate!.isAfter(DateTime.now()) &&
+                          !assignment!.mySubmission!.returned!)
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 16.0,
+                            ),
+                            const Subheading(text: "Resubmission"),
+                            Form(
+                              key: _formKeyResubmission,
+                              child: MainTextField(
+                                label: "Submission Description",
+                                controller: submissionDescriptionController,
+                                maxLines: 6,
+                                minLines: 6,
+                                validator: (value) {
+                                  if (value!.trim().isEmpty) {
+                                    return 'Please enter the submission description';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
-                          );
-                        },
-                      ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.02),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Attach files (optional)",
+                                style: Styles.bodySmall,
+                              ),
+                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.02),
+                            ListView.separated(
+                              shrinkWrap: true,
+                              itemCount: filesToUpload!.length,
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.02);
+                              },
+                              itemBuilder: (context, index) {
+                                return Ink(
+                                  decoration: boxDecoration,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Row(
+                                      children: [
+                                        createIcon2(filesToUpload![index]
+                                            .path
+                                            .split('.')
+                                            .last),
+                                        const HorizontalSpacer(),
+                                        Expanded(
+                                          child: Text(
+                                            filesToUpload![index]
+                                                .path
+                                                .split('/')
+                                                .last,
+                                            style: Styles.bodyMedium,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              filesToUpload!.removeAt(index);
+                                            });
+                                          },
+                                          icon: Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.02),
+                            MainButton(
+                              onPressed: () async {
+                                FilePickerResult? result = await FilePicker
+                                    .platform
+                                    .pickFiles(allowMultiple: true);
+                                if (result != null) {
+                                  setState(() {
+                                    filesToUpload!.addAll(result.paths
+                                        .map((path) => File(path!))
+                                        .toList());
+                                  });
+                                }
+                              },
+                              text: "Upload File",
+                              color: Colors.black,
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                      if (!assignment!.isSubmitted)
+                        ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: filesToUpload!.length,
+                          separatorBuilder: (context, index) {
+                            return SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.02);
+                          },
+                          itemBuilder: (context, index) {
+                            return Ink(
+                              decoration: boxDecoration,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
+                                  children: [
+                                    createIcon2(filesToUpload![index]
+                                        .path
+                                        .split('.')
+                                        .last),
+                                    const HorizontalSpacer(),
+                                    Expanded(
+                                      child: Text(
+                                        filesToUpload![index]
+                                            .path
+                                            .split('/')
+                                            .last,
+                                        style: Styles.bodyMedium,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          filesToUpload!.removeAt(index);
+                                        });
+                                      },
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
 
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.02),
@@ -432,16 +581,55 @@ class _AssignmentPageState extends State<AssignmentPage> {
                           !assignment!.mySubmission!.returned!
                       ? MainButton(
                           text: "Resubmit Assignment",
-                          onPressed: () {},
+                          onPressed: () async {
+                            if (_formKeyResubmission.currentState!.validate()) {
+                              setState(() {
+                                loading = true;
+                              });
+                              final assignmentData = {
+                                "submissionDescription":
+                                    submissionDescriptionController.text.trim(),
+                              };
+                              await context
+                                  .read<AssignmentController>()
+                                  .resubmitAssignment(
+                                      assignment!.mySubmission!.id!,
+                                      assignmentData,
+                                      filesToUpload)
+                                  .then((value) {
+                                if (value == true) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Assignment resubmitted successfully'),
+                                      backgroundColor: Colors.green,
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
+                                  Navigator.pop(context);
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text('Error submitting assignment'),
+                                      backgroundColor: Colors.red,
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                }
+                              });
+                            }
+                          },
                           color: Colors.blue,
                         )
                       : const MainButton(
                           text: "Submit Assignment", onPressed: null)
                   : MainButton(
                       onPressed: () async {
-                        if (submissionDescriptionController.text
-                            .trim()
-                            .isNotEmpty) {
+                        if (_formKey.currentState!.validate()) {
                           setState(() {
                             loading = true;
                           });
@@ -449,7 +637,6 @@ class _AssignmentPageState extends State<AssignmentPage> {
                             "submissionDescription":
                                 submissionDescriptionController.text.trim(),
                           };
-
                           await context
                               .read<AssignmentController>()
                               .submitAsssignment(
@@ -479,7 +666,6 @@ class _AssignmentPageState extends State<AssignmentPage> {
                             }
                           });
                         }
-                        Navigator.pop(context);
                       },
                       text: "Submit Assignment",
                       color: Colors.green,

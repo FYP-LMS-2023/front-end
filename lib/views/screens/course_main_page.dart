@@ -25,7 +25,7 @@ class CourseMainPage extends StatefulWidget {
   CourseMainPage({
     super.key,
     // required this.myclass,
-    this.currentTab = "Quizzes",
+    this.currentTab = "Overview",
     this.id,
   });
 

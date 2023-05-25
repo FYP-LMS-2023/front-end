@@ -26,12 +26,7 @@ class CousrseOverviewPage extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(size.width * 0.05),
           child: Column(
-            children: <Widget>[
-              Container(
-                alignment: Alignment.center,
-                child: Text(classData.course!.courseDescription,
-                    style: Styles.bodyLarge, textAlign: TextAlign.center),
-              ),
+            children: <Widget>[ 
               const VerticalSpacer(),
               Row(
                 children: <Widget>[

@@ -24,7 +24,7 @@ class Announcements extends StatelessWidget {
               },
               child: CircleAvatar(
                 radius: (MediaQuery.of(context).size.width / 5) * 0.35,
-                backgroundColor: Colors.grey[500],
+                backgroundColor: Colors.grey[200],
                 child: buildIcon(announcementList != null
                     ? announcementList![index].announcementType
                     : "general"),
@@ -44,27 +44,27 @@ class Announcements extends StatelessWidget {
       case "general":
         return const Icon(
           Icons.campaign,
-          color: Colors.white,
+          color: Colors.blue,
         );
       case "course":
         return const Icon(
           Icons.library_books,
-          color: Colors.white,
+          color: Colors.orange,
         );
       case "quiz":
         return const Icon(
           Icons.quiz,
-          color: Colors.white,
+          color: Colors.pinkAccent,
         );
       case "assignment":
         return const Icon(
           Icons.assignment,
-          color: Colors.white,
+          color: Colors.brown,
         );
       case "exam":
         return const Icon(
           Icons.quiz,
-          color: Colors.white,
+          color: Colors.red,
         );
 
       default:

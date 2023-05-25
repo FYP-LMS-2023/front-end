@@ -87,7 +87,7 @@ class _AssignmentListPageState extends State<AssignmentListPage> {
                                 title: assignment.title,
                                 date: DateTime.now(),
                                 description: assignment.description,
-                                status: assignment.status,
+                                status: assignment.returned! ? "returned" : assignment.isSubmitted ? "submitted" : assignment.status,
                                 onClick: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(

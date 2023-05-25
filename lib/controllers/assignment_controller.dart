@@ -27,6 +27,48 @@ class AssignmentController extends ChangeNotifier {
   List<AssignmentSubmissionModel>? submissions;
   List<AssignmentSubmissionModel>? get getSubmissions => submissions;
 
+  Future<bool> resubmitAssignment(
+      String id, Map<String, dynamic> data, List<File>? files) async {
+    try {
+      final token = await secureStorage.getToken();
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse('${Environment.baseURL}assignmentTwo/resubmitAssignment/$id'),
+      );
+      request.headers['Authorization'] = token ?? '';
+      request.fields['submissionDescription'] =
+          data['submissionDescription'] ?? '';
+
+      Log.d("Submission Description: ${data['submissionDescription']}");
+
+      for (File f in files!) {
+        final mimeTypeData =
+            lookupMimeType(f.path, headerBytes: [0xFF, 0xD8])?.split('/');
+        final file = await http.MultipartFile.fromPath("files", f.path,
+            contentType: MediaType(mimeTypeData![0], mimeTypeData[1]));
+
+        request.files.add(file);
+      }
+
+      final streamedResponse = await request.send();
+
+      final response = await http.Response.fromStream(streamedResponse);
+
+      Log.i(
+          'Response Status Code: ${response.statusCode} - ${response.reasonPhrase}');
+      if (response.statusCode != 200) {
+        Log.e("Error: ${response.body}");
+        return false;
+      } else {
+        Log.v("Response: ${response.body}");
+        return true;
+      }
+    } catch (e) {
+      Log.e("Error in resubmitAssignment: $e");
+    }
+    return false;
+  }
+
   Future<bool> submitAsssignment(
       String id, Map<String, dynamic> data, List<File>? files) async {
     try {
@@ -139,7 +181,7 @@ class AssignmentController extends ChangeNotifier {
       print('testing: $id');
       final response = await http.get(
         Uri.parse(
-            '${Environment.baseURL}assignmentTwo/getAllClassAssignments/$id'),
+            '${Environment.baseURL}assignmentTwo/getAllClassAssignmentsStudent/$id'),
         headers: <String, String>{'Authorization': token ?? ""},
         // body: <String, String>{"classID": id},
       );
@@ -164,6 +206,8 @@ class AssignmentController extends ChangeNotifier {
             var dueDate = data["dueDate"];
             var status = data["status"];
             var marks = data["marks"];
+            var isSubmitted = data["isSubmitted"];
+            var returned = data["returned"];
 
             final filteredData = {
               "_id": id,
@@ -172,6 +216,8 @@ class AssignmentController extends ChangeNotifier {
               "dueDate": dueDate,
               "status": status,
               "marks": marks,
+              "isSubmitted": isSubmitted,
+              "returned": returned,
             };
             Log.d("filteredData: $filteredData");
             Log.d("filteredData type: ${filteredData.runtimeType}");

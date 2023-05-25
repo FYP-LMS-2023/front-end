@@ -48,7 +48,9 @@ class AnnouncementModel {
       datePosted: json["datePosted"] == null
           ? DateTime(2000, 02, 15, 00, 00, 00, 00, 00)
           : DateTime.parse(json["datePosted"]),
-      announcementType: json["announcementType"] ?? "<!announcementType>",
+      announcementType: json["announcementType"] == null 
+        ? "<!announcementType>"
+        : json["announcementType"],
     );
   }
 

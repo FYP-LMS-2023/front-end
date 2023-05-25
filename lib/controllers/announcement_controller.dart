@@ -95,6 +95,7 @@ class AnnouncementController extends ChangeNotifier {
             var description = data["description"];
             var postedBy = data["postedBy"];
             var datePosted = data["datePosted"];
+            var announcementType = data["announcementType"];
 
             final filteredData = {
               "_id": id,
@@ -102,6 +103,7 @@ class AnnouncementController extends ChangeNotifier {
               "description": description,
               "postedBy": postedBy,
               "datePosted": datePosted,
+              "announcementType": announcementType,
             };
             Log.d("filteredData: $filteredData");
             Log.d("filteredData type: ${filteredData.runtimeType}");
