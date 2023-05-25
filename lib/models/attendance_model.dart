@@ -110,3 +110,26 @@ class Attendance {
         "present": present,
       };
 }
+
+class AbsentDays {
+  List<String> absentDays;
+  int absentCount;
+
+  AbsentDays({this.absentDays = const [], this.absentCount = -1});
+
+  AbsentDays copyWith({List<String>? absentDays, int? absentCount}) =>
+      AbsentDays(
+        absentDays: absentDays ?? this.absentDays,
+        absentCount: absentCount ?? this.absentCount,
+      );
+
+  factory AbsentDays.fromJson(Map<String, dynamic> json) => AbsentDays(
+      absentDays: List<String>.from(
+          json['absentDays']), //json["absentDays"] ?? "<!absentDays>",
+      absentCount: json["absentCount"] ?? -1);
+
+  Map<String, dynamic> toJson() => {
+        "absentDays": List<String>.from(absentDays.map((x) => x)),
+        "absentCount": absentCount
+      };
+}

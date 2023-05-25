@@ -3,7 +3,10 @@ import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/models/class_model.dart';
 import 'package:front_end/views/widgets/cards.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
+import '../../constants/log.dart';
 import '../../constants/spacers.dart';
+import 'announcement_page.dart';
+import 'assignment_page.dart';
 
 class CousrseOverviewPage extends StatelessWidget {
   // final ClassEntity myClass;
@@ -16,6 +19,7 @@ class CousrseOverviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Log.d("Class Name: ${classData.course?.courseName}");
     final size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Center(
@@ -38,7 +42,7 @@ class CousrseOverviewPage extends StatelessWidget {
                       number: classData.studentList.length,
                     ),
                   ),
-                  HorizontalSpacer(),
+                  const HorizontalSpacer(),
                   Expanded(
                     flex: 2,
                     child: DetailCard(
@@ -61,7 +65,7 @@ class CousrseOverviewPage extends StatelessWidget {
               ),
               const VerticalSpacer(),
               const Subheading(text: "Latest Assignment"),
-              classData.assignments.isEmpty
+              classData.latestAssignment == null
                   ? Container(
                       height: size.height * 0.05,
                       alignment: Alignment.center,
@@ -71,37 +75,60 @@ class CousrseOverviewPage extends StatelessWidget {
                     )
                   : CourseOverviewCard(
                       type: "assignment",
-                      title:
-                          "YAYAYAYAYAYAYAYA THIS IS OUR VERY FIRST ASSIGNMENT YAYAYAYAYAYAYAYA",
-                      date: DateTime.now(),
-                      postedBy: "postedBy",
-                      description: "description",
-                      status: "status",
+                      title: classData.latestAssignment == null
+                          ? "No assignments yet"
+                          : classData.latestAssignment!.title,
+                      date: classData.latestAssignment == null
+                          ? DateTime.now()
+                          : classData.latestAssignment!.dueDate!,
+                      description: classData.latestAssignment == null
+                          ? "N/A"
+                          : classData.latestAssignment!.description,
+                      status: classData.latestAssignment == null
+                          ? "N/A"
+                          : classData.latestAssignment!.status,
+                      onClick: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AssignmentPage(
+                              id: classData.latestAssignment!.id,
+                              graded: false,
+                            ),
+                          ),
+                        );
+                      },
                     ),
               const VerticalSpacer(),
               const Subheading(text: "Latest Announcement"),
-              classData.announcement.isEmpty
+              classData.latestAnnouncement == null
                   ? Container(
                       height: size.height * 0.05,
                       alignment: Alignment.center,
                       child: Text("No announcements yet",
-                          style: Styles.bodySmall.copyWith(color: Colors.grey),
+                          style: Styles.bodySmall
+                              .copyWith(color: Color.fromARGB(255, 97, 65, 65)),
                           textAlign: TextAlign.center),
                     )
                   : CourseOverviewCard(
                       type: "announcement",
-                      title: classData.announcement.isNotEmpty
-                          ? classData.announcement[0].title
-                          : "No announcements yet",
-                      date: classData.announcement.isEmpty
+                      title: classData.latestAnnouncement == null
+                          ? "No announcements yet"
+                          : classData.latestAnnouncement!.title,
+                      date: classData.latestAnnouncement == null
                           ? DateTime.now()
-                          : classData.announcement[0].datePosted!,
-                      postedBy: classData.announcement.isEmpty
+                          : classData.latestAnnouncement!.datePosted!,
+                      description: classData.latestAnnouncement == null
                           ? "N/A"
-                          : classData.announcement[0].postedBy!.fullName,
-                      description: classData.announcement.isEmpty
-                          ? "N/A"
-                          : classData.announcement[0].description,
+                          : classData.latestAnnouncement!.description,
+                      onClick: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AnnouncementPage(
+                              id: classData.latestAnnouncement!.id,
+                            ),
+                          ),
+                        );
+                      },
                     ),
             ],
           ),

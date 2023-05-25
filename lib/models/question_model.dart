@@ -4,12 +4,14 @@ class QuestionModel {
   String id;
   String questionDescription;
   List<AnswerModel> answers;
+  String correctAnswer;
   int marks;
 
   QuestionModel({
     this.id = "<!id>",
     this.questionDescription = "<!questionDescription>",
     this.answers = const [],
+    this.correctAnswer = "<!correctAnswer>",
     this.marks = -1,
   });
 
@@ -17,13 +19,14 @@ class QuestionModel {
     String? id,
     String? questionDescription,
     List<AnswerModel>? answers,
-    AnswerModel? correctAnswer,
+    String? correctAnswer,
     int? marks,
   }) =>
       QuestionModel(
         id: id ?? this.id,
         questionDescription: questionDescription ?? this.questionDescription,
         answers: answers ?? this.answers,
+        correctAnswer: correctAnswer ?? this.correctAnswer,
         marks: marks ?? this.marks,
       );
 
@@ -35,6 +38,7 @@ class QuestionModel {
             ? []
             : List<AnswerModel>.from(
                 json["answers"].map((x) => AnswerModel.fromJson(x))),
+        correctAnswer: json["correctAnswer"] ?? "<!correctAnswer>",
         marks: json["marks"] ?? -1,
       );
 
@@ -42,6 +46,7 @@ class QuestionModel {
         "_id": id,
         "questionDescription": questionDescription,
         "answers": List<dynamic>.from(answers.map((x) => x.toJson())),
+        "correctAnswer": correctAnswer,
         "marks": marks,
       };
 }

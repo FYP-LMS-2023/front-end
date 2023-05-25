@@ -1,11 +1,11 @@
 import 'package:front_end/models/thread_model.dart';
 
 class ChannelModel {
-  String id;
+  String channelId;
   List<ThreadModel> threads;
 
   ChannelModel({
-    this.id = "<!id>",
+    this.channelId = "<!id>",
     this.threads = const [],
   });
 
@@ -14,12 +14,12 @@ class ChannelModel {
     List<ThreadModel>? threads,
   }) =>
       ChannelModel(
-        id: id ?? this.id,
+        channelId: id ?? channelId,
         threads: threads ?? this.threads,
       );
 
   factory ChannelModel.fromJson(Map<String, dynamic> json) => ChannelModel(
-        id: json["_id"] ?? "<!id>",
+        channelId: json["channelID"] ?? "<!id>",
         threads: json["threads"] == null
             ? []
             : List<ThreadModel>.from(
@@ -27,7 +27,7 @@ class ChannelModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
+        "channelId": channelId,
         "threads": List<dynamic>.from(threads.map((x) => x)),
       };
 }

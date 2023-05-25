@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
+import 'package:front_end/views/widgets/markdown_text.dart';
 
 class CourseOutlinePage extends StatelessWidget {
-  const CourseOutlinePage({super.key});
+  String? syllabus;
+
+  CourseOutlinePage({Key? key, this.syllabus}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
       child: Column(
-        // mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Course Outline Page",
+            "Course Outline",
             style: Styles.titleLarge,
+            //textAlign: TextAlign.center,
           ),
           const VerticalSpacer(),
-          Text(
-            "This is the course outline page. It will contain the course outline of the course. It will be a list of topics and subtopics. The topics will be clickable and will lead to the topic page. The subtopics will be clickable and will lead to the subtopic page. The subtopic page will contain the subtopic content. The topic page will contain the subtopics of the topic. ",
-            style: Styles.bodyLarge,
-          ),
+          FormattedTextWidget(markdownText: syllabus ?? "No Syllabus Yet"),
+          // Text(
+          //   syllabus ?? "No Syllabus Yet",
+          //   style: Styles.bodyLarge,
+          // ),
         ],
       ),
     );

@@ -5,22 +5,37 @@ class MainTextField extends StatelessWidget {
   final TextEditingController? controller;
   final bool? obsureText;
   final String? Function(String?)? validator;
+  final int? maxLines;
+  final int? minLines;
+  final Function? onChange;
+  final String? helperText;
 
-  const MainTextField(
-      {super.key,
-      required this.label,
-      this.controller,
-      this.obsureText,
-      this.validator});
+  const MainTextField({
+    super.key,
+    required this.label,
+    this.controller,
+    this.obsureText,
+    this.validator,
+    this.maxLines = 1,
+    this.minLines = 1,
+    this.onChange,
+    this.helperText,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
+      minLines: minLines,
+      onChanged: (value) {
+        onChange != null ? onChange!(value) : null;
+      },
       cursorColor: Colors.black,
       controller: controller,
       validator: validator,
       obscureText: obsureText ?? false,
       decoration: InputDecoration(
+        helperText: helperText,
         focusColor: Colors.black,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),

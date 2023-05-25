@@ -231,7 +231,7 @@ class CourseOverviewCard extends StatelessWidget {
   final String type;
   final String title;
   final DateTime date;
-  final String? postedBy;
+  final int? marks;
   final String? description;
   final String? status;
   final Widget? progress;
@@ -242,7 +242,7 @@ class CourseOverviewCard extends StatelessWidget {
     required this.type,
     required this.title,
     required this.date,
-    this.postedBy,
+    this.marks,
     this.description,
     this.progress,
     this.status,
@@ -269,32 +269,25 @@ class CourseOverviewCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          child: Text(
-                            title,
-                            style: Styles.headlineSmall,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                        Text(
+                          title,
+                          style: Styles.headlineSmall,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 5.0),
-                        Container(
-                          child: Text(
-                            type == "quiz"
-                                ? 'Time Left: ${time_left(date)}'
-                                : 'Posted by: $postedBy',
-                            style: Styles.labelLarge,
-                          ),
-                        ),
                         const SizedBox(height: 5.0),
-                        Container(
-                          child: Text(
-                            type == "assignment" || type == "quiz"
-                                ? 'Due: ${DateFormat('dd, MMMM yyyy @ hh:mm a').format(date)}'
-                                : DateFormat('dd, MMMM yyyy - hh:mm a')
-                                    .format(date),
+                        Text(
+                          type == "assignment" || type == "quiz"
+                              ? 'Due: ${DateFormat('dd, MMMM yyyy @ hh:mm a').format(date)}'
+                              : DateFormat('dd, MMMM yyyy - hh:mm a')
+                                  .format(date),
+                          style: Styles.labelLarge,
+                        ),
+                        if (type == "quiz")
+                          Text(
+                            "Max Marks: $marks",
                             style: Styles.labelLarge,
                           ),
-                        ),
                       ],
                     ),
                   ),
@@ -382,35 +375,37 @@ class QuizProgress extends StatelessWidget {
 //* Assignment Detail Card////////////////////////////////////////////////////////////////////////
 class AssignmentDetailCard extends StatelessWidget {
   final DateTime dueDate;
-  final int numResubmissions;
-  final DateTime resubmissionDueDate;
-  final String status;
+  final String? status;
+  final int marks;
+  final bool? isHidden;
 
   const AssignmentDetailCard({
     super.key,
     required this.dueDate,
-    required this.numResubmissions,
-    required this.resubmissionDueDate,
-    required this.status,
+    this.status,
+    required this.marks,
+    this.isHidden,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          padding: const EdgeInsets.all(4.0),
-          height: 45,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: status_color(status),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Text(
-            status,
-            style: Styles.bodyLarge.copyWith(color: Colors.white),
-          ),
-        ),
+        isHidden == false
+            ? Container(
+                padding: const EdgeInsets.all(4.0),
+                height: 45,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: status_color(status),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Text(
+                  status!,
+                  style: Styles.bodyLarge.copyWith(color: Colors.white),
+                ),
+              )
+            : const SizedBox(),
         // const VerticalSpacer(),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.02,
@@ -429,38 +424,27 @@ class AssignmentDetailCard extends StatelessWidget {
                       "Due Date: ",
                       style: Styles.titleMedium,
                     ),
-                    Text(
-                      DateFormat('dd, MMMM yyyy @ hh:mm a').format(dueDate),
-                      style: Styles.bodyLarge,
-                    ),
                   ],
                 ),
-                const SizedBox(height: 10.0),
+                Text(
+                  DateFormat('dd, MMMM yyyy @ hh:mm a').format(dueDate),
+                  style: Styles.bodyLarge,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 Row(
                   children: <Widget>[
                     Text(
-                      "No. of Resubmissions Allowed: ",
+                      "Total Marks: ",
                       style: Styles.titleMedium,
-                    ),
-                    Text(
-                      numResubmissions.toString(),
-                      style: Styles.bodyLarge,
                     ),
                   ],
                 ),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      "Resub Deadline: ",
-                      style: Styles.titleMedium,
-                    ),
-                    Text(
-                      DateFormat('dd, MMMM yyyy @ hh:mm a')
-                          .format(resubmissionDueDate),
-                      style: Styles.bodyLarge,
-                    ),
-                  ],
-                ),
+                Text(
+                  marks.toString(),
+                  style: Styles.bodyLarge,
+                  overflow: TextOverflow.ellipsis,
+                )
               ],
             ),
           ),
@@ -469,7 +453,146 @@ class AssignmentDetailCard extends StatelessWidget {
     );
   }
 }
+
 //* /////////////////////////////////////////////////////////////////////////////////////////////
+class SubmissionCard extends StatefulWidget {
+  final DateTime? submitDate;
+  final String fullName;
+  final String erp;
+  final bool returned;
+  final int? marks;
+  final int? totalMarks;
+  final String description;
+  final Function? onClick;
+  const SubmissionCard({
+    super.key,
+    this.submitDate,
+    required this.fullName,
+    required this.erp,
+    required this.returned,
+    this.marks = 0,
+    this.totalMarks = 0,
+    required this.description,
+    this.onClick,
+  });
+
+  @override
+  State<SubmissionCard> createState() => _SubmissionCardState();
+}
+
+class _SubmissionCardState extends State<SubmissionCard> {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        widget.onClick != null ? widget.onClick!() : null;
+      },
+      child: Ink(
+        decoration: boxDecoration,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              child: Text(
+                                widget.fullName,
+                                style: Styles.headlineSmall,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            const SizedBox(height: 5.0),
+                            Row(
+                              children: [
+                                Container(
+                                  child: Text(
+                                    'ERP ID: ',
+                                    style: Styles.labelLarge,
+                                  ),
+                                ),
+                                Container(
+                                  child: Text(
+                                    widget.erp,
+                                    style: Styles.bodyMedium,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(16.0),
+                        alignment: Alignment.centerRight,
+                        child: Chip(
+                          label: Text(
+                            widget.returned
+                                ? 'Marks: ${widget.marks.toString()}'
+                                : "Not Returned",
+                            style:
+                                Styles.bodySmall.copyWith(color: Colors.white),
+                          ),
+                          backgroundColor: widget.returned
+                              ? widget.marks! >= (widget.totalMarks! / 2)
+                                  ? Colors.green
+                                  : Colors.red
+                              : Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Text(
+                          'Submitted on: ',
+                          style: Styles.labelLarge,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          DateFormat('dd, MMMM yyyy @ hh:mm a')
+                              .format(widget.submitDate!),
+                          style: Styles.bodyMedium,
+                          overflow: TextOverflow.clip,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.description,
+                    style: Styles.bodyMedium,
+                  ),
+                  const SizedBox(height: 8.0),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class CenteredCard extends StatelessWidget {
   final double width;

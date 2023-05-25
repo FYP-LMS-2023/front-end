@@ -3,34 +3,38 @@ import 'package:flutter/material.dart';
 
 // ignore: non_constant_identifier_names
 Color status_color(status) {
+  status = status.toLowerCase();
   Color color = Colors.grey;
   switch (status) {
-    case "Open":
+    case "open":
       color = Colors.blue;
       break;
-    case "Closed":
+    case "closed":
       color = Colors.grey;
       break;
-    case "Late":
+    case "late":
       color = Colors.red;
       break;
-    case "Submitted":
+    case "submitted":
       color = Colors.green;
       break;
-    case "Returned":
+    case "returned":
       color = Colors.purple;
       break;
-    case "Active":
+    case "active":
       color = Colors.teal;
       break;
-    case "Draft":
+    case "draft":
       color = Colors.lightBlue;
       break;
-    case "Passed":
+    case "passed":
       color = Colors.green;
       break;
-    case "Failed":
+    case "failed":
       color = Colors.red;
+      break;
+    case "pending":
+      color = const Color.fromARGB(255, 250, 230, 50);
       break;
     default:
       color = Colors.grey;

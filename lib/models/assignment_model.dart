@@ -1,6 +1,9 @@
 import 'package:front_end/models/class_model.dart';
 import 'package:front_end/models/submission_model.dart';
 
+import 'assignment_submission_model.dart';
+import 'file_model.dart';
+
 class AssignmentModel {
   String id;
   DateTime? uploadDate;
@@ -15,8 +18,11 @@ class AssignmentModel {
   String filePath;
   int fileSize;
   String fileType;
-  List<SubmissionModel> submissions;
+  List<FileModel>? files;  
+  //List<SubmissionModel> submissions;
   int marks;
+  AssignmentSubmissionModel ? mySubmission;
+  bool isSubmitted;
 
   AssignmentModel({
     this.id = "<!id>",
@@ -32,8 +38,11 @@ class AssignmentModel {
     this.filePath = "<!filePath>",
     this.fileSize = -1,
     this.fileType = "<!fileType>",
-    this.submissions = const [],
+    this.files = const [],
+    //this.submissions = const [],
     this.marks = -1,
+    this.mySubmission,
+    this.isSubmitted = false,
   });
 
   AssignmentModel copyWith({
@@ -73,7 +82,7 @@ class AssignmentModel {
         filePath: filePath ?? this.filePath,
         fileSize: fileSize ?? this.fileSize,
         fileType: fileType ?? this.fileType,
-        submissions: submissions ?? this.submissions,
+        //submissions: submissions ?? this.submissions,
         marks: marks ?? this.marks,
       );
 
@@ -90,7 +99,7 @@ class AssignmentModel {
         classId: json["classId"] != null
             ? ClassModel.fromJson(json["classId"])
             : ClassModel(),
-        resubmissionsAllowed: json["resubmissionsAllowed"],
+        resubmissionsAllowed: json["resubmissionsAllowed"] ?? -1,
         status: json["status"] ?? "<!status>",
         resubmissionDeadline: json["resubmissionDeadline"] != null
             ? DateTime.parse(json["resubmissionDeadline"])
@@ -100,11 +109,19 @@ class AssignmentModel {
         filePath: json["filePath"] ?? "<!filePath>",
         fileSize: json["fileSize"] ?? -1,
         fileType: json["fileType"] ?? "<!fileType>",
-        submissions: json["submissions"] != null
-            ? List<SubmissionModel>.from(
-                json["submissions"].map((x) => SubmissionModel.fromJson(x)))
-            : [],
+        files: json["files"] != null
+            ? List<FileModel>.from(
+                json["files"].map((x) => FileModel.fromJson(x)))
+            : null,
+        // submissions: json["submissions"] != null
+        //     ? List<SubmissionModel>.from(
+        //         json["submissions"].map((x) => SubmissionModel.fromJson(x)))
+        //     : [],
         marks: json["marks"] ?? -1,
+        mySubmission: json["mySubmission"] != null 
+          ? AssignmentSubmissionModel.fromJson(json["mySubmission"]) 
+          : AssignmentSubmissionModel(),
+        isSubmitted: json["isSubmitted"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -123,7 +140,7 @@ class AssignmentModel {
         "filePath": filePath,
         "fileSize": fileSize,
         "fileType": fileType,
-        "submissions": List<dynamic>.from(submissions.map((x) => x.toJson())),
+        //"submissions": List<dynamic>.from(submissions.map((x) => x.toJson())),
         "marks": marks,
       };
 }

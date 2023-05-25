@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/env.dart';
+import 'package:front_end/constants/log.dart';
 import 'package:front_end/constants/secure_storage.dart';
 import 'package:front_end/models/announcement_model.dart';
 import 'package:front_end/models/class_model.dart';
@@ -49,6 +50,34 @@ class HomeController extends ChangeNotifier {
       }
     } catch (error) {
       print('hello: ${error.toString()}');
+    }
+  }
+
+  Future<void> getFacultyDashboard() async {
+    try {
+      final token = await secureStorage.getToken();
+      final response = await http.get(
+        Uri.parse('${Environment.baseURL}class/getActiveClassesForTeacher'),
+        headers: {'Authorization': token ?? ""},
+      );
+      // Log.i(response.body);
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        final activeClassData = jsonData['activeClasses'] as List<dynamic>;
+        Log.d(activeClassData);
+        activeClasses = activeClassData
+            .map((courseData) => ClassModel(
+                id: courseData['_id'],
+                course: CourseModel(
+                    courseCode: courseData['courseCode'],
+                    courseName: courseData['courseName'])))
+            .toList();
+
+        notifyListeners();
+        Log.i(jsonData);
+      }
+    } catch (e) {
+      print('error: ${e.toString()}');
     }
   }
 }

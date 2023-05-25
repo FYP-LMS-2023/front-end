@@ -2,64 +2,113 @@ import 'package:flutter/material.dart';
 import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/drop_shadow.dart';
 import 'package:front_end/constants/fonts.dart';
-import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/views/screens/assignment_page.dart';
 import 'package:front_end/views/widgets/cards.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
+import 'package:provider/provider.dart';
 
-class AssignmentListPage extends StatelessWidget {
-  const AssignmentListPage({super.key});
+import '../../constants/log.dart';
+import '../../controllers/assignment_controller.dart';
+import '../../models/assignment_model.dart';
+
+class AssignmentListPage extends StatefulWidget {
+  AssignmentListPage(this.id, {super.key, this.fullname});
+  String? id;
+  String? fullname;
+  @override
+  State<AssignmentListPage> createState() => _AssignmentListPageState();
+}
+
+class _AssignmentListPageState extends State<AssignmentListPage> {
+  List<AssignmentModel>? assignments;
+
+  Future<void> fetchAssignments() async {
+    try {
+      await context
+          .read<AssignmentController>()
+          .getAllAssignments(widget.id != null ? widget.id! : "1")
+          .then((value) {
+        setState(() {
+          assignments = context.read<AssignmentController>().getAssignments;
+          print("Assignments length: ${assignments!.length}");
+        });
+      });
+    } catch (e) {
+      Log.e("error araha fetch assignments me $e");
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchAssignments();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Center(
-        child: Padding(
-          padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
-          child: Column(
-            children: <Widget>[
-              buildStats(context),
-              // SizedBox(
-              //   height: MediaQuery.of(context).size.height * 0.05,
-              // ),
-              const VerticalSpacer(),
-              const Subheading(text: "Assignments"),
-              ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                clipBehavior: Clip.none,
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      CourseOverviewCard(
-                        type: "assignment",
-                        title: 'Assignment ${index + 1}',
-                        date: DateTime.now(),
-                        postedBy: "Umair Azfar",
-                        description:
-                            "Hello this is a test description for the assignments",
-                        status: "open",
-                        onClick: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const AssignmentPage(
-                                graded: false,
+    final size = MediaQuery.of(context).size;
+    return Padding(
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // buildStats(context),
+          // const VerticalSpacer(),
+          const Subheading(text: "Assignments"),
+          SizedBox(height: size.height * 0.02),
+          assignments == null
+              ? const Center(
+                  child: CircularProgressIndicator(
+                  color: Colors.black,
+                ))
+              : assignments!.isEmpty
+                  ? Container(
+                      height: size.height * 0.05,
+                      alignment: Alignment.center,
+                      child: Text("No assignments yet",
+                          style: Styles.bodySmall.copyWith(
+                              color: const Color.fromARGB(255, 97, 65, 65)),
+                          textAlign: TextAlign.center))
+                  : Expanded(
+                      child: ListView.builder(
+                        // physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        // clipBehavior: Clip.none,
+                        itemCount:
+                            assignments != null ? assignments!.length : 0,
+                        itemBuilder: (context, index) {
+                          AssignmentModel assignment = assignments![index];
+                          return Column(
+                            children: [
+                              CourseOverviewCard(
+                                type: "assignment",
+                                title: assignment.title,
+                                date: DateTime.now(),
+                                description: assignment.description,
+                                status: assignment.status,
+                                onClick: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => AssignmentPage(
+                                        id: assignment.id,
+                                        graded: false,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
-                            ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.02,
+                              ),
+                            ],
                           );
                         },
                       ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
+                    ),
+        ],
       ),
     );
   }
