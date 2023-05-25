@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
-import 'package:front_end/constants/colors.dart';
-import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/utils/functions/status_color.dart';
-import 'package:front_end/utils/functions/time_left.dart';
 import 'package:intl/intl.dart';
 import 'package:front_end/constants/fonts.dart';
 
@@ -43,102 +40,23 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
         decoration: boxDecoration,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: 
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    widget.title,
-                    style: Styles.titleMedium,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                widget.title,
+                style: Styles.titleMedium,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
               ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
-// class NewHomeCard extends StatelessWidget {
-//   const NewHomeCard({super.key, this.subtitle});
-//   final String? subtitle;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return InkWell(
-//       onTap: () {},
-//       child: Ink(
-//         width: MediaQuery.of(context).size.width,
-//         height: MediaQuery.of(context).size.width * 0.2,
-//         decoration: boxDecoration,
-//         child: Padding(
-//           padding: const EdgeInsets.all(16.0),
-//           child: Align(
-//             alignment: Alignment.centerLeft,
-//             child: Column(
-//               // crossAxisAlignment: CrossAxisAlignment.center,
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: [
-//                 Text(
-//                   "Class Name", style: Styles.titleMedium,
-//                   // textAlign: TextAlign.left,
-//                 ),
-//                 if (subtitle != null)
-//                   Text(
-//                     subtitle!,
-//                     style: Styles.bodyMedium,
-//                     textAlign: TextAlign.left,
-//                   ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// //This is a component that is being used in the cards
-// class CourseProgress extends StatelessWidget {
-//   const CourseProgress({
-//     super.key,
-//     required this.progress,
-//   });
-
-//   final double progress;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Stack(
-//       children: [
-//         SizedBox(
-//           width: 50,
-//           height: 50,
-//           child: CircularProgressIndicator(
-//             value: progress / 100,
-//             color: Palette.kToDark[50],
-//           ),
-//         ),
-//         SizedBox(
-//           width: 50,
-//           height: 50,
-//           child: Center(
-//             child: Text(
-//               '${progress.toStringAsFixed(0)}%',
-//               style: const TextStyle(
-//                 fontSize: 12.0,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
 
 //This is a component that is being used in the cards
 class CardDueDate extends StatelessWidget {

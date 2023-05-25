@@ -26,7 +26,7 @@ class CousrseOverviewPage extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(size.width * 0.05),
           child: Column(
-            children: <Widget>[ 
+            children: <Widget>[
               const VerticalSpacer(),
               Row(
                 children: <Widget>[
@@ -73,7 +73,8 @@ class CousrseOverviewPage extends StatelessWidget {
                       title: classData.latestAssignment == null
                           ? "No assignments yet"
                           : classData.latestAssignment!.title,
-                      date: classData.latestAssignment == null
+                      date: classData.latestAssignment == null &&
+                              classData.latestAssignment!.dueDate == null
                           ? DateTime.now()
                           : classData.latestAssignment!.dueDate!,
                       description: classData.latestAssignment == null

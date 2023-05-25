@@ -23,5 +23,7 @@ class Palette {
 // Color containerColor = const Color.fromARGB(255, 131, 205, 41);
 Color backgroundColor = const Color(0xffFFFFFA);
 Color surfaceColor = const Color(0xffFFFFFA);
-Color blackButtonColor = const Color(0xFF152519);
-// Color surfaceColor = const Color(0xFFFBFFFA);
+Color darkButtonColor = const Color(0xFF152519);
+Color lightButtonColor = const Color(0xFF83CD29);
+Color lightGreen = const Color(0xFF83CD29);
+Color darkGreen = const Color(0xFF152519);
