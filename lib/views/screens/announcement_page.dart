@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
 import 'package:front_end/constants/spacers.dart';
+import 'package:front_end/views/widgets/loading.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../constants/fonts.dart';
@@ -56,7 +57,9 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
           subtitle: announcement != null ? announcement!.title : "Announcement 1",
           onMenuPressed: () {},
         ),
-        body: SingleChildScrollView(
+        body: announcement == null ?
+          const Loading() 
+          : SingleChildScrollView(
           child: Center(
             child: Padding(
               padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),

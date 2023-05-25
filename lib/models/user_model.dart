@@ -74,8 +74,8 @@ class UserModel {
           : [],
       phoneNumber: json["phoneNumber"] ?? "<!phoneNumber>",
       cgpa: json["CGPA"]?.toDouble() ?? -1,
-      program: json["program"] != null
-          ? ProgramModel.fromJson(json["program"])
+      program: json["Program"] != null
+          ? ProgramModel.fromJson(json["Program"])
           : ProgramModel(),
 
       //TODO: Change to NotificationModel

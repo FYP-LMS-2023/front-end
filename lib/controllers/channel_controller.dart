@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/env.dart';
 import 'package:front_end/constants/secure_storage.dart';
@@ -12,42 +11,108 @@ import '../models/thread_model.dart';
 class ChannelController extends ChangeNotifier {
   final secureStorage = SecureStorage();
 
+  ThreadModel? threadObject;
+
+  ThreadModel? get getThreadObject => threadObject;
+
   List<ThreadModel>? threads;
 
   List<ThreadModel>? get getThreads => threads;
 
 
-  Future<void> createThread(String id, String title, String description, List<String> tags) async {
-    try {
-      final token = await secureStorage.getToken();
-      final response = await http.post(
-        Uri.parse('${Environment.baseURL}channel/createThread/$id'),
-        headers: <String, String>{'Authorization': token ?? ""},
-        body: jsonEncode({
-        'title': title,
-        'description': description,
-        'tags': tags,
-        })
-      );
+Future<void> createThread(String id, String title, String description, List<String> tags) async {
+  try {
+    final token = await secureStorage.getToken();
+    
+    final requestBody = {
+      'title': title,
+      'description': description,
+      'tags': tags.toList(),
+    };
+    Log.d("Channel Id: $id");
+    final encodedBody = jsonEncode(requestBody);
 
-      Log.d("Response Status Code: ${response.statusCode}");
+    Log.d('Request Body: $encodedBody'); // Add this line to inspect the encoded request body content
+    
+    final response = await http.post(
+      Uri.parse('${Environment.baseURL}channel/createThread/$id'),
+      headers: <String, String>{
+        'Authorization': token ?? "",
+        'Content-Type': 'application/json',
+      },
+      body: encodedBody,
+    );
 
-      if(response.statusCode == 200) { 
-        final responseData = jsonDecode(response.body);
-        final threadsData = responseData["result"];
-        Log.d("Threads Data: $threadsData");
-        Log.d("Threads Data is not Empty: ${threadsData.isNotEmpty}");
-        List<ThreadModel> tempThreads = [];
-        
-        await getAllThreads(id);
+    Log.d("Response Status Code: ${response.statusCode}");
 
-        notifyListeners();
-      }
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      final threadsData = responseData["result"];
+      Log.d("Threads Data: $threadsData");
+      Log.d("Threads Data is not Empty: ${threadsData.isNotEmpty}");
 
-    } catch (e) {
-      Log.e('Error: $e');
+      notifyListeners();
     }
+  } catch (e) {
+    Log.e('Error: $e');
   }
+}
+
+Future<void> getThreadDetails(String id) async {
+  try {
+    final token = await secureStorage.getToken();
+    final response = await http.get(
+      Uri.parse('${Environment.baseURL}channel/getThread/$id'),
+      headers: <String, String>{'Authorization': token ?? ""},
+    );
+    Log.d("Response Status Code: ${response.statusCode}");
+
+    if(response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      Log.d("Thread Data: $responseData");
+      Log.d("Thread Data is not Empty: ${responseData.isNotEmpty}");
+
+      if (responseData.isNotEmpty) { 
+        var id = responseData["_id"];
+        var postedBy = responseData["postedBy"];
+        var title = responseData["title"];
+        var description = responseData["description"];
+        var comments = responseData["comments"];
+        var tags = responseData["tags"];
+        var datePosted = responseData["datePosted"];
+        var upvotes = responseData["upvotes"];
+        var downvotes = responseData["downvotes"];
+        var upVoteCount = responseData["upvoteCount"];
+        var downVoteCount = responseData["downvoteCount"];
+        var commentsCount = responseData["comments"].length;
+
+        final filteredData = {
+          "_id" : id,
+          "postedBy" : postedBy,
+          "title" : title,
+          "description" : description,
+          "comments" : comments,
+          "tags" : tags,
+          "datePosted" : datePosted,
+          "upvoteCount" : upVoteCount,
+          "downvoteCount" : downVoteCount,
+          "commentsCount" : commentsCount,
+          "upvotes" : upvotes,
+          "downvotes" : downvotes,
+        };
+
+        Log.d("filteredData: $filteredData");
+        Log.d("filteredData type: ${filteredData.runtimeType}");
+
+        threadObject = ThreadModel.fromJson(filteredData);
+        
+      }
+      notifyListeners();
+    }
+  } catch (e) {
+    Log.e('Error coming in get thread details: $e');
+  }
+}
 
   Future<void> getAllThreads(String id) async {
     try {

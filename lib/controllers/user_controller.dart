@@ -62,7 +62,7 @@ class UserController extends ChangeNotifier {
     try {
       final token = await secureStorage.getToken();
       final response = await http.get(
-        Uri.parse("${Environment.baseURL}auth/getProfile"),
+        Uri.parse("${Environment.baseURL}auth/getPopulatedProfile"),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': '$token',
@@ -73,6 +73,7 @@ class UserController extends ChangeNotifier {
       // print(responseData);
 
       if (response.statusCode == 200) {
+        Log.d("User info: ${responseData["user"]}");
         _user = UserModel.fromJson(responseData["user"]);
 
         notifyListeners();

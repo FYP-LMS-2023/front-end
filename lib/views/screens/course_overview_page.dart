@@ -5,6 +5,8 @@ import 'package:front_end/views/widgets/cards.dart';
 import 'package:front_end/views/widgets/subheadings.dart';
 import '../../constants/log.dart';
 import '../../constants/spacers.dart';
+import 'announcement_page.dart';
+import 'assignment_page.dart';
 
 class CousrseOverviewPage extends StatelessWidget {
   // final ClassEntity myClass;
@@ -89,6 +91,17 @@ class CousrseOverviewPage extends StatelessWidget {
                       status: classData.latestAssignment == null
                           ? "N/A"
                           : classData.latestAssignment!.status,
+                      onClick: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => 
+                              AssignmentPage(
+                                id: classData.latestAssignment!.id,
+                                graded: false,
+                              ),
+                            ),
+                          );
+                        },
                     ),
               const VerticalSpacer(),
               const Subheading(text: "Latest Announcement"),
@@ -115,6 +128,13 @@ class CousrseOverviewPage extends StatelessWidget {
                       description: classData.latestAnnouncement == null
                           ? "N/A"
                           : classData.latestAnnouncement!.description,
+                      onClick: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => AnnouncementPage(id: classData.latestAnnouncement!.id,),
+                                ),
+                              );
+                            },
                     ),
             ],
           ),

@@ -385,22 +385,25 @@ class AssignmentDetailCard extends StatelessWidget {
   final DateTime dueDate;
   final int numResubmissions;
   final DateTime resubmissionDueDate;
-  final String status;
+  final String ?status;
   final int marks;
+  final bool ?isHidden;
 
   const AssignmentDetailCard({
     super.key,
     required this.dueDate,
     required this.numResubmissions,
     required this.resubmissionDueDate,
-    required this.status,
+    this.status,
     required this.marks,
+    this.isHidden,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        isHidden == false ?
         Container(
           padding: const EdgeInsets.all(4.0),
           height: 45,
@@ -410,10 +413,10 @@ class AssignmentDetailCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Text(
-            status,
+            status!,
             style: Styles.bodyLarge.copyWith(color: Colors.white),
           ),
-        ),
+        ) : const SizedBox(),
         // const VerticalSpacer(),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.02,

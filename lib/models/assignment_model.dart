@@ -18,10 +18,10 @@ class AssignmentModel {
   String filePath;
   int fileSize;
   String fileType;
-  List<FileModel>? files;
+  List<FileModel>? files;  
   //List<SubmissionModel> submissions;
   int marks;
-  AssignmentSubmissionModel? mySubmission;
+  AssignmentSubmissionModel ? mySubmission;
   bool isSubmitted;
 
   AssignmentModel({
@@ -118,9 +118,10 @@ class AssignmentModel {
         //         json["submissions"].map((x) => SubmissionModel.fromJson(x)))
         //     : [],
         marks: json["marks"] ?? -1,
-        mySubmission: json["mySubmission"] != null
-            ? AssignmentSubmissionModel.fromJson(json["mySubmission"])
-            : AssignmentSubmissionModel(),
+        mySubmission: json["mySubmission"] != null 
+          ? AssignmentSubmissionModel.fromJson(json["mySubmission"]) 
+          : AssignmentSubmissionModel(),
+        isSubmitted: json["isSubmitted"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
+import 'package:front_end/views/widgets/loading.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 
+import '../../constants/icons.dart';
 import '../../constants/log.dart';
 import '../../controllers/channel_controller.dart';
 import '../../models/channel_model.dart';
@@ -82,11 +84,13 @@ class _ThreadsListState extends State<ThreadsList> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          create_thread(context, size);
+          createThread(context, size);
         },
         child: const Icon(Icons.add),
       ),
-      body: Center(
+      body: threads == null 
+      ? const Loading() :
+      Center(
         child: Padding(
           padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
           child: threads == null
@@ -106,6 +110,7 @@ class _ThreadsListState extends State<ThreadsList> {
                     return Column(
                       children: [
                         ThreadTile(
+                          id : thread.id,
                           userInitials: thread.postedBy!.fullName
                               .split(' ')
                               .map((name) => name[0])
@@ -128,130 +133,160 @@ class _ThreadsListState extends State<ThreadsList> {
     );
   }
 
-  Future<dynamic> create_thread(BuildContext context, Size size) {
+  Future<dynamic> createThread(BuildContext context, Size size) {
+    final textController = TextEditingController();
+    final descriptionController = TextEditingController();
+    //final formKey = GlobalKey<FormState>();
+
     return showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          builder: (BuildContext context) {
-            return SingleChildScrollView(
-              child: Container(
-                height: size.height, // Set a fixed height
-                padding: EdgeInsets.only(
-                  top: size.height * 0.05,
-                  left: 16.0,
-                  right: 16.0,
-                  bottom: 16.0,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          height: size.height * 0.8, // Set a fixed height
+          padding: EdgeInsets.only(
+            top: size.height * 0.05,
+            left: 16.0,
+            right: 16.0,
+            bottom: 16.0,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          color: Colors.black,
-                          icon: const Icon(Icons.arrow_back_ios),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        Text(
-                          "Create Thread",
-                          style: Styles.name.copyWith(
-                            color: Colors.black,
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Handle thread creation
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Post'),
-                        ),
-                      ],
+                    IconButton(
+                      color: Colors.black,
+                      icon: const Icon(Icons.arrow_back_ios),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    const SizedBox(height: 16.0),
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.primaries[
-                              Random().nextInt(Colors.primaries.length)],
-                          radius: 28.0,
-                          child: Text(
-                            "HK",
-                            style: Styles.labelLarge
-                                .copyWith(color: Colors.white),
-                          ),
-                        ),
-                        const SizedBox(width: 16.0),
-                        Text(
-                          "Huzaifa Karbalai",
-                          style: Styles.labelLarge,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16.0),
-                    const Flexible(
-                      // Replace Expanded with Flexible
-                      child: TextField(
-                        maxLines: null, // Allow multiple lines
-                        decoration: InputDecoration(
-                          labelText: 'Title',
-                          labelStyle: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    const Flexible(
-                      // Replace Expanded with Flexible
-                      child: TextField(
-                        maxLines: null, // Allow multiple lines
-                        decoration: InputDecoration(
-                          labelText: 'Description',
-                          labelStyle: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 25.0),
                     Text(
-                      "Tags",
-                      style: Styles.labelLarge,
-                    ),
-                    Wrap(
-                      spacing: 8.0, // Set the spacing between buttons
-                      runSpacing: 8.0, // Set the spacing between lines
-                      children: List<Widget>.generate(
-                        tags.length,
-                        (index) => ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              addedTags.contains(tags[index]) ? 
-                              addedTags.remove(tags[index]) : addedTags.add(tags[index]); 
-                              Log.d("Added tags: $addedTags");
-                            });
-                          },
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                                (Set<MaterialState> states) {
-                                  if (states.contains(MaterialState.pressed)) {
-                                    return Colors.blue; // Set the color when pressed
-                                  }
-                                  return addedTags.contains(tags[index])
-                                      ? Colors.blue // Set the color when selected
-                                      : Colors.white; // Set the default color
-                                },
-                              ),
-                            ),
-                          child: Text(tags[index]),
-                        ),
+                      "Create Thread",
+                      style: Styles.name.copyWith(
+                        color: Colors.black,
                       ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (textController.text.isNotEmpty &&
+                            descriptionController.text.isNotEmpty) {
+                          
+                          await context.read<ChannelController>().createThread(
+                                widget.id != null ? widget.id! : "1",
+                                textController.text,
+                                descriptionController.text,
+                                addedTags,
+                              );
+                          setState(() {
+                            fetchThreads();
+                          });
+                          Navigator.of(context).pop();
+                          
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Please fill all fields')),
+                          );
+                        }
+                      },
+                      child: const Text('Post'),
                     ),
                   ],
                 ),
-              ),
-            );
-          },
+                const SizedBox(height: 16.0),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors
+                          .primaries[Random().nextInt(Colors.primaries.length)],
+                      radius: 28.0,
+                      child: Text(
+                        "HK",
+                        style: Styles.labelLarge.copyWith(color: Colors.white),
+                      ),
+                    ),
+                    const SizedBox(width: 16.0),
+                    Text(
+                      "Huzaifa Karbalai",
+                      style: Styles.labelLarge,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  controller: textController,
+                  decoration: const InputDecoration(
+                    labelText: 'Title',
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a title';
+                    } else {
+                      return "";
+                    }
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  controller: descriptionController,
+                  decoration: const InputDecoration(
+                    labelText: 'Description',
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a description';
+                    } else {
+                      return "";
+                    }
+                  },
+                ),
+                const SizedBox(height: 25.0),
+                Text(
+                  "Tags",
+                  style: Styles.labelLarge,
+                ),
+                Wrap(
+                  spacing: 8.0, // Set the spacing between buttons
+                  runSpacing: 8.0, // Set the spacing between lines
+                  children: List<Widget>.generate(
+                    tags.length,
+                    (index) => ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          addedTags.contains(tags[index])
+                              ? addedTags.remove(tags[index])
+                              : addedTags.add(tags[index]);
+                          Log.d("Added tags: $addedTags");
+                        });
+                      },
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.pressed)) {
+                              return Colors.blue; // Set the color when pressed
+                            }
+                            return addedTags.contains(tags[index])
+                                ? Colors.blue // Set the color when selected
+                                : Colors.white; // Set the default color
+                          },
+                        ),
+                      ),
+                      child: Text(tags[index]),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
+      },
+    );
   }
 
   String calculateTimeDifference(DateTime postedDate) {
@@ -277,6 +312,7 @@ class ThreadTile extends StatefulWidget {
   final int downVoteCount;
   final int commentsCount;
   final String tag;
+  final String id;
 
   const ThreadTile(
       {super.key,
@@ -287,7 +323,8 @@ class ThreadTile extends StatefulWidget {
       required this.upVoteCount,
       required this.downVoteCount,
       required this.commentsCount,
-      required this.tag});
+      required this.id,
+      required this.tag, });
 
   @override
   State<ThreadTile> createState() => _ThreadTileState();
@@ -300,7 +337,7 @@ class _ThreadTileState extends State<ThreadTile> {
       onTap: () {
         setState(() {
           Navigator.push(
-              context, MaterialPageRoute(builder: (_) => const ThreadPage()));
+              context, MaterialPageRoute(builder: (_) => ThreadPage(id: widget.id,)));
         });
       },
       child: Ink(
@@ -310,15 +347,13 @@ class _ThreadTileState extends State<ThreadTile> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              child: CircleAvatar(
-                backgroundColor:
-                    Colors.primaries[Random().nextInt(Colors.primaries.length)],
-                radius: 28.0,
-                child: Text(
-                  widget.userInitials,
-                  style: Styles.labelLarge.copyWith(color: Colors.white),
-                ),
+            CircleAvatar(
+              backgroundColor:
+                  Colors.primaries[Random().nextInt(Colors.primaries.length)],
+              radius: 28.0,
+              child: Text(
+                widget.userInitials,
+                style: Styles.labelLarge.copyWith(color: Colors.white),
               ),
             ),
             const SizedBox(width: 16.0),
@@ -349,13 +384,13 @@ class _ThreadTileState extends State<ThreadTile> {
                   const SizedBox(height: 8.0),
                   Row(
                     children: [
-                      const Icon(Icons.arrow_upward, size: 16.0),
+                      const Icon(MyIcons.up, size: 16.0, color: Colors.green,),
                       Text(
                         widget.upVoteCount.toString(),
                         style: Styles.labelMedium,
                       ),
                       const SizedBox(width: 8.0),
-                      const Icon(Icons.arrow_downward, size: 16.0),
+                      const Icon(MyIcons.down, size: 16.0, color: Colors.red,),
                       Text(
                         widget.downVoteCount.toString(),
                         style: Styles.labelMedium,

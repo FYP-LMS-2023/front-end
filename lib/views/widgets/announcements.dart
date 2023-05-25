@@ -13,14 +13,14 @@ class Announcements extends StatelessWidget {
     return SizedBox(
       height: (MediaQuery.of(context).size.height / 5) * 0.35,
       child: ListView.builder(
-        itemCount: 5,
+        itemCount: announcementList?.length ?? 0,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) => Row(
           children: [
             InkWell(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => AnnouncementPage()));
+                    builder: (context) => AnnouncementPage(id: announcementList![index].id)));
               },
               child: CircleAvatar(
                 radius: (MediaQuery.of(context).size.width / 5) * 0.35,

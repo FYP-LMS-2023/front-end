@@ -145,3 +145,64 @@ class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
+
+
+class ProfilePageHeader extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+  // final Function onMenuPressed;
+  // final Widget drawer;
+  final String? subtitle;
+  final bool disableBack;
+
+  const ProfilePageHeader({
+    super.key,
+    required this.title,
+    //required this.onMenuPressed,
+    this.subtitle,
+    this.disableBack = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      toolbarHeight: 100,
+      automaticallyImplyLeading: disableBack ? false : true,
+      iconTheme: const IconThemeData(color: Colors.black),
+      elevation: 0.0,
+      backgroundColor: Colors.transparent,
+      centerTitle: false,
+      leading: disableBack
+          ? null
+          : IconButton(
+              color: Colors.black,
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+      title: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: Styles.name.copyWith(
+              color: Colors.black,
+            ),
+          ),
+          subtitle != null
+              ? Text(
+                  subtitle!,
+                  style: Styles.titleMedium.copyWith(
+                    color: Colors.black,
+                  ),
+                )
+              : const SizedBox(),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
