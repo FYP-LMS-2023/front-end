@@ -3,7 +3,6 @@ import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/drop_shadow.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/log.dart';
-import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/controllers/quiz_controller.dart';
 import 'package:front_end/models/class_model.dart';
