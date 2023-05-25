@@ -42,37 +42,20 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
         height: MediaQuery.of(context).size.width * 0.21,
         decoration: boxDecoration,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        widget.title,
-                        style: Styles.titleMedium,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                      ),
-                      if (widget.subtitle == "")
-                        const SizedBox(
-                          height: 5,
-                        ),
-                      if (widget.subtitle != "")
-                        Text(widget.subtitle, style: Styles.bodyMedium),
-                    ],
+          padding: const EdgeInsets.all(8.0),
+          child: 
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.title,
+                    style: Styles.titleMedium,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
-              // Spacer(),
-              if (widget.trailing != const SizedBox()) widget.trailing,
-            ],
-          ),
         ),
       ),
     );
