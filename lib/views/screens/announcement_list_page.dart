@@ -84,6 +84,7 @@ class _AnnouncementListPageState extends State<AnnouncementListPage> {
                                 title: announcement.title,
                                 date: announcement.datePosted ?? DateTime.now(),
                                 description: announcement.description,
+                                status: announcement.announcementType,
                                 onClick: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(

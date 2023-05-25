@@ -36,6 +36,21 @@ Color status_color(status) {
     case "pending":
       color = const Color.fromARGB(255, 250, 230, 50);
       break;
+    case "general":
+      color = Colors.blue;
+      break;
+    case "course":
+      color = Colors.orange;
+      break;
+    case "exam":
+      color = Colors.red;
+      break;
+    case "assignment":
+      color = Colors.brown;
+      break;
+    case "quiz":
+      color = Colors.pinkAccent;
+      break;
     default:
       color = Colors.grey;
   }

@@ -13,7 +13,7 @@ class Subheading extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text(
             text,
-            style: Styles.bodyMedium,
+            style: Styles.labelLarge,
           ),
         ),
         SizedBox(

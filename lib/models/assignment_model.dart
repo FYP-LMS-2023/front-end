@@ -23,6 +23,7 @@ class AssignmentModel {
   int marks;
   AssignmentSubmissionModel ? mySubmission;
   bool isSubmitted;
+  bool? returned;
 
   AssignmentModel({
     this.id = "<!id>",
@@ -43,6 +44,7 @@ class AssignmentModel {
     this.marks = -1,
     this.mySubmission,
     this.isSubmitted = false,
+    this.returned,
   });
 
   AssignmentModel copyWith({
@@ -122,6 +124,7 @@ class AssignmentModel {
           ? AssignmentSubmissionModel.fromJson(json["mySubmission"]) 
           : AssignmentSubmissionModel(),
         isSubmitted: json["isSubmitted"] ?? false,
+        returned: json["returned"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {

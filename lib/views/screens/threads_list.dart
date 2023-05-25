@@ -23,6 +23,7 @@ class ThreadsList extends StatefulWidget {
 
 class _ThreadsListState extends State<ThreadsList> {
   List<ThreadModel>? threads;
+  final _formKey = GlobalKey<FormState>();
   List<String> tags = [
     "General",
     "Homework",
@@ -33,27 +34,6 @@ class _ThreadsListState extends State<ThreadsList> {
   ];
 
   List<String> addedTags = [];
-
-  final List<String> userNames = [
-    'John Doe',
-    'Jane Smith',
-    'Bob Johnson',
-    'Emily Davis',
-    'Chris Lee'
-  ];
-
-  final List<String> threadTitles = [
-    'What is the best way to learn Flutter?',
-    'How can I improve my UI design skills?',
-    'Which is better, React or Vue?',
-    'What are the most important programming concepts to learn? Right Now',
-    'What are your favorite productivity tools?',
-    'How do you stay motivated when working on a long-term project?',
-    'What are some good resources for learning data science?',
-    'What do you think of the latest Apple product releases?',
-    'What is the best way to get started with machine learning?',
-    'How can I become a better public speaker?',
-  ];
 
   Future<void> fetchThreads() async {
     try {
@@ -87,6 +67,7 @@ class _ThreadsListState extends State<ThreadsList> {
           createThread(context, size);
         },
         child: const Icon(Icons.add),
+        backgroundColor: Colors.green,
       ),
       body: threads == null 
       ? const Loading() :
@@ -173,9 +154,8 @@ class _ThreadsListState extends State<ThreadsList> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        if (textController.text.isNotEmpty &&
-                            descriptionController.text.isNotEmpty) {
-                          
+                        if (_formKey.currentState!.validate() &&
+                            addedTags.isNotEmpty) {
                           await context.read<ChannelController>().createThread(
                                 widget.id != null ? widget.id! : "1",
                                 textController.text,
@@ -187,11 +167,6 @@ class _ThreadsListState extends State<ThreadsList> {
                           });
                           Navigator.of(context).pop();
                           
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Please fill all fields')),
-                          );
                         }
                       },
                       child: const Text('Post'),
@@ -218,32 +193,37 @@ class _ThreadsListState extends State<ThreadsList> {
                   ],
                 ),
                 const SizedBox(height: 16.0),
-                TextFormField(
-                  controller: textController,
-                  decoration: const InputDecoration(
-                    labelText: 'Title',
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: textController,
+                        decoration: const InputDecoration(
+                          labelText: 'Title',
+                        ),
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return 'Please enter a title';
+                          } 
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: descriptionController,
+                        decoration: const InputDecoration(
+                          labelText: 'Description',
+                        ),
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return 'Please enter a description';
+                          } 
+                          return null;
+                        },
+                      ),
+                    ],
                   ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a title';
-                    } else {
-                      return "";
-                    }
-                  },
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  controller: descriptionController,
-                  decoration: const InputDecoration(
-                    labelText: 'Description',
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a description';
-                    } else {
-                      return "";
-                    }
-                  },
                 ),
                 const SizedBox(height: 25.0),
                 Text(

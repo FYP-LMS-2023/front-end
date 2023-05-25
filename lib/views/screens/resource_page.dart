@@ -101,7 +101,16 @@ class ResourcePage extends StatelessWidget {
                 ),
               ),
               const VerticalSpacer(),
-              const Subheading(text: "Files"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Subheading(text: "Files"),
+                  Text(
+                    "Count: ${resourceData!.files.length}",
+                    style: Styles.labelLarge,
+                  )
+                ],
+              ),
               ListView.separated(
                 shrinkWrap: true,
                 itemCount: resourceData!.files.length,
