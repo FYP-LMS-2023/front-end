@@ -49,49 +49,49 @@ class _HomePageState extends State<HomePage> {
     return loading
         ? const Loading()
         : Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: backgroundColor,
             appBar: loading
                 ? null
                 : ProfileHeader(
                     name: user != null ? user!.fullName : "<!username>",
                     id: user != null ? user!.erp : "<!erp>",
                   ),
-            body: Center(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Subheading(text: "Announcements"),
-                      announcements == null || announcements!.isEmpty
-                          ? SizedBox(
-                              width: double.infinity,
-                              child: Text(
-                                "No Announcements",
-                                style: Styles.bodySmall
-                                    .copyWith(color: Colors.grey),
-                                textAlign: TextAlign.center,
-                              ),
-                            )
-                          : Announcements(
-                              announcementList: announcements ?? [],
+            body: SingleChildScrollView(
+              child: Padding(
+                padding:
+                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Subheading(text: "Announcements"),
+                    announcements == null || announcements!.isEmpty
+                        ? SizedBox(
+                            width: double.infinity,
+                            child: Text(
+                              "No Announcements",
+                              style:
+                                  Styles.bodySmall.copyWith(color: Colors.grey),
+                              textAlign: TextAlign.center,
                             ),
-                      const VerticalSpacer(),
-                      const Subheading(text: "Courses"),
-                      activeClasses == null || activeClasses!.isEmpty
-                          ? SizedBox(
-                              width: double.infinity,
-                              child: Text(
-                                "No Courses",
-                                style: Styles.bodySmall
-                                    .copyWith(color: Colors.grey),
-                                textAlign: TextAlign.center,
-                              ),
-                            )
-                          : ListView.builder(
+                          )
+                        : Announcements(
+                            announcementList: announcements ?? [],
+                          ),
+                    const VerticalSpacer(),
+                    const Subheading(text: "Courses"),
+                    activeClasses == null || activeClasses!.isEmpty
+                        ? SizedBox(
+                            width: double.infinity,
+                            child: Text(
+                              "No Courses",
+                              style:
+                                  Styles.bodySmall.copyWith(color: Colors.grey),
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        : ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: activeClasses?.length ?? 0,
                             itemBuilder: (BuildContext context, int index) {
@@ -107,22 +107,19 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
                                         builder: (context) =>
-                                            CourseMainPage(
-                                                id: currClass.id),
+                                            CourseMainPage(id: currClass.id),
                                       ));
                                     },
                                   ),
                                   SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height *
-                                            0.02,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.02,
                                   ),
                                 ],
                               );
                             },
                           ),
-                    ],
-                  ),
+                  ],
                 ),
               ),
             ),

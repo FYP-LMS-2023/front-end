@@ -66,7 +66,7 @@ class _QuizListPageState extends State<QuizListPage> {
                 child: Column(
                   children: <Widget>[
                     Subheading(
-                        text: quizzes!.isEmpty ? "No Quizzes Yet" : "Quizzes"),
+                        text: "Quizzes"),
                     ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,

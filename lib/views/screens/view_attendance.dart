@@ -35,7 +35,6 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
           .then((value) {
         setState(() {
           loading = false;
-          //print(DateFormat('EEEE').format(absents.absentDays));
           DateTime formatDate = DateFormat('dd/MM/yyyy').parse('10/06/2023');
           print(DateFormat('EEEE').format(formatDate));
           absents = context.read<AttendanceController>().getAttendance;
@@ -58,7 +57,7 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return loading
-        ? const Center(child: Loading())
+        ? const Loading()
         : SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.all(size.width * 0.05),
@@ -72,7 +71,7 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
                         height: (size.width - ((size.width * 0.05) * 4)) / 3,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
-                          color: Palette.kToDark[50],
+                          color: darkGreen,
                           boxShadow: dropShadow,
                         ),
                         child: Column(
@@ -84,11 +83,11 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
                                     ? (5 - absents!.absentCount).toString()
                                     : "0",
                                 style: Styles.headlineLarge
-                                    .copyWith(color: Colors.white)),
+                                    .copyWith(color: surfaceColor)),
                             Text(
                               "Leaves Left",
                               style: Styles.labelLarge
-                                  .copyWith(color: Colors.white),
+                                  .copyWith(color: surfaceColor),
                             ),
                           ],
                         ),
@@ -99,7 +98,7 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
                         height: (size.width - ((size.width * 0.05) * 4)) / 3,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.white,
+                          color: surfaceColor,
                           boxShadow: dropShadow,
                         ),
                         child: Column(
@@ -124,7 +123,7 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
                         height: (size.width - ((size.width * 0.05) * 4)) / 3,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.white,
+                            color: surfaceColor,
                             boxShadow: dropShadow),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -145,62 +144,72 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Absents',
+                      'Abcent Days',
                       style: Styles.bodyLarge,
                     ),
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: absents != null ? absents!.absentDays.length : 0,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.symmetric(
-                                  vertical: 8.0,
-                                  horizontal: 8.0,
+                  absents != null || absents!.absentDays.isNotEmpty
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          itemCount:
+                              absents != null ? absents!.absentDays.length : 0,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.symmetric(
+                                        vertical: 8.0,
+                                        horizontal: 8.0,
+                                      ),
+                                      child: Text(
+                                        DateFormat('EEEE').format(
+                                            DateFormat('dd/MM/yyyy').parse(
+                                                absents!.absentDays[index])),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: size.width * 0.1),
+                                    Container(
+                                      margin: const EdgeInsets.symmetric(
+                                        vertical: 8.0,
+                                        horizontal: 8.0,
+                                      ),
+                                      child: Text(
+                                        absents != null
+                                            ? absents!.absentDays[index]
+                                            : "",
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                child: Text(
-                                  DateFormat('EEEE').format(
-                                      DateFormat('dd/MM/yyyy')
-                                          .parse(absents!.absentDays[index])),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                Divider(
+                                  color: Colors.grey[300],
+                                  thickness: 0.8,
                                 ),
-                              ),
-                              SizedBox(width: size.width * 0.1),
-                              Container(
-                                margin: const EdgeInsets.symmetric(
-                                  vertical: 8.0,
-                                  horizontal: 8.0,
-                                ),
-                                child: Text(
-                                  absents != null
-                                      ? absents!.absentDays[index]
-                                      : "",
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
+                              ],
+                            );
+                          },
+                        )
+                      : Center(
+                          child: Text(
+                            "No Recorded Absences Yet",
+                            style:
+                                Styles.bodySmall.copyWith(color: Colors.grey),
                           ),
-                          Divider(
-                            color: Colors.grey[300],
-                            thickness: 0.8,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                        ),
                 ],
               ),
             ),

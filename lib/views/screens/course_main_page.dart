@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/models/class_model.dart';
 import 'package:front_end/models/resource_model.dart';
@@ -51,10 +52,6 @@ class _CourseMainPageState extends State<CourseMainPage> {
         });
       },
     );
-    // setState(() {
-    //   loading = false;
-    //   classData = context.read<ClassController>().getMyClass;
-    // });
   }
 
   @override
@@ -65,12 +62,10 @@ class _CourseMainPageState extends State<CourseMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return loading ?
-        const Scaffold(
-            body: Loading(),
-          )
+    return loading
+        ? const Loading()
         : Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: backgroundColor,
             endDrawer: classData == null
                 ? null
                 : DrawerWidget(
@@ -86,8 +81,9 @@ class _CourseMainPageState extends State<CourseMainPage> {
                   ),
             appBar: CourseHeader(
               title: widget.currentTab,
-              subtitle: classData != null ? 
-                  "${classData!.course!.courseCode} - ${classData!.course!.courseName}" : "Course Name - Course Code",
+              subtitle: classData != null
+                  ? "${classData!.course!.courseCode} - ${classData!.course!.courseName}"
+                  : "Course Name - Course Code",
               onMenuPressed: () {},
             ),
             body: createPage(widget.currentTab),
@@ -108,9 +104,11 @@ class _CourseMainPageState extends State<CourseMainPage> {
       case "Quizzes":
         return QuizListPage(id: widget.id != null ? widget.id! : "1");
       case "Assignments":
-        return AssignmentListPage(widget.id,fullname: classData!.teacher!.fullName);
+        return AssignmentListPage(widget.id,
+            fullname: classData!.teacher!.fullName);
       case "Announcements":
-        return AnnouncementListPage(widget.id,fullname: classData!.teacher!.fullName);
+        return AnnouncementListPage(widget.id,
+            fullname: classData!.teacher!.fullName);
       case "Resources":
         return ResourceListPage(id: widget.id != null ? widget.id! : "1");
       case "Channel":

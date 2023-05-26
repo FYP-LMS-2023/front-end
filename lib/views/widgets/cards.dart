@@ -43,10 +43,10 @@ class _HomeOverviewCardState extends State<HomeOverviewCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16),
               child: Text(
-                widget.title + "sadasdhka",
-                style: Styles.titleMedium,
+                widget.title,
+                style: Styles.titleSmall,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -159,12 +159,13 @@ class CourseOverviewCard extends StatelessWidget {
       child: Ink(
         decoration: boxDecoration,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center ,
           children: [
             Container(
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Flexible(
                     child: Column(
@@ -172,8 +173,8 @@ class CourseOverviewCard extends StatelessWidget {
                       children: [
                         Text(
                           title,
-                          style: Styles.headlineSmall,
-                          overflow: TextOverflow.ellipsis,
+                          style: Styles.titleMedium,
+                          overflow: TextOverflow.clip,
                         ),
                         const SizedBox(height: 5.0),
                         const SizedBox(height: 5.0),
@@ -217,7 +218,9 @@ class CourseOverviewCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          description!,
+                          (description!.length > 75)
+                              ? "${description!.substring(0, 75)}..."
+                              : description!,
                           style: Styles.bodyMedium,
                         ),
                         const SizedBox(height: 8.0),
@@ -580,7 +583,11 @@ class DetailCard extends StatelessWidget {
                         Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Text('${details[index]['label']} ',
+                            // Text('${details[index]['label'] > 20 ? details[index]['label].substring(0, 20)} ',
+                            Text(details[index]['label'],
+                                //  > 20
+                                //     ? details[index]['label'].substring(0, 20)
+                                //     : details[index]['label'],
                                 style: Styles.labelLarge),
                             Text(details[index]['value'],
                                 style: Styles.bodyMedium),
