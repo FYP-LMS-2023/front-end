@@ -225,7 +225,6 @@ class _FacEditResourcePageState extends State<FacEditResourcePage> {
       backgroundColor: backgroundColor,
       appBar: CourseHeader(
         title: "Edit Resource",
-        subtitle: "Class",
         onMenuPressed: () {},
         trailing: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

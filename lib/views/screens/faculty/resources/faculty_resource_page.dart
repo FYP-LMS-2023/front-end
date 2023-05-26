@@ -31,7 +31,6 @@ class _FacResourcePageState extends State<FacResourcePage> {
       backgroundColor: backgroundColor,
       appBar: CourseHeader(
         title: "Resources",
-        subtitle: widget.classID,
         onMenuPressed: () {},
         trailing: IconButton(
           icon: Icon(Icons.edit),
