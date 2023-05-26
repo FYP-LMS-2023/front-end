@@ -43,8 +43,8 @@ class _FacHomeState extends State<FacHome> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: ProfileHeader(
-        name: "Dr Shaheer",
-        id: "18635",
+        name: user != null ? user!.fullName : "<!username>",
+        id: user != null ? user!.erp : "<!erp>",
       ),
       body: loading
           ? Loading()
