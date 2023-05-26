@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/log.dart';
 import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/models/class_model.dart';
@@ -10,7 +11,6 @@ import 'package:front_end/views/screens/faculty/faculty_course_overview.dart';
 import 'package:front_end/views/screens/faculty/quiz/faculty_quiz_list.dart';
 import 'package:front_end/views/screens/faculty/resources/faculty_resource_list.dart';
 import 'package:front_end/views/screens/threads_list.dart';
-import 'package:front_end/views/screens/view_attendance.dart';
 import 'package:front_end/views/widgets/drawer.dart';
 import 'package:front_end/views/widgets/headers.dart';
 import 'package:front_end/views/widgets/loading.dart';
@@ -21,7 +21,7 @@ class FacCourseMainPage extends StatefulWidget {
   String currentTab;
   FacCourseMainPage({
     super.key,
-    this.currentTab = "Quizzes",
+    this.currentTab = "Overview",
     this.id,
   });
 
@@ -55,11 +55,9 @@ class _FacCourseMainPageState extends State<FacCourseMainPage> {
   @override
   Widget build(BuildContext context) {
     return loading
-        ? const Scaffold(
-            body: Loading(),
-          )
+        ? const Loading()
         : Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: backgroundColor,
             appBar: CourseHeader(
               title: widget.currentTab,
               subtitle:

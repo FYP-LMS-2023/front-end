@@ -17,12 +17,6 @@ class FacCourseOverviewPage extends StatelessWidget {
         padding: EdgeInsets.all(size.width * 0.05),
         child: Column(
           children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              child: Text(classData.course!.courseDescription,
-                  style: Styles.bodyLarge, textAlign: TextAlign.center),
-            ),
-            const VerticalSpacer(),
             Row(
               children: <Widget>[
                 Expanded(
@@ -55,7 +49,7 @@ class FacCourseOverviewPage extends StatelessWidget {
             ),
             const VerticalSpacer(),
             const Subheading(text: "Latest Assignment"),
-            classData.latestAssignment == null
+            classData.latestAssignment == null || classData.latestAssignment!.title == "<!title>"
                 ? Container(
                     height: size.height * 0.05,
                     alignment: Alignment.center,
@@ -68,7 +62,7 @@ class FacCourseOverviewPage extends StatelessWidget {
                     title: classData.latestAssignment == null
                         ? "No assignments yet"
                         : classData.latestAssignment!.title,
-                    date: classData.latestAssignment == null
+                    date: classData.latestAssignment == null || classData.latestAssignment!.dueDate == null
                         ? DateTime.now()
                         : classData.latestAssignment!.dueDate!,
                     description: classData.latestAssignment == null
@@ -80,7 +74,7 @@ class FacCourseOverviewPage extends StatelessWidget {
                   ),
             const VerticalSpacer(),
             const Subheading(text: "Latest Announcement"),
-            classData.latestAnnouncement == null
+            classData.latestAnnouncement == null || classData.latestAnnouncement!.title == "<!title>"
                 ? Container(
                     height: size.height * 0.05,
                     alignment: Alignment.center,
@@ -94,7 +88,7 @@ class FacCourseOverviewPage extends StatelessWidget {
                     title: classData.latestAnnouncement == null
                         ? "No announcements yet"
                         : classData.latestAnnouncement!.title,
-                    date: classData.latestAnnouncement == null
+                    date: classData.latestAnnouncement == null || classData.latestAnnouncement!.datePosted == null
                         ? DateTime.now()
                         : classData.latestAnnouncement!.datePosted!,
                     description: classData.latestAnnouncement == null
