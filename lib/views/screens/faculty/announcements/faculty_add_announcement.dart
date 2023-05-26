@@ -90,7 +90,6 @@ class _FacAddAnnouncementPageState extends State<FacAddAnnouncementPage> {
       backgroundColor: backgroundColor,
       appBar: CourseHeader(
         title: "Add Announcement",
-        subtitle: "Class",
         onMenuPressed: () {},
       ),
       body: loading
