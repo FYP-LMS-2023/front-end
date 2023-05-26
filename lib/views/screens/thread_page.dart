@@ -119,9 +119,7 @@ class _ThreadPageState extends State<ThreadPage> {
                                     child: Text(
                                         thread != null
                                             ? thread!.postedBy!.fullName
-                                                .split(' ')
-                                                .map((name) => name[0])
-                                                .join()
+                                                .split(' ').first[0]
                                             : "FL",
                                         style: Styles.labelLarge
                                             .copyWith(color: Colors.white)),

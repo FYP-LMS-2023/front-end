@@ -94,9 +94,7 @@ class _ThreadsListState extends State<ThreadsList> {
                         ThreadTile(
                           id : thread.id,
                           userInitials: thread.postedBy!.fullName
-                              .split(' ')
-                              .map((name) => name[0])
-                              .join(),
+                              .split(' ').first,
                           userFullName: thread.postedBy!.fullName,
                           timeSincePosted: timeDifference,
                           threadTitle: thread.title,

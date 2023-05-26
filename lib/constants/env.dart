@@ -5,7 +5,7 @@ abstract class Environment {
     
     'BASE_URL',
     // defaultValue: 'https://smash-back-end-lms.vercel.app/',
-    defaultValue: 'http://192.168.0.102:8080/',
-    //defaultValue: 'https://smash-back-end-lms.vercel.app/',
+    //defaultValue: 'http://192.168.0.102:8080/',
+    defaultValue: 'https://smash-back-end-lms.vercel.app/',
   );
 }
