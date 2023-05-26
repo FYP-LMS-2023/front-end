@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/announcement_controller.dart';
 import 'package:front_end/views/widgets/buttons.dart';
@@ -86,7 +87,7 @@ class _FacAddAnnouncementPageState extends State<FacAddAnnouncementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       appBar: CourseHeader(
         title: "Add Announcement",
         subtitle: "Class",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/quiz_controller.dart';
@@ -87,6 +88,7 @@ class _FacCreateQuizPageState extends State<FacCreateQuizPage> {
     return loading
         ? Scaffold(body: Loading())
         : Scaffold(
+            backgroundColor: backgroundColor,
             appBar: CourseHeader(
               title: "Add Quiz",
               onMenuPressed: () {},
@@ -149,7 +151,7 @@ class _FacCreateQuizPageState extends State<FacCreateQuizPage> {
                               borderSide:
                                   const BorderSide(width: 1, color: Colors.red),
                             ),
-                            fillColor: Colors.white,
+                            fillColor: backgroundColor,
                             filled: true,
                             labelStyle: TextStyle(color: Colors.grey[700]),
                           ),
@@ -178,12 +180,12 @@ class _FacCreateQuizPageState extends State<FacCreateQuizPage> {
                             builder: (BuildContext context, Widget? child) {
                               return Theme(
                                 data: ThemeData.dark().copyWith(
-                                    colorScheme: const ColorScheme.light(
-                                        primary: Colors
-                                            .black, // Customize the primary color
-                                        onPrimary: Colors.white,
-                                        secondary: Colors
-                                            .black // Customize the text color
+                                    colorScheme: ColorScheme.light(
+                                        primary:
+                                            darkGreen, // Customize the primary color
+                                        onPrimary: surfaceColor,
+                                        secondary:
+                                            darkGreen // Customize the text color
                                         ),
                                     dialogBackgroundColor: Colors.white
                                     // Customize the dialog background color
@@ -200,12 +202,12 @@ class _FacCreateQuizPageState extends State<FacCreateQuizPage> {
                               builder: (BuildContext context, Widget? child) {
                                 return Theme(
                                   data: ThemeData.dark().copyWith(
-                                    colorScheme: const ColorScheme.light(
-                                      primary: Colors
-                                          .black, // Customize the primary color
-                                      onPrimary: Colors
-                                          .white, // Customize the text color
-                                      secondary: Colors.black,
+                                    colorScheme: ColorScheme.light(
+                                      primary:
+                                          darkGreen, // Customize the primary color
+                                      onPrimary:
+                                          surfaceColor, // Customize the text color
+                                      secondary: darkGreen,
                                     ),
                                     dialogBackgroundColor: Colors.grey[
                                         900], // Customize the dialog background color
@@ -256,12 +258,12 @@ class _FacCreateQuizPageState extends State<FacCreateQuizPage> {
                             builder: (BuildContext context, Widget? child) {
                               return Theme(
                                 data: ThemeData.dark().copyWith(
-                                    colorScheme: const ColorScheme.light(
-                                        primary: Colors
-                                            .black, // Customize the primary color
-                                        onPrimary: Colors.white,
-                                        secondary: Colors
-                                            .black // Customize the text color
+                                    colorScheme: ColorScheme.light(
+                                        primary:
+                                            darkGreen, // Customize the primary color
+                                        onPrimary: surfaceColor,
+                                        secondary:
+                                            darkGreen // Customize the text color
                                         ),
                                     dialogBackgroundColor: Colors.white
                                     // Customize the dialog background color
@@ -278,13 +280,13 @@ class _FacCreateQuizPageState extends State<FacCreateQuizPage> {
                               builder: (BuildContext context, Widget? child) {
                                 return Theme(
                                   data: ThemeData.dark().copyWith(
-                                    colorScheme: const ColorScheme.light(
-                                      primary: Colors
-                                          .black, // Customize the primary color
-                                      onPrimary: Colors
-                                          .white, // Customize the text color
-                                      secondary: Colors.black,
-                                    ),
+                                    colorScheme: ColorScheme.light(
+                                        primary:
+                                            darkGreen, // Customize the primary color
+                                        onPrimary: surfaceColor,
+                                        secondary:
+                                            darkGreen // Customize the text color
+                                        ),
                                     dialogBackgroundColor: Colors.grey[
                                         900], // Customize the dialog background color
                                   ),

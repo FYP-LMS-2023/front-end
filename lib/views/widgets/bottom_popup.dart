@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:front_end/constants/colors.dart';
 
 var markdownFormattingGuide = "# Markdown Formatting Guide\n\n"
     "## Headers\n"
@@ -89,6 +90,7 @@ Future<dynamic> markdown_helper(BuildContext context) {
     ),
     builder: (BuildContext context) {
       return Container(
+        color: surfaceColor,
         height: MediaQuery.of(context).size.height * 0.8,
         child: Column(
           children: [

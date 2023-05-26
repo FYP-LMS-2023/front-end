@@ -2,10 +2,13 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/log.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/assignment_controller.dart';
+import 'package:front_end/controllers/class_controller.dart';
+import 'package:front_end/models/class_model.dart';
 import 'package:front_end/utils/functions/create_file_icon.dart';
 import 'package:front_end/views/widgets/buttons.dart';
 import 'package:front_end/views/widgets/headers.dart';
@@ -26,6 +29,8 @@ class FacAssignmentAddPage extends StatefulWidget {
 
 class _FacAssignmentAddPageState extends State<FacAssignmentAddPage> {
   final _formKey = GlobalKey<FormState>();
+
+  ClassModel? classData;
 
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
@@ -100,11 +105,12 @@ class _FacAssignmentAddPageState extends State<FacAssignmentAddPage> {
 
   @override
   Widget build(BuildContext context) {
+    classData = context.watch<ClassController>().getMyClass;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       appBar: CourseHeader(
         title: "Add Assignment",
-        subtitle: "Class",
+        subtitle: '${classData!.course!.courseCode} - ${classData!.course!.courseName}',
         onMenuPressed: () {},
       ),
       body: loading
@@ -185,7 +191,7 @@ class _FacAssignmentAddPageState extends State<FacAssignmentAddPage> {
                                   borderSide: const BorderSide(
                                       width: 1, color: Colors.red),
                                 ),
-                                fillColor: Colors.white,
+                                fillColor: surfaceColor,
                                 filled: true,
                                 labelStyle: TextStyle(color: Colors.grey[700]),
                               ),
@@ -217,14 +223,12 @@ class _FacAssignmentAddPageState extends State<FacAssignmentAddPage> {
                           builder: (BuildContext context, Widget? child) {
                             return Theme(
                               data: ThemeData.dark().copyWith(
-                                  colorScheme: const ColorScheme.light(
-                                      primary: Colors
-                                          .black, // Customize the primary color
-                                      onPrimary: Colors.white,
-                                      secondary: Colors
-                                          .black // Customize the text color
-                                      ),
-                                  dialogBackgroundColor: Colors.white
+                                  colorScheme: ColorScheme.light(
+                                        primary:darkGreen, // Customize the primary color
+                                        onPrimary: surfaceColor,
+                                        secondary: darkGreen// Customize the text color
+                                        ),
+                                  dialogBackgroundColor: surfaceColor
                                   // Customize the dialog background color
                                   ),
                               child: child!,
@@ -314,7 +318,7 @@ class _FacAssignmentAddPageState extends State<FacAssignmentAddPage> {
                                       filesToUpload!.removeAt(index);
                                     });
                                   },
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.delete,
                                     color: Colors.red,
                                   ),

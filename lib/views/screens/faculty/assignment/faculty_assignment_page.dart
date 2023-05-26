@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/log.dart';
 import 'package:front_end/constants/spacers.dart';
@@ -70,9 +71,9 @@ class _FacAssignmentPageState extends State<FacAssignmentPage> {
   Widget build(BuildContext context) {
     numStuds = context.read<ClassController>().getMyClass!.studentList.length;
     return loading
-        ? Scaffold(body: Loading())
+        ? Loading()
         : Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: backgroundColor,
             appBar: CourseHeader(
               title: assignment != null ? assignment!.title : "Assignment 1",
               subtitle: "Assignment",

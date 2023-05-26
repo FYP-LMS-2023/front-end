@@ -79,7 +79,6 @@ class ProfilePage extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 16, color: Colors.grey[600]),
                           ),
-                          const VerticalSpacer(),
                           user!.userType == "Faculty"
                               ? const SizedBox()
                               : Text(

@@ -3,10 +3,13 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/assignment_controller.dart';
+import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/models/assignment_model.dart';
+import 'package:front_end/models/class_model.dart';
 import 'package:front_end/utils/functions/create_file_icon.dart';
 import 'package:front_end/views/widgets/buttons.dart';
 import 'package:front_end/views/widgets/headers.dart';
@@ -31,6 +34,8 @@ class FacEditAssignmentPage extends StatefulWidget {
 
 class _FacEditAssignmentPageState extends State<FacEditAssignmentPage> {
   final _formKey = GlobalKey<FormState>();
+
+  ClassModel? classData;
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -236,11 +241,13 @@ class _FacEditAssignmentPageState extends State<FacEditAssignmentPage> {
 
   @override
   Widget build(BuildContext context) {
+    classData = context.read<ClassController>().getMyClass;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       appBar: CourseHeader(
-        title: "Add Assignment",
-        subtitle: "Class",
+        title: "Edit Assignment",
+        subtitle:
+            '${classData!.course!.courseCode} - ${classData!.course!.courseName}',
         onMenuPressed: () {},
         trailing: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -339,7 +346,7 @@ class _FacEditAssignmentPageState extends State<FacEditAssignmentPage> {
                                   borderSide: const BorderSide(
                                       width: 1, color: Colors.red),
                                 ),
-                                fillColor: Colors.white,
+                                fillColor:surfaceColor,
                                 filled: true,
                                 labelStyle: TextStyle(color: Colors.grey[700]),
                               ),
@@ -371,14 +378,14 @@ class _FacEditAssignmentPageState extends State<FacEditAssignmentPage> {
                           builder: (BuildContext context, Widget? child) {
                             return Theme(
                               data: ThemeData.dark().copyWith(
-                                  colorScheme: const ColorScheme.light(
-                                      primary: Colors
-                                          .black, // Customize the primary color
-                                      onPrimary: Colors.white,
-                                      secondary: Colors
-                                          .black // Customize the text color
+                                  colorScheme: ColorScheme.light(
+                                      primary:
+                                          darkGreen, // Customize the primary color
+                                      onPrimary: surfaceColor,
+                                      secondary:
+                                          darkGreen // Customize the text color
                                       ),
-                                  dialogBackgroundColor: Colors.white
+                                  dialogBackgroundColor: surfaceColor
                                   // Customize the dialog background color
                                   ),
                               child: child!,

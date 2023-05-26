@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/views/widgets/loading.dart';
 import 'package:intl/intl.dart';
@@ -51,7 +52,7 @@ class _FacAnnouncementPageState extends State<FacAnnouncementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
         appBar: CourseHeader(
           title: "Announcement",
           subtitle: announcement != null ? announcement!.title : "Announcement 1",

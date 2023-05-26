@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/log.dart';
 import 'package:front_end/controllers/attendance_controller.dart';
 import 'package:front_end/controllers/class_controller.dart';
@@ -20,6 +21,8 @@ class FacAttendanceListPage extends StatefulWidget {
 
 class _FacAttendanceListPage extends State<FacAttendanceListPage> {
   String? classID;
+  String? courseCode;
+  String? courseName;
   void toggle(
     int index,
   ) {
@@ -58,12 +61,15 @@ class _FacAttendanceListPage extends State<FacAttendanceListPage> {
   @override
   Widget build(BuildContext context) {
     classID = context.read<ClassController>().getMyClass!.id;
+    courseCode = context.read<ClassController>().getMyClass!.course!.courseCode;
+    courseName = context.read<ClassController>().getMyClass!.course!.courseName;
     Log.i(widget.session);
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: CourseHeader(
         onMenuPressed: () {},
-        title: DateFormat("EE, dd MM, yyyy").format(widget.session.date!),
-        subtitle: "Class",
+        title: DateFormat("EE, dd MMMM, yyyy").format(widget.session.date!),
+        subtitle: '${courseCode} - ${courseName}',
       ),
       body: SingleChildScrollView(
         child: Padding(
