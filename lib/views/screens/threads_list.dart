@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/views/widgets/loading.dart';
@@ -9,7 +10,6 @@ import 'dart:math';
 import '../../constants/icons.dart';
 import '../../constants/log.dart';
 import '../../controllers/channel_controller.dart';
-import '../../models/channel_model.dart';
 import '../../models/thread_model.dart';
 import '../widgets/textfields.dart';
 import 'thread_page.dart';
@@ -68,7 +68,7 @@ class _ThreadsListState extends State<ThreadsList> {
           createThread(context, size);
         },
         child: const Icon(Icons.add),
-        backgroundColor: Colors.green,
+        backgroundColor: lightGreen,
       ),
       body: threads == null 
       ? const Loading() :

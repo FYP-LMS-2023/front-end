@@ -65,46 +65,56 @@ class _QuizListPageState extends State<QuizListPage> {
                     EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
                 child: Column(
                   children: <Widget>[
-                    Subheading(
-                        text: "Quizzes"),
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      clipBehavior: Clip.none,
-                      itemCount: quizzes!.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            CourseOverviewCard(
-                              type: "quiz",
-                              title: quizzes != null
-                                  ? quizzes![index].title
-                                  : "Untitled",
-                              date: quizzes![index].dueDate ?? DateTime.now(),
-                              marks:
-                                  quizzes != null ? quizzes![index].marks : 0,
-                              status: quizzes![index].status,
-                              onClick: () {
-                                if (quizzes![index].status == "open" ||
-                                    time_left(quizzes![index].dueDate) !=
-                                        "Expired") {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          QuizPageStart(id: quizzes![index].id),
-                                    ),
-                                  );
-                                }
-                              },
+                    const Subheading(text: "Quizzes"),
+                    quizzes!.isEmpty
+                        ? Center(
+                            child: Text(
+                              "No Quizzes Yet",
+                              style:
+                                  Styles.bodySmall.copyWith(color: Colors.grey),
                             ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.02,
-                            ),
-                          ],
-                        );
-                      },
-                    ),
+                          )
+                        : ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            clipBehavior: Clip.none,
+                            itemCount: quizzes!.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  CourseOverviewCard(
+                                    type: "quiz",
+                                    title: quizzes != null
+                                        ? quizzes![index].title
+                                        : "Untitled",
+                                    date: quizzes![index].dueDate ??
+                                        DateTime.now(),
+                                    marks: quizzes != null
+                                        ? quizzes![index].marks
+                                        : 0,
+                                    status: quizzes![index].status,
+                                    onClick: () {
+                                      if (quizzes![index].status == "open" ||
+                                          time_left(quizzes![index].dueDate) !=
+                                              "Expired") {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => QuizPageStart(
+                                                id: quizzes![index].id),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.02,
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
                   ],
                 ),
               ),

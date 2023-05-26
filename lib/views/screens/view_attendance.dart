@@ -3,11 +3,13 @@ import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/drop_shadow.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/log.dart';
+import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/attendance_controller.dart';
 import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/models/attendance_model.dart';
 import 'package:front_end/models/class_model.dart';
 import 'package:front_end/views/widgets/loading.dart';
+import 'package:front_end/views/widgets/subheadings.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -140,17 +142,8 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: size.height * 0.05),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Abcent Days',
-                      style: Styles.bodyLarge,
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
+                  const VerticalSpacer(),
+                  const Subheading(text: "Absent Days"),
                   absents != null || absents!.absentDays.isNotEmpty
                       ? ListView.builder(
                           shrinkWrap: true,

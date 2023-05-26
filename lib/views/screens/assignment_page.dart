@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/views/widgets/buttons.dart';
@@ -75,7 +76,7 @@ class _AssignmentPageState extends State<AssignmentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       appBar: CourseHeader(
         title: "Assignment",
         subtitle: assignment != null ? assignment!.title : "Assignment 1",
@@ -91,53 +92,55 @@ class _AssignmentPageState extends State<AssignmentPage> {
                   child: Column(
                     children: <Widget>[
                       assignment!.mySubmission!.returned ?? false
-                          ? Column(
-                            children: [
+                          ? Column(children: [
                               Container(
-                                  padding: const EdgeInsets.all(4.0),
-                                  height: 45,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    // border: Border.all(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    color: assignment!.mySubmission!.returned!
-                                        ? assignment!.mySubmission!.marksReceived! >
-                                                assignment!.marks / 2
-                                            ? Colors.green
-                                            : Colors.red
-                                        : Colors.grey,
-                                  ),
-                                  child: Text(
-                                    assignment!.mySubmission!.returned!
-                                        ? "Marks: ${assignment!.mySubmission!.marksReceived!} out of ${assignment!.marks}"
-                                        : "Not Returned",
-                                    style: Styles.bodySmall
-                                        .copyWith(color: Colors.white),
+                                padding: const EdgeInsets.all(4.0),
+                                height: 45,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  // border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: assignment!.mySubmission!.returned!
+                                      ? assignment!.mySubmission!
+                                                  .marksReceived! >
+                                              assignment!.marks / 2
+                                          ? Colors.green
+                                          : Colors.red
+                                      : Colors.grey,
+                                ),
+                                child: Text(
+                                  assignment!.mySubmission!.returned!
+                                      ? "Marks: ${assignment!.mySubmission!.marksReceived!} out of ${assignment!.marks}"
+                                      : "Not Returned",
+                                  style: Styles.bodySmall
+                                      .copyWith(color: Colors.white),
+                                ),
+                              ),
+                              const SizedBox(height: 16.0),
+                              Container(
+                                decoration: boxDecoration,
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Feedback:",
+                                          style: Styles.labelLarge),
+                                      const SizedBox(height: 4.0),
+                                      Text(
+                                        assignment!.mySubmission!.returned!
+                                            ? assignment!.mySubmission!
+                                                .returnDescription!
+                                            : "",
+                                        style: Styles.bodyMedium,
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                const SizedBox(height: 16.0),
-                                Container(
-                                  decoration: boxDecoration,
-                                  alignment: Alignment.centerLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Feedback:", style: Styles.labelLarge),
-                                        const SizedBox(height: 4.0),
-                                        Text(
-                                          assignment!.mySubmission!.returned!
-                                              ? assignment!.mySubmission!.returnDescription!
-                                              : "",
-                                          style: Styles.bodyMedium,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                            ]
-                          )
+                              ),
+                            ])
                           : const SizedBox(),
                       AssignmentDetailCard(
                         dueDate: assignment?.dueDate ??
@@ -168,8 +171,7 @@ class _AssignmentPageState extends State<AssignmentPage> {
                         padding: const EdgeInsets.all(16.0),
                         decoration: boxDecoration,
                         child: FormattedTextWidget(
-                          markdownText:
-                          assignment != null
+                          markdownText: assignment != null
                               ? assignment!.description
                               : "This means description is not coming",
                         ),
@@ -276,8 +278,7 @@ class _AssignmentPageState extends State<AssignmentPage> {
                                             padding: const EdgeInsets.all(16.0),
                                             decoration: boxDecoration,
                                             child: FormattedTextWidget(
-                                              markdownText:
-                                              assignment != null
+                                              markdownText: assignment != null
                                                   ? assignment!.mySubmission!
                                                       .submissionDescription!
                                                   : "This means description is not coming",
@@ -393,7 +394,7 @@ class _AssignmentPageState extends State<AssignmentPage> {
                           assignment!.dueDate!.isAfter(DateTime.now()) &&
                           !assignment!.mySubmission!.returned!)
                         ListView(
-                          shrinkWrap: true, 
+                          shrinkWrap: true,
                           children: [
                             const SizedBox(
                               height: 16.0,

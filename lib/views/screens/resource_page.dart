@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/models/resource_model.dart';
@@ -26,6 +27,7 @@ class ResourcePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: CourseHeader(
         title: "Resources",
         subtitle: classData,
@@ -38,6 +40,7 @@ class ResourcePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Subheading(text: 'Resource Details'),
               Container(
                 width: double.infinity,
                 decoration: boxDecoration,
