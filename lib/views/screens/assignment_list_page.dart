@@ -30,7 +30,7 @@ class _AssignmentListPageState extends State<AssignmentListPage> {
           .then((value) {
         setState(() {
           assignments = context.read<AssignmentController>().getAssignments;
-          print("Assignments length: ${assignments!.length}");
+          assignments ??= [];
         });
       });
     } catch (e) {
@@ -62,7 +62,7 @@ class _AssignmentListPageState extends State<AssignmentListPage> {
                   child: CircularProgressIndicator(
                   color: Colors.black,
                 ))
-              : assignments!.isEmpty
+              : assignments!.isEmpty || assignments!.length == 0
                   ? Container(
                       height: size.height * 0.05,
                       alignment: Alignment.center,
