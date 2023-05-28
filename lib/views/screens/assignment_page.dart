@@ -333,7 +333,7 @@ class _AssignmentPageState extends State<AssignmentPage> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
-                      if (assignment!.isSubmitted)
+                      if (assignment!.isSubmitted && assignment!.mySubmission!.files!.isNotEmpty)
                         ListView.separated(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
