@@ -23,35 +23,53 @@ class ChannelController extends ChangeNotifier {
 Future<void> createThread(String id, String title, String description, List<String> tags) async {
   try {
     final token = await secureStorage.getToken();
-    
+    Log.d("Token: $token");
     final requestBody = {
       'title': title,
       'description': description,
       'tags': tags.toList(),
     };
     Log.d("Channel Id: $id");
-    final encodedBody = jsonEncode(requestBody);
+    final encodedBody = json.encode(requestBody);
 
     Log.d('Request Body: $encodedBody'); // Add this line to inspect the encoded request body content
     
-    final response = await http.post(
-      Uri.parse('${Environment.baseURL}channel/createThread/$id'),
-      headers: <String, String>{
-        'Authorization': token ?? "",
-        'Content-Type': 'application/json',
-      },
-      body: encodedBody,
+    // final response = await http.post(
+    //   Uri.parse('${Environment.baseURL}channel/createThread/$id'),
+    //   headers: <String, String>{
+    //     'Authorization': token ?? "",
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: encodedBody,
+    // );
+    var request = http.Request(
+      'POST', 
+      Uri.parse('${Environment.baseURL}channel/createThread/$id')
     );
+
+    request.body = encodedBody;
+
+    request.headers.addAll(<String, String>{
+      'Authorization': token ?? " ",
+      'Content-Type': 'application/json',
+    });
+
+    http.StreamedResponse response = await request.send();
 
     Log.d("Response Status Code: ${response.statusCode}");
 
     if (response.statusCode == 200) {
-      final responseData = jsonDecode(response.body);
-      final threadsData = responseData["result"];
-      Log.d("Threads Data: $threadsData");
-      Log.d("Threads Data is not Empty: ${threadsData.isNotEmpty}");
+      // final responseData = jsonDecode(response.body);
+      // final threadsData = responseData["result"];
+      // Log.d("Threads Data: $threadsData");
+      // Log.d("Threads Data is not Empty: ${threadsData.isNotEmpty}");
 
-      notifyListeners();
+      // notifyListeners();
+      final responseData = await response.stream.bytesToString();
+      Log.d("Response Data Create Thread: $responseData");
+    }
+    else {
+      Log.d('Error in create Thread Response Status Code: ${response.statusCode} - ${response.reasonPhrase}');
     }
   } catch (e) {
     Log.e('Error: $e');

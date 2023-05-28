@@ -26,12 +26,12 @@ class _ThreadsListState extends State<ThreadsList> {
   List<ThreadModel>? threads;
   final _formKey = GlobalKey<FormState>();
   List<String> tags = [
-    "general",
-    "homework",
-    "project",
-    "exam",
-    "question",
-    "other"
+    "General",
+    "Homework",
+    "Project",
+    "Exam",
+    "Question",
+    "Other"
   ];
 
   List<String> addedTags = [];
