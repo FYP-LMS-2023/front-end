@@ -18,14 +18,9 @@ class CourseOutlinePage extends StatelessWidget {
           Text(
             "Course Outline",
             style: Styles.titleLarge,
-            //textAlign: TextAlign.center,
           ),
           const VerticalSpacer(),
           FormattedTextWidget(markdownText: syllabus ?? "No Syllabus Yet"),
-          // Text(
-          //   syllabus ?? "No Syllabus Yet",
-          //   style: Styles.bodyLarge,
-          // ),
         ],
       ),
     );

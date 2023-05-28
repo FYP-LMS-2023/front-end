@@ -196,6 +196,7 @@ class _LoginPageState extends State<LoginPage> {
                                   const VerticalSpacer(),
                                   MainButton(
                                     text: "Login",
+                                    color: darkButtonColor,
                                     onPressed: () async {
                                       Log.i("Login button pressed");
 

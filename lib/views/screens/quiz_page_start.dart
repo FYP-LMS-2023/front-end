@@ -55,7 +55,7 @@ class _QuizPageStartState extends State<QuizPageStart> {
   @override
   Widget build(BuildContext context) {
     return loading
-        ? const Scaffold(body: Loading())
+        ? const Loading()
         : Scaffold(
             backgroundColor: Colors.white,
             appBar: CourseHeader(

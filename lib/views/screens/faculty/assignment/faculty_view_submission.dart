@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/assignment_controller.dart';
@@ -21,7 +22,7 @@ class FacViewSubmissionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     int marks = context.read<AssignmentController>().assignmentObject!.marks;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       appBar: CourseHeader(
         title: "Assignment Submission",
         subtitle: submission.studentId!.fullName,

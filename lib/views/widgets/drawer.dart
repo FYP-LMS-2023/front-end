@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
+import 'package:front_end/constants/spacers.dart';
 
 class DrawerWidget extends StatefulWidget {
   final String courseCode;
@@ -27,20 +28,23 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Palette.kToDark[900],
+      backgroundColor: backgroundColor,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Palette.kToDark[900],
+              color: darkGreen ,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(widget.courseCode, style: Styles.labelMedium),
-                Text(widget.courseName, style: Styles.titleMedium),
-                Text(widget.teacherName, style: Styles.labelMedium),
+                Text(widget.courseCode, style: Styles.titleSmall.copyWith(color: Colors.white)),
+                Text(widget.courseName,
+                    style: Styles.titleLarge.copyWith(color: Colors.white)),
+                const VerticalSpacer(),
+                Text(widget.teacherName,
+                    style: Styles.titleSmall.copyWith(color: Colors.white)),
               ],
             ),
           ),

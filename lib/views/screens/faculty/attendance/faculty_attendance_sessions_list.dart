@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
+import 'package:front_end/constants/colors.dart';
+import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/log.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/attendance_controller.dart';
@@ -46,10 +48,9 @@ class _FacAttendanceSessionsListPageState
   Widget build(BuildContext context) {
     loading ? print("loading ") : Log.e(attendance!.sessions.length.toString());
     return loading
-        ? const Scaffold(
-            body: Loading(),
-          )
+        ? Loading()
         : Scaffold(
+            backgroundColor: backgroundColor,
             body: SingleChildScrollView(
               child: Padding(
                 padding:
@@ -81,9 +82,14 @@ class _FacAttendanceSessionsListPageState
                           child: Ink(
                             padding: EdgeInsets.all(16),
                             decoration: boxDecoration,
-                            child: Text(
-                              DateFormat("EEEE, dd MMMM, yyyy")
-                                  .format(attendance!.sessions[index].date!),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                    "Session #${index + 1}", style: Styles.bodyLarge,),
+                                Text(
+                                    "${DateFormat("EEEE, dd MMMM, yyyy").format(attendance!.sessions[index].date!)}")
+                              ],
                             ),
                           ),
                         );

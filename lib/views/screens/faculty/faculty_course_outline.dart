@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/class_controller.dart';
@@ -34,7 +35,7 @@ class _FacCourseOutlinePageState extends State<FacCourseOutlinePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       body: Padding(
         padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
         child: Container(

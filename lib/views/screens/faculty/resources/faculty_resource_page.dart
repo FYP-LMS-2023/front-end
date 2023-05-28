@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/resource_controller.dart';
@@ -27,10 +28,9 @@ class _FacResourcePageState extends State<FacResourcePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       appBar: CourseHeader(
         title: "Resources",
-        subtitle: widget.classID,
         onMenuPressed: () {},
         trailing: IconButton(
           icon: Icon(Icons.edit),

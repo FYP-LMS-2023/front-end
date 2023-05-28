@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/controllers/assignment_controller.dart';
 import 'package:front_end/models/assignment_submission_model.dart';
 import 'package:front_end/views/screens/faculty/assignment/faculty_view_submission.dart';
@@ -47,7 +48,7 @@ class _FacSubmissionsListPageState extends State<FacSubmissionsListPage> {
     return loading
         ? const Scaffold(body: Loading())
         : Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: backgroundColor,
             appBar: CourseHeader(
               title: "Submissions",
               onMenuPressed: () {},

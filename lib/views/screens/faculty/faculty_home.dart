@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_end/constants/colors.dart';
 import 'package:front_end/constants/log.dart';
 import 'package:front_end/controllers/home_controller.dart';
 import 'package:front_end/controllers/user_controller.dart';
@@ -40,15 +41,15 @@ class _FacHomeState extends State<FacHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: ProfileHeader(
-        name: "Dr Shaheer",
-        id: "18635",
-      ),
-      body: loading
-          ? Loading()
-          : SingleChildScrollView(
+    return loading
+        ? Loading()
+        : Scaffold(
+            backgroundColor: backgroundColor,
+            appBar: ProfileHeader(
+              name: user != null ? user!.fullName : "<!username>",
+              id: user != null ? user!.erp : "<!erp>",
+            ),
+            body: SingleChildScrollView(
               child: Padding(
                 padding:
                     EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
@@ -97,6 +98,6 @@ class _FacHomeState extends State<FacHome> {
                 ),
               ),
             ),
-    );
+          );
   }
 }

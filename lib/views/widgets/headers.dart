@@ -20,7 +20,7 @@ class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       toolbarHeight: 80,
       elevation: 0.0,
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       // backgroundColor: Colors.green,
       centerTitle: false,
       leading: Padding(
@@ -99,9 +99,9 @@ class CourseHeader extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       toolbarHeight: 100,
       automaticallyImplyLeading: disableBack ? false : true,
-      iconTheme: const IconThemeData(color: Colors.black),
+      iconTheme: IconThemeData(color: darkGreen),
       elevation: 0.0,
-      backgroundColor: Colors.transparent,
+      backgroundColor: backgroundColor,
       centerTitle: false,
       leading: disableBack
           ? null

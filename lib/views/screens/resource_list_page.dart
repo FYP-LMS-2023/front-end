@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:front_end/constants/box_decoration.dart';
 import 'package:front_end/constants/fonts.dart';
 import 'package:front_end/constants/log.dart';
-import 'package:front_end/constants/spacers.dart';
 import 'package:front_end/controllers/class_controller.dart';
 import 'package:front_end/models/class_model.dart';
 import 'package:front_end/models/resource_model.dart';
@@ -68,7 +67,9 @@ class _ResourceListPageState extends State<ResourceListPage> {
                     const Subheading(text: "Resource Folders"),
                     ListView.separated(
                       shrinkWrap: true,
-                      separatorBuilder: (context, index) => const Divider(),
+                      separatorBuilder: (context, index) => SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
                       itemCount: resources != null
                           ? resources!.length
                           : 0, //resources != null ? classData!.resources.length :
@@ -78,8 +79,9 @@ class _ResourceListPageState extends State<ResourceListPage> {
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ResourcePage(
-                                resourceData:
-                                    resources != null ? resources![index] : null,
+                                resourceData: resources != null
+                                    ? resources![index]
+                                    : null,
                                 classData:
                                     '${classData?.course?.courseCode} - ${classData?.course?.courseName}',
                               ),
@@ -92,7 +94,8 @@ class _ResourceListPageState extends State<ResourceListPage> {
                               children: [
                                 Flexible(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         child: Text(
@@ -122,14 +125,17 @@ class _ResourceListPageState extends State<ResourceListPage> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      "${resources![index].files.length.toString()} files", 
+                                      "${resources![index].files.length.toString()} files",
                                       style: Styles.bodySmall,
                                     ),
-                                    SizedBox(height: 5,),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     Text(
                                       resources != null
                                           ? DateFormat('dd MMM, yyy')
-                                              .format(resources![index].dateUploaded!)
+                                              .format(resources![index]
+                                                  .dateUploaded!)
                                               .toString()
                                           : "No File Found",
                                       style: Styles.bodySmall.copyWith(
