@@ -15,6 +15,7 @@ import 'controllers/comment_controller.dart';
 import 'controllers/home_controller.dart';
 import 'controllers/reply_controller.dart';
 import 'controllers/thread_controller.dart';
+import 'views/screens/splash_screen.dart';
 
 void main() async {
   runApp(
@@ -59,7 +60,7 @@ class MyApp extends StatelessWidget {
       title: 'MASH LMS',
       theme: ThemeData(primarySwatch: Palette.kToDark),
       // home: ViewAttendanceScreen(courseName: "Math"),
-      home: const LoginPage(),
+      home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
